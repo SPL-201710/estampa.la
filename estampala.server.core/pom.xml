@@ -1,0 +1,123 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>estampala.server.core</groupId>
+  <artifactId>estampala.server.core</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  
+  <name>Core Backend Estampa.la</name>
+  <description></description>
+  
+  <organization>
+  	<name>CompuMundoHiperMegaRed</name>
+  	<url>https://github.com/SPL-201710/estampa.la</url>
+  </organization>
+  
+  <developers>
+  	<developer>
+  		<id>jr.alvarez</id>
+  		<name>José Alvarez</name>
+  		<email>jr.alvarez@uniandes.edu.co</email>
+  		<roles>
+  			<role>Líder de Equipo</role>
+  		</roles>
+  	</developer>  	
+  	<developer>
+  		<id>jm.riverau</id>
+  		<name>Jarvein Mauricio Rivera (Akane)</name>
+  		<email>jm.riverau@uniandes.edu.co</email>
+  		<roles>
+  			<role>Líder de Arquitectura</role>
+  		</roles>
+  	</developer>  	
+  	<developer>
+  		<id>ja.perea912</id>
+  		<name>Jorge Perea</name>
+  		<email>ja.perea912@uniandes.edu.co</email>
+  		<roles>
+  			<role>Líder de Desarrollo de Activos</role>
+  		</roles>
+  	</developer>  	
+  	<developer>
+  		<id>f.arruza</id>
+  		<name>Fernando Arruza Hedman</name>
+  		<email>f.arruza@uniandes.edu.co</email>
+  		<roles>
+  			<role>Líder de Desarrollo de Productos</role>
+  		</roles>
+  	</developer>
+  </developers>
+  
+  <properties>
+  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  	<maven.compiler.source>1.8</maven.compiler.source>
+  	<maven.compiler.target>1.8</maven.compiler.target>
+  	<java.version>1.8</java.version>
+  </properties>
+  
+  <parent>
+  	<groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.1.7.RELEASE</version>
+  </parent>
+  
+  <modules>
+  	<module>catalog</module>
+  	<module>shopping-cart</module>
+  	<module>users</module>
+  	<module>payment</module>
+  </modules>
+  
+  <build>
+  	<plugins>
+    	<plugin>
+        	<groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>2.17</version>
+            <configuration>
+            	<configLocation>checkstyle.xml</configLocation>
+            </configuration>
+        </plugin>            
+  	</plugins>
+  </build>
+  
+  <dependencies>
+  	<dependency>
+    	<groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.5</version>
+    </dependency>
+    <dependency>
+		<groupId>com.jayway.jsonpath</groupId>
+	    <artifactId>json-path</artifactId>
+	    <scope>test</scope>
+    </dependency>
+    <dependency>
+    	<groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-web</artifactId>
+		<scope>compile</scope>
+	</dependency>
+  </dependencies>
+  
+  <dependencyManagement>
+  	<dependencies>
+    	<dependency>
+            <groupId>org.springframework.plugin</groupId>
+            <artifactId>spring-plugin-core</artifactId>
+            <version>1.1.0.RELEASE</version>
+        </dependency>
+    </dependencies>
+   </dependencyManagement>
+    
+   <repositories>
+        <repository>
+            <id>spring-snapshot</id>
+            <url>http://repo.springsource.org/libs-snapshot</url>
+        </repository>
+    </repositories>
+</project>

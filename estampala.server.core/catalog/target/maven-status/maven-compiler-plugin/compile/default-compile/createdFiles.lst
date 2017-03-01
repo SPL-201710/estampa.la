@@ -1,0 +1,7 @@
+core/utils/UserNotFoundException.class
+core/services/BookmarkRestController.class
+core/models/Account.class
+core/models/Bookmark.class
+core/models/AccountRepository.class
+core/Application.class
+core/models/BookmarkRepository.class
