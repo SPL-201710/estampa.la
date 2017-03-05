@@ -1,0 +1,118 @@
+package catalog.models.print;
+
+import java.util.UUID;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
+import catalog.models.theme.Theme;
+
+/**
+ * @author akane
+ * 
+ */
+
+@Entity
+public class Print {
+	
+	@Id
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
+	@GeneratedValue(generator = "uuid")
+	@Column(name = "id", unique = true, nullable = false)
+	@Type(type="pg-uuid")
+	private UUID id;
+	
+	private String description;
+	private byte[] image;
+	private int name;
+	private int popularity;
+	private long price;
+	private int rating;
+	private Theme theme;
+
+	Print(){
+
+	}
+	
+	public Print(UUID id, String description, byte[] image, int name, int popularity, long price, int rating,
+			Theme theme) {
+		super();
+		this.id = id;
+		this.description = description;
+		this.image = image;
+		this.name = name;
+		this.popularity = popularity;
+		this.price = price;
+		this.rating = rating;
+		this.theme = theme;
+	}
+
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
+	public int getName() {
+		return name;
+	}
+
+	public void setName(int name) {
+		this.name = name;
+	}
+
+	public int getPopularity() {
+		return popularity;
+	}
+
+	public void setPopularity(int popularity) {
+		this.popularity = popularity;
+	}
+
+	public long getPrice() {
+		return price;
+	}
+
+	public void setPrice(long price) {
+		this.price = price;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+	public Theme getTheme() {
+		return theme;
+	}
+
+	public void setTheme(Theme theme) {
+		this.theme = theme;
+	}	
+}

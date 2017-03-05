@@ -1,7 +1,24 @@
-/home/farruza/workspaceJEE/estampala.server.core/catalog/src/main/java/core/models/BookmarkRepository.java
-/home/farruza/workspaceJEE/estampala.server.core/catalog/src/main/java/core/utils/UserNotFoundException.java
-/home/farruza/workspaceJEE/estampala.server.core/catalog/src/main/java/core/services/BookmarkRestController.java
-/home/farruza/workspaceJEE/estampala.server.core/catalog/src/main/java/core/models/Account.java
-/home/farruza/workspaceJEE/estampala.server.core/catalog/src/main/java/core/models/Bookmark.java
-/home/farruza/workspaceJEE/estampala.server.core/catalog/src/main/java/core/models/AccountRepository.java
-/home/farruza/workspaceJEE/estampala.server.core/catalog/src/main/java/core/Application.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\theme\Theme.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\print\Fonts.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\print\Print.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\shirt\ShirtColorRepository.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\shirt\ShirtPrintPositionRepository.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\shirt\ShirtMaterial.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\shirt\Shirt.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\shirt\ShirtRepository.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\print\PrintRepository.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\shirt\ShirtStyle.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\theme\ThemeRepository.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\shirt\ShirtPrintPosition.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\print\TextInShirtRepository.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\shirt\ShirtColor.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\product\ProductRepository.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\print\TextInShirt.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\shirt\ShirtSizeRepository.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\print\PrintInShirtRepository.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\shirt\ShirtMaterialRepository.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\product\Product.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\print\PrintInShirt.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\shirt\ShirtSize.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\Application.java
+E:\Java Projects\estampa.la\estampala.server.core\catalog\src\main\java\catalog\models\shirt\ShirtStyleRepository.java

@@ -3,7 +3,24 @@
   <parent>
     <groupId>estampala.server.core</groupId>
     <artifactId>estampala.server.core</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
   </parent>
   <artifactId>shopping-cart</artifactId>
+  
+  <dependencies>
+  	<dependency>
+	    <groupId>postgresql</groupId>
+	    <artifactId>postgresql</artifactId>
+	    <version>${postgresql.version}</version>
+	</dependency>
+    <dependency>
+    	<groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>   
+    <dependency>
+    	<groupId>estampala.server.core</groupId>	    
+	    <artifactId>users</artifactId>
+	    <version>${users.version}</version>
+	</dependency>
+  </dependencies>
 </project>
