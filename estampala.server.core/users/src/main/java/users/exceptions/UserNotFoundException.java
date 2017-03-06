@@ -1,5 +1,7 @@
 package users.exceptions;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -11,7 +13,7 @@ public class UserNotFoundException extends RuntimeException {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public UserNotFoundException(String userId) {
+	public UserNotFoundException(UUID userId) {
         super("could not find user '" + userId + "'.");
     }
 }
