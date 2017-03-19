@@ -33,6 +33,7 @@ public class Payment {
 	private Date date;
 	private User user;
 	private double value;
+	
 	public UUID getId() {
 		return id;
 	}

@@ -1,7 +1,9 @@
+catalog\exceptions\PrintNotFoundException.class
 catalog\models\print\TextInShirt.class
 catalog\Application.class
 catalog\models\print\TextInShirtRepository.class
 catalog\models\shirt\ShirtSize.class
+catalog\controllers\print\PrintController.class
 catalog\models\shirt\ShirtStyle.class
 catalog\models\print\PrintInShirt.class
 catalog\models\shirt\ShirtSizeRepository.class
@@ -22,3 +24,4 @@ catalog\models\shirt\ShirtMaterial.class
 catalog\models\product\ProductRepository.class
 catalog\models\shirt\ShirtColor.class
 catalog\models\shirt\Shirt.class
+catalog\services\print\PrintService.class

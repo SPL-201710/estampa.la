@@ -62,6 +62,7 @@
   	<users.version>1.0</users.version>
   	<payment.version>1.0</payment.version>
   	<report.version>1.0</report.version>
+	<commons.version>1.0</commons.version>
   </properties>
   
   <parent>
@@ -71,11 +72,12 @@
   </parent>
   
   <modules>
+    <module>commons</module>
     <module>users</module>
   	<module>catalog</module>
   	<module>shopping-cart</module>  	
   	<module>payment</module>
-  	<module>report</module>
+  	<module>report</module>	
   </modules>
   
   <build>

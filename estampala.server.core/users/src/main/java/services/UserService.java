@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import users.exceptions.UserNotFoundException;
+import exceptions.UserNotFoundException;
 import users.models.User;
 import users.models.UserRepository;
 

@@ -23,5 +23,10 @@
 	    <artifactId>users</artifactId>
 	    <version>${users.version}</version>
 	</dependency>
+	<dependency>
+    	<groupId>estampala.server.core</groupId>	    
+	    <artifactId>commons</artifactId>
+	    <version>${commons.version}</version>
+	</dependency>
   </dependencies>
 </project>
