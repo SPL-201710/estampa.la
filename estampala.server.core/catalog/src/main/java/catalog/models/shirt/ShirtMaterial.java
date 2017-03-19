@@ -25,6 +25,7 @@ public class ShirtMaterial {
 	@Type(type="pg-uuid")
 	private UUID id;
 	
+	@Column(nullable = false)
 	private String name;
 
 	ShirtMaterial(){

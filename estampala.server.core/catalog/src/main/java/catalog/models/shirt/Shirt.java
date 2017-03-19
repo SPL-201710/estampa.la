@@ -25,24 +25,28 @@ public class Shirt {
 	@Type(type="pg-uuid")
 	private UUID id;
 	
-	public ShirtStyle style;
-	public ShirtSize size;
-	public ShirtColor color;
-	public ShirtPrintPosition positions;
-	public ShirtMaterial meterial;
+	@Column(nullable = false)
+	private ShirtStyle style;
+	
+	@Column(nullable = false)
+	private ShirtSize size;
+	
+	@Column(nullable = false)
+	private ShirtColor color;
+			
+	@Column(nullable = false)
+	private ShirtMaterial meterial;
 
 	Shirt(){
 
 	}
 
-	public Shirt(UUID id, ShirtStyle style, ShirtSize size, ShirtColor color, ShirtPrintPosition positions,
-			ShirtMaterial meterial) {
+	public Shirt(UUID id, ShirtStyle style, ShirtSize size, ShirtColor color, ShirtMaterial meterial) {
 		super();
 		this.id = id;
 		this.style = style;
 		this.size = size;
-		this.color = color;
-		this.positions = positions;
+		this.color = color;		
 		this.meterial = meterial;
 	}
 
@@ -76,14 +80,6 @@ public class Shirt {
 
 	public void setColor(ShirtColor color) {
 		this.color = color;
-	}
-
-	public ShirtPrintPosition getPositions() {
-		return positions;
-	}
-
-	public void setPositions(ShirtPrintPosition positions) {
-		this.positions = positions;
 	}
 
 	public ShirtMaterial getMeterial() {

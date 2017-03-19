@@ -25,6 +25,7 @@ public class Theme {
 	@Type(type="pg-uuid")
 	private UUID id;
 	
+	@Column(nullable = false)
 	private String name;
 
 	Theme(){

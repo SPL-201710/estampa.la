@@ -1,4 +1,4 @@
-package catalog.services.print;
+package catalog.services;
 
 import java.util.UUID;
 
@@ -18,34 +18,34 @@ import catalog.models.print.PrintRepository;
 public class PrintService {
 	
 	@Autowired
-	private PrintRepository printRepository;
+	private PrintRepository repository;
 	
 	public PrintService() {
 		
 	}
 	
 	public Print find(UUID id) {
-		return printRepository.findOne(id);
+		return repository.findOne(id);
 	}
 	
 	public Page<Print> findAll(int page, int pageSize) {
 		PageRequest pageRequest = new PageRequest(page - 1, pageSize, Sort.Direction.DESC, "name");
-		return printRepository.findAll(pageRequest);
+		return repository.findAll(pageRequest);
 	}
 	
-	public Print save(Print print) {
-		return printRepository.save(print);
+	public Print save(Print item) {
+		return repository.save(item);
 	}	
 	
-	public Print update(Print print) {
-		return printRepository.save(print);
+	public Print update(Print item) {
+		return repository.save(item);
 	}	
 	
 	public void delete(UUID id){		
-		printRepository.delete(id);						
+		repository.delete(id);						
 	}
 	
 	public boolean exists(UUID id){		
-		return printRepository.exists(id);						
+		return repository.exists(id);						
 	}
 }

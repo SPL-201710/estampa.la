@@ -2,10 +2,12 @@ package catalog.models.print;
 
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -27,19 +29,33 @@ public class Print {
 	@Type(type="pg-uuid")
 	private UUID id;
 	
+	@Column(nullable = true)
 	private String description;
+	
+	@Column(nullable = false)
 	private byte[] image;
-	private int name;
+	
+	@Column(nullable = false)
+	private String name;
+	
+	@Column(nullable = true)
 	private int popularity;
+	
+	@Column(nullable = false)
 	private long price;
+	
+	@Column(nullable = true)
 	private int rating;
+	
+	@Column(nullable = false)
+	@ManyToOne
 	private Theme theme;
 
 	Print(){
 
 	}
 	
-	public Print(UUID id, String description, byte[] image, int name, int popularity, long price, int rating,
+	public Print(UUID id, String description, byte[] image, String name, int popularity, long price, int rating,
 			Theme theme) {
 		super();
 		this.id = id;
@@ -76,11 +92,11 @@ public class Print {
 		this.image = image;
 	}
 
-	public int getName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setName(int name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 

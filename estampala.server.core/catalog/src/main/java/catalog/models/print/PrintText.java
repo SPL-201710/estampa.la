@@ -1,5 +1,7 @@
 package catalog.models.print;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,15 +10,13 @@ import javax.persistence.Id;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
-import java.util.UUID;
-
 /**
  * @author akane
  * 
  */
 
 @Entity
-public class TextInShirt {
+public class PrintText {
 	
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -25,20 +25,23 @@ public class TextInShirt {
 	@Type(type="pg-uuid")
 	private UUID id;
 	
+	@Column(nullable = false)
 	private Fonts font;
-	private UUID idShirtPrintPosition;
+			
+	@Column(nullable = false)
 	private String message;
+	
+	@Column(nullable = false)
 	private int size;
-
-	TextInShirt(){
+		
+	PrintText(){
 
 	}
-	
-	public TextInShirt(UUID id, Fonts font, UUID idShirtPrintPosition, String message, int size) {
+
+	public PrintText(UUID id, Fonts font, String message, int size) {
 		super();
 		this.id = id;
 		this.font = font;
-		this.idShirtPrintPosition = idShirtPrintPosition;
 		this.message = message;
 		this.size = size;
 	}
@@ -57,14 +60,6 @@ public class TextInShirt {
 
 	public void setFont(Fonts font) {
 		this.font = font;
-	}
-
-	public UUID getIdShirtPrintPosition() {
-		return idShirtPrintPosition;
-	}
-
-	public void setIdShirtPrintPosition(UUID idShirtPrintPosition) {
-		this.idShirtPrintPosition = idShirtPrintPosition;
 	}
 
 	public String getMessage() {

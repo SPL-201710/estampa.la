@@ -25,19 +25,24 @@ public class ShirtPrintPosition {
 	@Type(type="pg-uuid")
 	private UUID id;
 	
-	private int maxHightInCentimeters;
-	private int maxWidthInCentimeters;
+	@Column(nullable = false)
+	private int hightInCentimeters;
+	
+	@Column(nullable = false)
+	private int widthInCentimeters;
+	
+	@Column(nullable = false)
 	private String name;
 
 	ShirtPrintPosition(){
 
 	}
 	
-	public ShirtPrintPosition(UUID id, int maxHightInCentimeters, int maxWidthInCentimeters, String name) {
+	public ShirtPrintPosition(UUID id, int hightInCentimeters, int widthInCentimeters, String name) {
 		super();
 		this.id = id;
-		this.maxHightInCentimeters = maxHightInCentimeters;
-		this.maxWidthInCentimeters = maxWidthInCentimeters;
+		this.hightInCentimeters = hightInCentimeters;
+		this.widthInCentimeters = widthInCentimeters;
 		this.name = name;
 	}
 
@@ -50,19 +55,19 @@ public class ShirtPrintPosition {
 	}
 
 	public int getMaxHightInCentimeters() {
-		return maxHightInCentimeters;
+		return hightInCentimeters;
 	}
 
-	public void setMaxHightInCentimeters(int maxHightInCentimeters) {
-		this.maxHightInCentimeters = maxHightInCentimeters;
+	public void setHightInCentimeters(int hightInCentimeters) {
+		this.hightInCentimeters = hightInCentimeters;
 	}
 
-	public int getMaxWidthInCentimeters() {
-		return maxWidthInCentimeters;
+	public int getWidthInCentimeters() {
+		return widthInCentimeters;
 	}
 
-	public void setMaxWidthInCentimeters(int maxWidthInCentimeters) {
-		this.maxWidthInCentimeters = maxWidthInCentimeters;
+	public void setWidthInCentimeters(int widthInCentimeters) {
+		this.widthInCentimeters = widthInCentimeters;
 	}
 
 	public String getName() {

@@ -1,4 +1,4 @@
-package catalog.models.print;
+package catalog.models.product;
 
 
 import java.util.UUID;

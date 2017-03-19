@@ -25,7 +25,10 @@ public class ShirtColor {
 	@Type(type="pg-uuid")
 	private UUID id;
 	
+	@Column(nullable = false)
 	private String hexadecimalValue;
+	
+	@Column(nullable = false)
 	private String name;
 
 

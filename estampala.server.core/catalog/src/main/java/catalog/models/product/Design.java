@@ -7,10 +7,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+
+import catalog.models.shirt.Shirt;
 
 /**
  * @author akane
@@ -18,7 +21,7 @@ import org.hibernate.annotations.Type;
  */
 
 @Entity
-public class Product {
+public class Design {
 
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -26,10 +29,11 @@ public class Product {
 	@Column(name = "id", unique = true, nullable = false)
 	@Type(type="pg-uuid")
 	private UUID id;
-	
-	@Column(nullable = false)
-	private int totalPrice;
-	
+		
+	@Column(nullable = true)
+	@ManyToOne
+	private Shirt shirt;
+			
 	@Column(nullable = true)
 	@OneToMany
 	private Collection<PrintInShirt> printsInShirts;
@@ -38,14 +42,14 @@ public class Product {
 	@OneToMany
 	private Collection<TextInShirt> textsInShirts;
 
-	Product(){
+	Design(){
 
 	}
-		
-	public Product(UUID id, int totalPrice, Collection<PrintInShirt> printsInShirts, Collection<TextInShirt> textsInShirts) {
+
+	public Design(UUID id, Shirt shirt, Collection<PrintInShirt> printsInShirts, Collection<TextInShirt> textsInShirts) {
 		super();
 		this.id = id;
-		this.totalPrice = totalPrice;		
+		this.shirt = shirt;
 		this.printsInShirts = printsInShirts;
 		this.textsInShirts = textsInShirts;
 	}
@@ -58,12 +62,12 @@ public class Product {
 		this.id = id;
 	}
 
-	public int getTotalPrice() {
-		return totalPrice;
+	public Shirt getShirt() {
+		return shirt;
 	}
 
-	public void setTotalPrice(int totalPrice) {
-		this.totalPrice = totalPrice;
+	public void setShirt(Shirt shirt) {
+		this.shirt = shirt;
 	}
 
 	public Collection<PrintInShirt> getPrintsInShirts() {

@@ -25,8 +25,8 @@ public class ShirtSize {
 	@Type(type="pg-uuid")
 	private UUID id;
 	
+	@Column(nullable = false)
 	private String name;
-
 
 	ShirtSize(){
 
