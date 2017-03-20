@@ -73,6 +73,7 @@
   
   <modules>
     <module>commons</module>
+    <module>security</module>
     <module>users</module>
   	<module>catalog</module>
   	<module>shopping-cart</module>  	
