@@ -30,15 +30,12 @@ public class Design {
 	@Type(type="pg-uuid")
 	private UUID id;
 		
-	@Column(nullable = true)
 	@ManyToOne
 	private Shirt shirt;
-			
-	@Column(nullable = true)
+	
 	@OneToMany
 	private Collection<PrintInShirt> printsInShirts;
-	
-	@Column(nullable = true)
+		
 	@OneToMany
 	private Collection<TextInShirt> textsInShirts;
 

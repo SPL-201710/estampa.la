@@ -21,7 +21,7 @@ public class ShirtColor {
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "id", unique = true, nullable = true)
 	@Type(type="pg-uuid")
 	private UUID id;
 	

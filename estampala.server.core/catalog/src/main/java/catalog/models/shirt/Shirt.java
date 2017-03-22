@@ -1,14 +1,15 @@
 package catalog.models.shirt;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
-
-import java.util.UUID;
 
 /**
  * @author akane
@@ -25,16 +26,16 @@ public class Shirt {
 	@Type(type="pg-uuid")
 	private UUID id;
 	
-	@Column(nullable = false)
+	@ManyToOne
 	private ShirtStyle style;
 	
-	@Column(nullable = false)
+	@ManyToOne
 	private ShirtSize size;
 	
-	@Column(nullable = false)
+	@ManyToOne
 	private ShirtColor color;
 			
-	@Column(nullable = false)
+	@ManyToOne
 	private ShirtMaterial meterial;
 
 	Shirt(){

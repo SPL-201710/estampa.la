@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import catalog.models.shirt.ShirtStyle;
 import catalog.models.shirt.ShirtStyleRepository;
@@ -14,6 +15,7 @@ import catalog.models.shirt.ShirtStyleRepository;
  * @author akane
  *
  */
+@Service
 public class ShirtStyleService {
 	
 	@Autowired

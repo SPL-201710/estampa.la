@@ -8,3 +8,5 @@
 estampala.server.core/catalog/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
 estampala.server.core/catalog/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
 target/
+.classpath
+estampala.server.core/commons/.classpath

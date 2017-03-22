@@ -28,12 +28,10 @@ public class PrintInShirt {
 	@Column(name = "id", unique = true, nullable = false)
 	@Type(type="pg-uuid")
 	private UUID id;
-		
-	@Column(nullable = false)
+
 	@ManyToOne	
 	private Print print;
-
-	@Column(nullable = false)
+	
 	@ManyToOne
 	private ShirtPrintPosition shirtPrintPosition;
 	

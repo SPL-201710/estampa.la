@@ -27,7 +27,7 @@ public class PrintController extends EstampalaController {
 	@Autowired
 	private PrintService service;
 
-	@RequestMapping(value = "/page={page}&page_size={pageSize}",method = RequestMethod.GET)
+	@RequestMapping(value = "?page={page}&page_size={pageSize}",method = RequestMethod.GET)
 	public ResponseEntity<Page<Print>> getAll(@PathVariable int page, @PathVariable int pageSize) {		
 		return new ResponseEntity<Page<Print>>(service.findAll(page, pageSize), HttpStatus.OK);
 	}

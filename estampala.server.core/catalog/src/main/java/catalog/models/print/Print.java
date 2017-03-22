@@ -45,8 +45,7 @@ public class Print {
 	
 	@Column(nullable = true)
 	private int rating;
-	
-	@Column(nullable = false)
+		
 	@ManyToOne
 	private Theme theme;
 

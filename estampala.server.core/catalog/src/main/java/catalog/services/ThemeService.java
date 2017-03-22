@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import catalog.models.theme.Theme;
 import catalog.models.theme.ThemeRepository;
@@ -14,6 +15,7 @@ import catalog.models.theme.ThemeRepository;
  * @author akane
  *
  */
+@Service
 public class ThemeService {
 	
 	@Autowired

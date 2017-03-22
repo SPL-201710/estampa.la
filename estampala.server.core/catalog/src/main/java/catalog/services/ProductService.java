@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import catalog.models.product.Product;
 import catalog.models.product.ProductRepository;
@@ -14,6 +15,7 @@ import catalog.models.product.ProductRepository;
  * @author akane
  *
  */
+@Service
 public class ProductService {
 	
 	@Autowired

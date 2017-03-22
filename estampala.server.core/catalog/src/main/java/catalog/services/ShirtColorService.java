@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import catalog.models.shirt.ShirtColor;
 import catalog.models.shirt.ShirtColorRepository;
@@ -14,6 +15,7 @@ import catalog.models.shirt.ShirtColorRepository;
  * @author akane
  *
  */
+@Service
 public class ShirtColorService {
 	
 	@Autowired
@@ -32,7 +34,7 @@ public class ShirtColorService {
 		return repository.findAll(pageRequest);
 	}
 	
-	public ShirtColor save(ShirtColor item) {
+	public ShirtColor save(ShirtColor item) {		
 		return repository.save(item);
 	}	
 	

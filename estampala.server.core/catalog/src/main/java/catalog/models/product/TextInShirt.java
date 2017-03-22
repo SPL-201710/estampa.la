@@ -1,21 +1,18 @@
 package catalog.models.product;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
-import catalog.models.print.Fonts;
 import catalog.models.print.PrintText;
-import catalog.models.shirt.Shirt;
 import catalog.models.shirt.ShirtPrintPosition;
-
-import java.util.UUID;
 
 /**
  * @author akane
@@ -32,11 +29,10 @@ public class TextInShirt {
 	@Type(type="pg-uuid")
 	private UUID id;
 	
-	@Column(nullable = false)
 	@ManyToOne
 	private PrintText printText;
 	
-	@Column(nullable = false)
+	@ManyToOne
 	private ShirtPrintPosition shirtPrintPosition;
 	
 

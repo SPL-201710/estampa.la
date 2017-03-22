@@ -48,7 +48,7 @@ public class ShirtColorController extends EstampalaController {
 			throw new ShirtColorAlreadyExistsException();
 		}
 				
-		return new ResponseEntity<ShirtColor>(element, HttpStatus.OK);
+		return new ResponseEntity<ShirtColor>(service.save(element), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)

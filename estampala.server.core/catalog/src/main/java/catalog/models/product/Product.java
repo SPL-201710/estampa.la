@@ -30,11 +30,9 @@ public class Product {
 	@Column(nullable = false)
 	private int totalPrice;
 	
-	@Column(nullable = true)
 	@OneToMany
 	private Collection<PrintInShirt> printsInShirts;
 	
-	@Column(nullable = true)
 	@OneToMany
 	private Collection<TextInShirt> textsInShirts;
 
