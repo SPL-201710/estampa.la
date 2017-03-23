@@ -36,9 +36,9 @@ public class ShirtColorService {
 	
 	public ShirtColor save(ShirtColor item) {	
 		if (item != null){
-			item.setId(UUID.randomUUID());
+			return repository.save(item);
 		}
-		return repository.saveAndFlush(item);
+		return null;
 	}	
 	
 	public ShirtColor update(ShirtColor item) {

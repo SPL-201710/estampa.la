@@ -37,9 +37,9 @@ public class PrintService {
 	
 	public Print save(Print item) {
 		if (item != null){
-			item.setId(UUID.randomUUID());
+			return repository.save(item);
 		}
-		return repository.save(item);
+		return null;
 	}	
 	
 	public Print update(Print item) {

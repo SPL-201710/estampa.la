@@ -57,6 +57,7 @@ public class ShirtColorController extends EstampalaController {
 			throw new ShirtColorNotFoundException();
 		}		
 		
+		element.setId(id);
 		return new ResponseEntity<ShirtColor>(service.update(element), HttpStatus.OK);
 	}
 	

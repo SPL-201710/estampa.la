@@ -57,6 +57,7 @@ public class ShirtController extends EstampalaController {
 			throw new ShirtNotFoundException();
 		}		
 		
+		element.setId(id);
 		return new ResponseEntity<Shirt>(service.save(element), HttpStatus.OK);
 	}
 	

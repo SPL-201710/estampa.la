@@ -36,9 +36,9 @@ public class ShirtMaterialService {
 	
 	public ShirtMaterial save(ShirtMaterial item) {
 		if (item != null){
-			item.setId(UUID.randomUUID());
+			return repository.save(item);
 		}
-		return repository.save(item);
+		return null;
 	}	
 	
 	public ShirtMaterial update(ShirtMaterial item) {

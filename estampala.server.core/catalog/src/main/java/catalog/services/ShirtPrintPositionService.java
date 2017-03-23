@@ -36,9 +36,9 @@ public class ShirtPrintPositionService {
 	
 	public ShirtPrintPosition save(ShirtPrintPosition item) {
 		if (item != null){
-			item.setId(UUID.randomUUID());
+			return repository.save(item);
 		}
-		return repository.save(item);
+		return null;
 	}	
 	
 	public ShirtPrintPosition update(ShirtPrintPosition item) {

@@ -36,9 +36,9 @@ public class ThemeService {
 	
 	public Theme save(Theme item) {
 		if (item != null){
-			item.setId(UUID.randomUUID());
+			return repository.save(item);
 		}
-		return repository.save(item);
+		return null;
 	}	
 	
 	public Theme update(Theme item) {

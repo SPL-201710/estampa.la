@@ -36,9 +36,9 @@ public class TextInShirtService {
 	
 	public TextInShirt save(TextInShirt item) {
 		if (item != null){
-			item.setId(UUID.randomUUID());
+			return repository.save(item);
 		}
-		return repository.save(item);
+		return null;
 	}	
 	
 	public TextInShirt update(TextInShirt item) {

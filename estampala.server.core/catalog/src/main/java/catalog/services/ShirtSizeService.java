@@ -36,9 +36,9 @@ public class ShirtSizeService {
 	
 	public ShirtSize save(ShirtSize item) {
 		if (item != null){
-			item.setId(UUID.randomUUID());
+			return repository.save(item);
 		}
-		return repository.save(item);
+		return null;
 	}	
 	
 	public ShirtSize update(ShirtSize item) {

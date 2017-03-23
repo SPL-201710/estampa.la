@@ -57,6 +57,7 @@ public class PrintController extends EstampalaController {
 			throw new PrintNotFoundException();
 		}		
 		
+		element.setId(id);
 		return new ResponseEntity<Print>(service.save(element), HttpStatus.OK);
 	}
 	

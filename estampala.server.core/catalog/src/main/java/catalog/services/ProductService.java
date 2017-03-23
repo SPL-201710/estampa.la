@@ -36,9 +36,9 @@ public class ProductService {
 	
 	public Product save(Product item) {
 		if (item != null){
-			item.setId(UUID.randomUUID());
+			return repository.save(item);
 		}
-		return repository.save(item);
+		return null;
 	}	
 	
 	public Product update(Product item) {

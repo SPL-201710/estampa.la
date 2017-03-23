@@ -48,8 +48,15 @@
   	</developer>
   </developers>
   
-  <properties>
-  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  <properties>  	
+  	<catalog.version>1.0</catalog.version>
+  	<shopping-cart.version>1.0</shopping-cart.version>
+  	<users.version>1.0</users.version>
+  	<payment.version>1.0</payment.version>
+  	<report.version>1.0</report.version>
+	<commons.version>1.0</commons.version>
+	
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   	<maven.compiler.source>1.8</maven.compiler.source>
   	<maven.compiler.target>1.8</maven.compiler.target>
   	<java.version>1.8</java.version>
@@ -57,12 +64,7 @@
   	<maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
   	<commons-lang3.version>3.5</commons-lang3.version>
   	<spring-plugin-core.version>1.1.0.RELEASE</spring-plugin-core.version>
-  	<catalog.version>1.0</catalog.version>
-  	<shopping-cart.version>1.0</shopping-cart.version>
-  	<users.version>1.0</users.version>
-  	<payment.version>1.0</payment.version>
-  	<report.version>1.0</report.version>
-	<commons.version>1.0</commons.version>
+  	<hibernate-core.version>4.3.5.Final</hibernate-core.version>	
   </properties>
   
   <parent>

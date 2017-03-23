@@ -21,8 +21,8 @@
     <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-core</artifactId>
-        <version>4.3.6.Final</version>
-    </dependency>    	
+        <version>${hibernate-core.version}</version>
+    </dependency>    
     <dependency>
     	<groupId>estampala.server.core</groupId>	    
 	    <artifactId>users</artifactId>

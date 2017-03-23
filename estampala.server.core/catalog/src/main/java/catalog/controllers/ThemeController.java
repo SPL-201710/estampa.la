@@ -22,7 +22,7 @@ import commons.controllers.EstampalaController;
 import commons.responses.SuccessResponse;
 
 @RestController
-@RequestMapping("/api/v1/Themes")
+@RequestMapping("/api/v1/themes")
 public class ThemeController extends EstampalaController {
 	
 	@Autowired
@@ -57,6 +57,7 @@ public class ThemeController extends EstampalaController {
 			throw new ThemeNotFoundException();
 		}		
 		
+		element.setId(id);
 		return new ResponseEntity<Theme>(service.save(element), HttpStatus.OK);
 	}
 	

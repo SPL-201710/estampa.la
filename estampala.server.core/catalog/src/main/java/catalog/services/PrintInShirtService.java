@@ -36,9 +36,9 @@ public class PrintInShirtService {
 	
 	public PrintInShirt save(PrintInShirt item) {
 		if (item != null){
-			item.setId(UUID.randomUUID());
+			return repository.save(item);
 		}
-		return repository.save(item);
+		return null;
 	}	
 	
 	public PrintInShirt update(PrintInShirt item) {
