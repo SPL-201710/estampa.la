@@ -3,6 +3,9 @@ package services;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import exceptions.UserNotFoundException;
 import users.models.User;
@@ -36,8 +39,17 @@ public class UserService {
 	 * @param user
 	 * @return boolean
 	 */
-	public Boolean userExists(String username) {
+	public Boolean exists(String username) {
 		return userRepository.findByUsername(username) != null ? true : false;
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public boolean exists(UUID id){		
+		return userRepository.exists(id);						
 	}
 	
 	/**
@@ -50,6 +62,43 @@ public class UserService {
 			throw new UserNotFoundException(id);
 		}
 		
+		userRepository.delete(id);
+	}
+	
+	/**
+	 * returns the user with specified id
+	 * @param id id of user
+	 * @return user
+	 */
+	public User findUserById(UUID id) {
+		return userRepository.findById(id);
+	}
+	
+	/**
+	 * 
+	 * @param username
+	 * @return
+	 */
+	public User findUserByUsername(String username) {
+		return userRepository.findByUsername(username);
+	}
+	
+	/**
+	 * 
+	 * @param page
+	 * @param pageSize
+	 * @return
+	 */
+	public Page<User> findAll(int page, int pageSize) {
+		PageRequest pageRequest = new PageRequest(page - 1, pageSize, Sort.Direction.DESC, "userName");
+		return userRepository.findAll(pageRequest);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public void delete(UUID id) {
 		userRepository.delete(id);
 	}
 }
