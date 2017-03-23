@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import catalog.exceptions.ShirtSizeAlreadyExistsException;
@@ -27,8 +28,8 @@ public class ShirtSizeController extends EstampalaController {
 	@Autowired
 	private ShirtSizeService service;
 
-	@RequestMapping(value = "/page={page}&page_size={pageSize}",method = RequestMethod.GET)
-	public ResponseEntity<Page<ShirtSize>> getAll(@PathVariable int page, @PathVariable int pageSize) {		
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public ResponseEntity<Page<ShirtSize>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {		
 		return new ResponseEntity<Page<ShirtSize>>(service.findAll(page, pageSize), HttpStatus.OK);
 	}
 	
@@ -41,18 +42,18 @@ public class ShirtSizeController extends EstampalaController {
 		return new ResponseEntity<ShirtSize>(service.find(id), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ShirtSize> create(@RequestBody ShirtSize element) throws ShirtSizeAlreadyExistsException {		
+	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ShirtSize> create(@RequestBody(required=false) ShirtSize element) throws ShirtSizeAlreadyExistsException {		
 		if(service.exists(element.getId())) {
 			throw new ShirtSizeAlreadyExistsException();
 		}
 				
-		return new ResponseEntity<ShirtSize>(element, HttpStatus.OK);
+		return new ResponseEntity<ShirtSize>(service.save(element), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ShirtSize> update(@PathVariable UUID id, @RequestBody ShirtSize element) throws ShirtSizeNotFoundException {		
-		if(!service.exists(element.getId())) {
+		if(!service.exists(id)) {
 			throw new ShirtSizeNotFoundException();
 		}		
 		
@@ -60,9 +61,8 @@ public class ShirtSizeController extends EstampalaController {
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws ShirtSizeNotFoundException {
-		
-		if(service.exists(id)) {
+	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws ShirtSizeNotFoundException {		
+		if(!service.exists(id)) {
 			throw new ShirtSizeNotFoundException();
 		}
 		

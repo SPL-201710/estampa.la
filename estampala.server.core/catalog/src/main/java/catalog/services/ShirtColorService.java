@@ -25,8 +25,8 @@ public class ShirtColorService {
 		
 	}
 	
-	public ShirtColor find(UUID id) {
-		return repository.findOne(id);
+	public ShirtColor find(UUID id) {		
+		return repository.findOne(id);		
 	}
 	
 	public Page<ShirtColor> findAll(int page, int pageSize) {
@@ -34,19 +34,32 @@ public class ShirtColorService {
 		return repository.findAll(pageRequest);
 	}
 	
-	public ShirtColor save(ShirtColor item) {		
-		return repository.save(item);
+	public ShirtColor save(ShirtColor item) {	
+		if (item != null){
+			item.setId(UUID.randomUUID());
+		}
+		return repository.saveAndFlush(item);
 	}	
 	
 	public ShirtColor update(ShirtColor item) {
-		return repository.save(item);
+		if (item != null){
+			return repository.save(item);
+		}
+		
+		return null;
 	}	
 	
-	public void delete(UUID id){		
-		repository.delete(id);						
+	public void delete(UUID id){
+		if(id != null){
+			repository.delete(id);
+		}
 	}
 	
-	public boolean exists(UUID id){		
-		return repository.exists(id);						
+	public boolean exists(UUID id){
+		if(id != null){
+			return repository.exists(id);
+		}
+		
+		return false;
 	}
 }

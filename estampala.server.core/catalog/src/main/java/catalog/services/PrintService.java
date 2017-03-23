@@ -36,18 +36,31 @@ public class PrintService {
 	}
 	
 	public Print save(Print item) {
+		if (item != null){
+			item.setId(UUID.randomUUID());
+		}
 		return repository.save(item);
 	}	
 	
 	public Print update(Print item) {
-		return repository.save(item);
+		if (item != null){
+			return repository.save(item);
+		}
+		
+		return null;
 	}	
 	
-	public void delete(UUID id){		
-		repository.delete(id);						
+	public void delete(UUID id){
+		if(id != null){
+			repository.delete(id);
+		}
 	}
 	
-	public boolean exists(UUID id){		
-		return repository.exists(id);						
+	public boolean exists(UUID id){
+		if(id != null){
+			return repository.exists(id);
+		}
+		
+		return false;
 	}
 }
