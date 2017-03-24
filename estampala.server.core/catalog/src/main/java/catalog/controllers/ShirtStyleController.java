@@ -22,58 +22,58 @@ import commons.controllers.EstampalaController;
 import commons.responses.SuccessResponse;
 
 @RestController
-@RequestMapping("/api/v1/shirtStyles")
+@RequestMapping("/shirtStyles")
 public class ShirtStyleController extends EstampalaController {
-	
+
 	@Autowired
 	private ShirtStyleService service;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<Page<ShirtStyle>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {		
+	public ResponseEntity<Page<ShirtStyle>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {
 		return new ResponseEntity<Page<ShirtStyle>>(service.findAll(page, pageSize), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ShirtStyle> get(@PathVariable UUID id) throws ShirtStyleNotFoundException {
 		if(!service.exists(id)) {
-			throw new ShirtStyleNotFoundException();			
+			throw new ShirtStyleNotFoundException();
 		}
-		
+
 		return new ResponseEntity<ShirtStyle>(service.find(id), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ShirtStyle> create(@RequestBody(required=false) ShirtStyle element) throws ShirtStyleAlreadyExistsException {		
+	public ResponseEntity<ShirtStyle> create(@RequestBody(required=false) ShirtStyle element) throws ShirtStyleAlreadyExistsException {
 		if(service.exists(element.getId())) {
 			throw new ShirtStyleAlreadyExistsException();
 		}
-				
+
 		return new ResponseEntity<ShirtStyle>(service.save(element), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ShirtStyle> update(@PathVariable UUID id, @RequestBody ShirtStyle element) throws ShirtStyleNotFoundException {		
-		if(!service.exists(id)) {
-			throw new ShirtStyleNotFoundException();
-		}		
-		
-		element.setId(id);
-		return new ResponseEntity<ShirtStyle>(service.save(element), HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws ShirtStyleNotFoundException {		
+	public ResponseEntity<ShirtStyle> update(@PathVariable UUID id, @RequestBody ShirtStyle element) throws ShirtStyleNotFoundException {
 		if(!service.exists(id)) {
 			throw new ShirtStyleNotFoundException();
 		}
-		
+
+		element.setId(id);
+		return new ResponseEntity<ShirtStyle>(service.save(element), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws ShirtStyleNotFoundException {
+		if(!service.exists(id)) {
+			throw new ShirtStyleNotFoundException();
+		}
+
 		service.delete(id);
-		
+
 		SuccessResponse response = new SuccessResponse();
 		response.setHttpStatus(HttpStatus.OK);
 		response.setSuccess(true);
 		response.setMessage("The size was successfully deleted");
-		
+
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
-	}		
+	}
 }

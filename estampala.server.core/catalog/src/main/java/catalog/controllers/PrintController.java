@@ -22,58 +22,58 @@ import commons.controllers.EstampalaController;
 import commons.responses.SuccessResponse;
 
 @RestController
-@RequestMapping("/api/v1/prints")
+@RequestMapping("/prints")
 public class PrintController extends EstampalaController {
-	
+
 	@Autowired
 	private PrintService service;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<Page<Print>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {		
+	public ResponseEntity<Page<Print>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {
 		return new ResponseEntity<Page<Print>>(service.findAll(page, pageSize), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Print> get(@PathVariable UUID id) throws PrintNotFoundException {
 		if(!service.exists(id)) {
-			throw new PrintNotFoundException();			
+			throw new PrintNotFoundException();
 		}
-		
+
 		return new ResponseEntity<Print>(service.find(id), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Print> create(@RequestBody(required=false) Print element) throws PrintAlreadyExistsException {		
+	public ResponseEntity<Print> create(@RequestBody(required=false) Print element) throws PrintAlreadyExistsException {
 		if(service.exists(element.getId())) {
 			throw new PrintAlreadyExistsException();
 		}
-				
+
 		return new ResponseEntity<Print>(service.save(element), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Print> update(@PathVariable UUID id, @RequestBody Print element) throws PrintNotFoundException {		
-		if(!service.exists(id)) {
-			throw new PrintNotFoundException();
-		}		
-		
-		element.setId(id);
-		return new ResponseEntity<Print>(service.save(element), HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws PrintNotFoundException {		
+	public ResponseEntity<Print> update(@PathVariable UUID id, @RequestBody Print element) throws PrintNotFoundException {
 		if(!service.exists(id)) {
 			throw new PrintNotFoundException();
 		}
-		
+
+		element.setId(id);
+		return new ResponseEntity<Print>(service.save(element), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws PrintNotFoundException {
+		if(!service.exists(id)) {
+			throw new PrintNotFoundException();
+		}
+
 		service.delete(id);
 
 		SuccessResponse response = new SuccessResponse();
 		response.setHttpStatus(HttpStatus.OK);
 		response.setSuccess(true);
 		response.setMessage("The print was successfully deleted");
-		
+
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
-	}		
+	}
 }

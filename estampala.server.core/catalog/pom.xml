@@ -6,32 +6,27 @@
     <version>1.0</version>
   </parent>
   <artifactId>catalog</artifactId>
-    
-        
+
+
   <dependencies>
   	<dependency>
 	    <groupId>postgresql</groupId>
 	    <artifactId>postgresql</artifactId>
 	    <version>${postgresql.version}</version>
-	</dependency>
+	  </dependency>
     <dependency>
     	<groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-data-jpa</artifactId>
-    </dependency>  
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
     <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-core</artifactId>
-        <version>${hibernate-core.version}</version>
-    </dependency>    
-    <dependency>
-    	<groupId>estampala.server.core</groupId>	    
+    	<groupId>estampala.server.core</groupId>
 	    <artifactId>users</artifactId>
 	    <version>${users.version}</version>
-	</dependency>
-	<dependency>
-    	<groupId>estampala.server.core</groupId>	    
-	    <artifactId>commons</artifactId>
-	    <version>${commons.version}</version>
-	</dependency>
+    </dependency>
+  	<dependency>
+      <groupId>estampala.server.core</groupId>
+      <artifactId>commons</artifactId>
+      <version>${commons.version}</version>
+  	</dependency>
   </dependencies>
 </project>

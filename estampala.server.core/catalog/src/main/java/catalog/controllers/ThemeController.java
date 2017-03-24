@@ -22,58 +22,58 @@ import commons.controllers.EstampalaController;
 import commons.responses.SuccessResponse;
 
 @RestController
-@RequestMapping("/api/v1/themes")
+@RequestMapping("/themes")
 public class ThemeController extends EstampalaController {
-	
+
 	@Autowired
 	private ThemeService service;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<Page<Theme>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {		
+	public ResponseEntity<Page<Theme>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {
 		return new ResponseEntity<Page<Theme>>(service.findAll(page, pageSize), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Theme> get(@PathVariable UUID id) throws ThemeNotFoundException {
 		if(!service.exists(id)) {
-			throw new ThemeNotFoundException();			
+			throw new ThemeNotFoundException();
 		}
-		
+
 		return new ResponseEntity<Theme>(service.find(id), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Theme> create(@RequestBody(required=false) Theme element) throws ThemeAlreadyExistsException {		
+	public ResponseEntity<Theme> create(@RequestBody(required=false) Theme element) throws ThemeAlreadyExistsException {
 		if(service.exists(element.getId())) {
 			throw new ThemeAlreadyExistsException();
 		}
-				
+
 		return new ResponseEntity<Theme>(service.save(element), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Theme> update(@PathVariable UUID id, @RequestBody Theme element) throws ThemeNotFoundException {		
-		if(!service.exists(id)) {
-			throw new ThemeNotFoundException();
-		}		
-		
-		element.setId(id);
-		return new ResponseEntity<Theme>(service.save(element), HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws ThemeNotFoundException {		
+	public ResponseEntity<Theme> update(@PathVariable UUID id, @RequestBody Theme element) throws ThemeNotFoundException {
 		if(!service.exists(id)) {
 			throw new ThemeNotFoundException();
 		}
-		
+
+		element.setId(id);
+		return new ResponseEntity<Theme>(service.save(element), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws ThemeNotFoundException {
+		if(!service.exists(id)) {
+			throw new ThemeNotFoundException();
+		}
+
 		service.delete(id);
-		
+
 		SuccessResponse response = new SuccessResponse();
 		response.setHttpStatus(HttpStatus.OK);
 		response.setSuccess(true);
 		response.setMessage("The theme was successfully deleted");
-		
+
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
-	}		
+	}
 }
