@@ -7,8 +7,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import catalog.exceptions.ShirtMaterialNotFoundException;
 import catalog.models.shirt.Shirt;
+import catalog.models.shirt.ShirtColor;
+import catalog.models.shirt.ShirtMaterial;
 import catalog.models.shirt.ShirtRepository;
+import catalog.models.shirt.ShirtSize;
+import catalog.models.shirt.ShirtStyle;
+import catalog.pojos.ShirtCreator;
+import commons.exceptions.EstampalaException;
 
 /**
  * 
@@ -20,6 +27,14 @@ public class ShirtService {
 	
 	@Autowired
 	private ShirtRepository repository;
+	@Autowired
+	private ShirtColorService colorService;
+	@Autowired
+	private ShirtMaterialService materialService;
+	@Autowired
+	private ShirtSizeService sizeService;
+	@Autowired
+	private ShirtStyleService styleService;
 	
 	public ShirtService() {
 		
@@ -34,16 +49,36 @@ public class ShirtService {
 		return repository.findAll(pageRequest);
 	}
 	
-	public Shirt save(Shirt item) {
+	public Shirt save(ShirtCreator item) throws EstampalaException {
 		if (item != null){
-			return repository.save(item);
+			ShirtMaterial material = materialService.find(item.getShirtMaterial());
+			if (material == null){
+				throw new ShirtMaterialNotFoundException();
+			}
+			ShirtColor color = colorService.find(item.getShirtColor());
+			ShirtSize size = sizeService.find(item.getShirtSize());
+			ShirtStyle style = styleService.find(item.getShirtStyle());
+			
+			Shirt shirt = new Shirt(UUID.randomUUID(), style, size, color, material);
+			return repository.save(shirt);
 		}
 		return null;
 	}	
 	
-	public Shirt update(Shirt item) {
+	public Shirt update(ShirtCreator item) {
 		if (item != null){
-			return repository.save(item);
+			ShirtMaterial material = materialService.find(item.getShirtMaterial());
+			ShirtColor color = colorService.find(item.getShirtColor());
+			ShirtSize size = sizeService.find(item.getShirtSize());
+			ShirtStyle style = styleService.find(item.getShirtStyle());
+			
+			Shirt shirt = find(item.getShirt());
+			shirt.setColor(color);
+			shirt.setMeterial(material);
+			shirt.setSize(size);
+			shirt.setStyle(style);
+			
+			return repository.save(shirt);
 		}
 		
 		return null;

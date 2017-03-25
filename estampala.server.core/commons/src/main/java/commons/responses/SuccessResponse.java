@@ -2,7 +2,7 @@ package commons.responses;
 
 import org.springframework.http.HttpStatus;
 
-public class SuccessResponse {
+public class SuccessResponse implements EstampalaResponse{
 
 	private boolean success;
 	private String message;

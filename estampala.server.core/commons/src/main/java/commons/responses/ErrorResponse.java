@@ -2,7 +2,7 @@ package commons.responses;
 
 import org.springframework.http.HttpStatus;
 
-public class ErrorResponse {
+public class ErrorResponse implements EstampalaResponse{
 
 	private String message;
 	private String error;
@@ -21,7 +21,7 @@ public class ErrorResponse {
 	public void setError(String error) {
 		this.error = error;
 	}
-	public boolean isSucess() {
+	public boolean isSuccess() {
 		return sucess;
 	}
 	public void setSucess(boolean sucess) {
@@ -36,5 +36,5 @@ public class ErrorResponse {
 	}
 	public void setHttpStatus(HttpStatus httpStatus) {
 		this.httpStatus = httpStatus;
-	}
+	}	
 }

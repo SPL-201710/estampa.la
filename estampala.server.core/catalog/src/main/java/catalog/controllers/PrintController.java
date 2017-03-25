@@ -21,6 +21,7 @@ import catalog.services.PrintService;
 import commons.controllers.EstampalaController;
 import commons.responses.SuccessResponse;
 
+
 @RestController
 @RequestMapping("/prints")
 public class PrintController extends EstampalaController {

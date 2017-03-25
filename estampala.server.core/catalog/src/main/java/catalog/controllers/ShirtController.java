@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import catalog.exceptions.ShirtAlreadyExistsException;
 import catalog.exceptions.ShirtNotFoundException;
 import catalog.models.shirt.Shirt;
+import catalog.pojos.ShirtCreator;
 import catalog.services.ShirtService;
 import commons.controllers.EstampalaController;
+import commons.exceptions.EstampalaException;
 import commons.responses.SuccessResponse;
 
 @RestController
@@ -43,21 +45,17 @@ public class ShirtController extends EstampalaController {
 	}
 
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Shirt> create(@RequestBody(required=false) Shirt element) throws ShirtAlreadyExistsException {
-		if(service.exists(element.getId())) {
-			throw new ShirtAlreadyExistsException();
-		}
-
+	public ResponseEntity<Shirt> create(@RequestBody(required=false) ShirtCreator element) throws EstampalaException {
 		return new ResponseEntity<Shirt>(service.save(element), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Shirt> update(@PathVariable UUID id, @RequestBody Shirt element) throws ShirtNotFoundException {
+	public ResponseEntity<Shirt> update(@PathVariable UUID id, @RequestBody ShirtCreator element) throws EstampalaException {
 		if(!service.exists(id)) {
 			throw new ShirtNotFoundException();
 		}
 
-		element.setId(id);
+		element.setShirt(id);
 		return new ResponseEntity<Shirt>(service.save(element), HttpStatus.OK);
 	}
 
