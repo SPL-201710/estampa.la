@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -33,6 +35,8 @@ public class User {
 	private String lastName;
 	private String email;
 	private String phoneNumber;
+	private Role role;
+	
 	
 	public UUID getId() {
 		return id;
@@ -75,5 +79,14 @@ public class User {
 	}
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}	
+	}
+	
+	@Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
+	}
 }
