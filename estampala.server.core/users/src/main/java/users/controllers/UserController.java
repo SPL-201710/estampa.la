@@ -1,4 +1,4 @@
-package controllers;
+package users.controllers;
 
 import java.util.UUID;
 
@@ -11,14 +11,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import commons.controllers.EstampalaController;
 import commons.responses.SuccessResponse;
-import exceptions.UserAlreadyExistsException;
-import exceptions.UserNotFoundException;
-import services.UserService;
+import users.exceptions.UserAlreadyExistsException;
+import users.exceptions.UserNotFoundException;
 import users.models.User;
+import users.services.UserService;
+
 
 /**
  * 
@@ -34,18 +36,18 @@ public class UserController extends EstampalaController{
 	@RequestMapping(value = "/create",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> createUser(@RequestBody User user) throws UserAlreadyExistsException {
 		
-		if(userService.exists(user.getUserName())) {
-			throw new UserAlreadyExistsException(user.getUserName());
+		if(userService.exists(user.getUsername())) {
+			throw new UserAlreadyExistsException(user.getUsername());
 		}
 		
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		return new ResponseEntity<User>(userService.saveUser(user), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> updateUser(@RequestBody User user) throws UserNotFoundException {
 		
-		if(!userService.exists(user.getUserName())) {
-			throw new UserNotFoundException(user.getUserName());
+		if(!userService.exists(user.getUsername())) {
+			throw new UserNotFoundException(user.getUsername());
 		}
 		
 		user = userService.saveUser(user);
@@ -53,13 +55,14 @@ public class UserController extends EstampalaController{
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "?page={page}&page_size={pageSize}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Page<User>> getAll(@PathVariable int page, @PathVariable int pageSize) {		
+	@RequestMapping(value = "",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Page<User>> getAll(@RequestParam(value="page", defaultValue = "1", required = true) int page, 
+			@RequestParam(value="page_size", defaultValue = "1", required = true) int pageSize) {		
 		return new ResponseEntity<Page<User>>(userService.findAll(page, pageSize), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "?username={username}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> get(@PathVariable String username) throws UserNotFoundException {
+	@RequestMapping(value = "/findOne",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> get(@RequestParam(value="username", required = false) String username) throws UserNotFoundException {
 		
 		if(!userService.exists(username)) {
 			throw new UserNotFoundException(username);

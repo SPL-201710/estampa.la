@@ -1,4 +1,4 @@
-package services;
+package users.services;
 
 import java.util.UUID;
 
@@ -9,9 +9,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import exceptions.UserNotFoundException;
+import users.exceptions.UserNotFoundException;
 import users.models.User;
 import users.models.UserRepository;
+
+
+
 
 /**
  * user services fachade
@@ -96,7 +99,7 @@ public class UserService {
 	 * @return
 	 */
 	public Page<User> findAll(int page, int pageSize) {
-		PageRequest pageRequest = new PageRequest(page - 1, pageSize, Sort.Direction.DESC, "userName");
+		PageRequest pageRequest = new PageRequest(page - 1, pageSize, Sort.Direction.DESC, "username");
 		return userRepository.findAll(pageRequest);
 	}
 	

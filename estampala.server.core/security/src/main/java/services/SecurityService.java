@@ -63,8 +63,8 @@ public class SecurityService {
 		return token;
 	}
 	
-	public String validateToken(String jwt, String username) throws InvalidTokenException {
+	public String validateToken(String jwt) throws InvalidTokenException {
 		
-		return tokenService.validateToken(jwt, username);
+		return tokenService.validateToken(jwt);
 	}
 }

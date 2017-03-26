@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -16,27 +17,30 @@ import org.hibernate.annotations.Type;
  * 
  */
 
-@Entity
+@Entity(name = "estampalaUser")
 public class User {
-
-	User(){
-		
-	}
 	
+	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
 	@Column(name = "id", unique = true, nullable = false)
 	@Type(type="pg-uuid")
 	private UUID id;
 	
-	private String userName;
+	private String username;
 	private String password;
-	private String firtsName;
+	private String firstName;
 	private String lastName;
 	private String email;
 	private String phoneNumber;
+	
+	@Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
 	private Role role;
 	
+	public User(){
+		
+	}
 	
 	public UUID getId() {
 		return id;
@@ -44,24 +48,30 @@ public class User {
 	public void setId(UUID id) {
 		this.id = id;
 	}
-	public String getUserName() {
-		return userName;
+	
+	public String getUsername() {
+		return username;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
+
 	public String getPassword() {
 		return password;
 	}
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getFirtsName() {
-		return firtsName;
+	
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setFirtsName(String firtsName) {
-		this.firtsName = firtsName;
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
+
 	public String getLastName() {
 		return lastName;
 	}
@@ -80,9 +90,7 @@ public class User {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	
-	@Column(name = "role", nullable = false)
-    @Enumerated(EnumType.STRING)
+
 	public Role getRole() {
 		return role;
 	}

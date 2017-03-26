@@ -1,22 +1,19 @@
 package controllers;
 
-import java.util.Collections;
-
 import javax.security.auth.login.CredentialException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
+import exceptions.InvalidTokenException;
 import exceptions.UserNotFoundException;
 import model.UserAuth;
 import services.SecurityService;
-import services.TokenAuthenticationService;
 
 @RestController
 @RequestMapping("/auth")
@@ -32,9 +29,9 @@ public class SecurityController {
 	}
 	
 	@RequestMapping(value = "/token",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public String validateToken(WebRequest parameters) throws CredentialException, UserNotFoundException {
+	public String validateToken(WebRequest parameters) throws CredentialException, UserNotFoundException, InvalidTokenException {
 		
-		return securityService.login(parameters.getParameter("token"));
+		return securityService.validateToken(parameters.getParameter("token"));
 	}
 
 }
