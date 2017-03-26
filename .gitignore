@@ -1,3 +1,18 @@
+# compiled output
+/web/dist
+/web/tmp
+
+# dependencies
+/web/node_modules
+/web/bower_components
+
+# misc
+/web/.sass-cache
+/web/connect.lock
+/web/coverage/*
+/web/libpeerconnection.log
+npm-debug.log*
+testem.log
 
 *.class
 *.lst
