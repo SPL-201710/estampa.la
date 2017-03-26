@@ -1,7 +1,10 @@
-/Users/Effer/Documents/Jorge/estampa.la/estampala.server.core/users/src/main/java/services/UserService.java
-/Users/Effer/Documents/Jorge/estampa.la/estampala.server.core/users/src/main/java/users/Application.java
-/Users/Effer/Documents/Jorge/estampa.la/estampala.server.core/users/src/main/java/users/models/UserRepository.java
-/Users/Effer/Documents/Jorge/estampa.la/estampala.server.core/users/src/main/java/users/models/User.java
-/Users/Effer/Documents/Jorge/estampa.la/estampala.server.core/users/src/main/java/exceptions/UserAlreadyExistsException.java
-/Users/Effer/Documents/Jorge/estampa.la/estampala.server.core/users/src/main/java/exceptions/UserNotFoundException.java
-/Users/Effer/Documents/Jorge/estampa.la/estampala.server.core/users/src/main/java/controllers/UserController.java
+/home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/exceptions/UserAlreadyExistsException.java
+/home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/PersistenceJPAConfig.java
+/home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/models/UserAuth.java
+/home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/Application.java
+/home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/models/Role.java
+/home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/services/UserService.java
+/home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/models/User.java
+/home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/exceptions/UserNotFoundException.java
+/home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/models/UserRepository.java
+/home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/controllers/UserController.java

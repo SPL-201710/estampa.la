@@ -126,11 +126,7 @@
      <dependency>
        <groupId>org.springframework.boot</groupId>
        <artifactId>spring-boot-starter-data-jpa</artifactId>
-<<<<<<< HEAD
      </dependency>
-=======
-     </dependency>	
->>>>>>> 5c62e44df277a7332cb8b2d4eec41bf1f7445ff8
      <dependency>
        <groupId>org.hibernate</groupId>
        <artifactId>hibernate-entitymanager</artifactId>
@@ -145,7 +141,6 @@
        <groupId>postgresql</groupId>
        <artifactId>postgresql</artifactId>
        <version>${postgresql.version}</version>
-<<<<<<< HEAD
      </dependency>
      <dependency>
         <groupId>org.springframework</groupId>
@@ -167,9 +162,6 @@
           <artifactId>jackson-core</artifactId>
           <version>${jackson.version}</version>
       </dependency>
-=======
-     </dependency>	     
->>>>>>> 5c62e44df277a7332cb8b2d4eec41bf1f7445ff8
   </dependencies>
 
   <dependencyManagement>

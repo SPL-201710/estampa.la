@@ -3,14 +3,14 @@ package catalog.pojos;
 import java.util.UUID;
 
 public class ShirtCreator {
-	
+
 	private UUID shirt;
 	private UUID shirtStyle;
 	private UUID shirtSize;
 	private UUID shirtColor;
 	private UUID shirtMaterial;
-	
-	
+
+
 	public UUID getShirt() {
 		return shirt;
 	}

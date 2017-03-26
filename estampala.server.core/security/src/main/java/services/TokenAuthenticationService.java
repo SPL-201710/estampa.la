@@ -11,6 +11,7 @@ import exceptions.InvalidTokenException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import users.models.User;
+import users.services.UserService;
 
 /**
  * Servicio de autenticacion
@@ -24,10 +25,10 @@ public class TokenAuthenticationService {
 	static final String SECRET = "Estampa.la";
 	static final String TOKEN_PREFIX = "Token";
 	static final String HEADER_STRING = "Authorization";
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	/**
 	 * Returns authentication token for user
 	 * @param username
@@ -39,10 +40,10 @@ public class TokenAuthenticationService {
 	        .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
 	        .signWith(SignatureAlgorithm.HS512, SECRET)
 	        .compact();
-	    
+
 	    return JWT;
 	  }
-	
+
 	public String validateToken(String jwt) throws InvalidTokenException {
 
 		String username = Jwts.parser()
@@ -52,17 +53,17 @@ public class TokenAuthenticationService {
 				.getSubject();
 
 		User user = userService.findUserByUsername(username);
-		
+
 		if(user == null) {
 			throw new UsernameNotFoundException(username);
 		}
-		
-		
-		
+
+
+
 		String token = Jwts.parser()
 				.setSigningKey(SECRET)
 				.parseClaimsJws(jwt.replace(TOKEN_PREFIX, ""))
-				.getBody() 
+				.getBody()
 				.toString();
 
 		if(!token.equals(jwt)) {
@@ -78,8 +79,7 @@ public class TokenAuthenticationService {
 		if(date.compareTo(new Date()) < 0){
 			throw new InvalidTokenException();
 		}
-		
+
 		return Collections.singletonMap("status", "valid").toString();
 	}
 }
-

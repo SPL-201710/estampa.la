@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import catalog.exceptions.PrintAlreadyExistsException;
 import catalog.exceptions.PrintNotFoundException;
+import commons.exceptions.EstampalaException;
 import catalog.models.print.Print;
 import catalog.services.PrintService;
+import catalog.pojos.PrintCreator;
 import commons.controllers.EstampalaController;
 import commons.responses.SuccessResponse;
 
@@ -44,8 +46,8 @@ public class PrintController extends EstampalaController {
 	}
 
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Print> create(@RequestBody(required=false) Print element) throws PrintAlreadyExistsException {
-		if(service.exists(element.getId())) {
+	public ResponseEntity<Print> create(@RequestBody(required=false) PrintCreator element) throws EstampalaException {
+		if(service.exists(element.getPrint())) {
 			throw new PrintAlreadyExistsException();
 		}
 
@@ -53,13 +55,13 @@ public class PrintController extends EstampalaController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Print> update(@PathVariable UUID id, @RequestBody Print element) throws PrintNotFoundException {
+	public ResponseEntity<Print> update(@PathVariable UUID id, @RequestBody PrintCreator element) throws EstampalaException {
 		if(!service.exists(id)) {
 			throw new PrintNotFoundException();
 		}
 
-		element.setId(id);
-		return new ResponseEntity<Print>(service.save(element), HttpStatus.OK);
+		element.setPrint(id);
+		return new ResponseEntity<Print>(service.update(element), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)

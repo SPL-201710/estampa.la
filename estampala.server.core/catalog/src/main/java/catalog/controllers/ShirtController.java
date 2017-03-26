@@ -56,7 +56,7 @@ public class ShirtController extends EstampalaController {
 		}
 
 		element.setShirt(id);
-		return new ResponseEntity<Shirt>(service.save(element), HttpStatus.OK);
+		return new ResponseEntity<Shirt>(service.update(element), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)

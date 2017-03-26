@@ -18,13 +18,13 @@ import catalog.pojos.ShirtCreator;
 import commons.exceptions.EstampalaException;
 
 /**
- * 
+ *
  * @author akane
  *
  */
 @Service
 public class ShirtService {
-	
+
 	@Autowired
 	private ShirtRepository repository;
 	@Autowired
@@ -35,20 +35,20 @@ public class ShirtService {
 	private ShirtSizeService sizeService;
 	@Autowired
 	private ShirtStyleService styleService;
-	
+
 	public ShirtService() {
-		
+
 	}
-	
+
 	public Shirt find(UUID id) {
 		return repository.findOne(id);
 	}
-	
+
 	public Page<Shirt> findAll(int page, int pageSize) {
 		PageRequest pageRequest = new PageRequest(page - 1, pageSize);
 		return repository.findAll(pageRequest);
 	}
-	
+
 	public Shirt save(ShirtCreator item) throws EstampalaException {
 		if (item != null){
 			ShirtMaterial material = materialService.find(item.getShirtMaterial());
@@ -58,43 +58,43 @@ public class ShirtService {
 			ShirtColor color = colorService.find(item.getShirtColor());
 			ShirtSize size = sizeService.find(item.getShirtSize());
 			ShirtStyle style = styleService.find(item.getShirtStyle());
-			
+
 			Shirt shirt = new Shirt(UUID.randomUUID(), style, size, color, material);
 			return repository.save(shirt);
 		}
 		return null;
-	}	
-	
+	}
+
 	public Shirt update(ShirtCreator item) {
 		if (item != null){
 			ShirtMaterial material = materialService.find(item.getShirtMaterial());
 			ShirtColor color = colorService.find(item.getShirtColor());
 			ShirtSize size = sizeService.find(item.getShirtSize());
 			ShirtStyle style = styleService.find(item.getShirtStyle());
-			
+
 			Shirt shirt = find(item.getShirt());
 			shirt.setColor(color);
-			shirt.setMeterial(material);
+			shirt.setMaterial(material);
 			shirt.setSize(size);
 			shirt.setStyle(style);
-			
+
 			return repository.save(shirt);
 		}
-		
+
 		return null;
-	}	
-	
+	}
+
 	public void delete(UUID id){
 		if(id != null){
 			repository.delete(id);
 		}
 	}
-	
+
 	public boolean exists(UUID id){
 		if(id != null){
 			return repository.exists(id);
 		}
-		
+
 		return false;
 	}
 }

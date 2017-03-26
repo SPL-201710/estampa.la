@@ -13,7 +13,7 @@ import org.hibernate.annotations.Type;
 
 /**
  * @author akane
- * 
+ *
  */
 
 @Entity
@@ -25,30 +25,30 @@ public class Shirt {
 	@Column(name = "id", unique = true, nullable = false)
 	@Type(type="pg-uuid")
 	private UUID id;
-	
+
 	@ManyToOne
 	private ShirtStyle style;
-	
+
 	@ManyToOne
 	private ShirtSize size;
-	
+
 	@ManyToOne
 	private ShirtColor color;
-			
+
 	@ManyToOne
-	private ShirtMaterial meterial;
+	private ShirtMaterial material;
 
 	Shirt(){
 
 	}
 
-	public Shirt(UUID id, ShirtStyle style, ShirtSize size, ShirtColor color, ShirtMaterial meterial) {
+	public Shirt(UUID id, ShirtStyle style, ShirtSize size, ShirtColor color, ShirtMaterial material) {
 		super();
 		this.id = id;
 		this.style = style;
 		this.size = size;
-		this.color = color;		
-		this.meterial = meterial;
+		this.color = color;
+		this.material = material;
 	}
 
 	public UUID getId() {
@@ -83,11 +83,11 @@ public class Shirt {
 		this.color = color;
 	}
 
-	public ShirtMaterial getMeterial() {
-		return meterial;
+	public ShirtMaterial getMaterial() {
+		return material;
 	}
 
-	public void setMeterial(ShirtMaterial meterial) {
-		this.meterial = meterial;
-	}		
+	public void setMaterial(ShirtMaterial material) {
+		this.material = material;
+	}
 }
