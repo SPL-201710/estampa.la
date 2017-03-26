@@ -1,21 +1,26 @@
-package services;
+package users.services;
 
 import java.util.UUID;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
-import exceptions.UserNotFoundException;
+import users.exceptions.UserNotFoundException;
 import users.models.User;
 import users.models.UserRepository;
+
+
+
 
 /**
  * user services fachade
  * @author jorge perea
- *
  */
+@Service 
 public class UserService {
 	
 	@Autowired
@@ -31,6 +36,10 @@ public class UserService {
 	 * @return user
 	 */
 	public User saveUser(User user) {
+		
+		String hashPwd = DigestUtils.sha256Hex(user.getPassword());
+		user.setPassword(hashPwd);
+		
 		return userRepository.save(user);
 	}
 	
@@ -44,7 +53,7 @@ public class UserService {
 	}
 	
 	/**
-	 * 
+	 * confirms if user exists
 	 * @param id
 	 * @return
 	 */
@@ -75,7 +84,7 @@ public class UserService {
 	}
 	
 	/**
-	 * 
+	 * finds user by username
 	 * @param username
 	 * @return
 	 */
@@ -84,18 +93,18 @@ public class UserService {
 	}
 	
 	/**
-	 * 
+	 * returns all users
 	 * @param page
 	 * @param pageSize
 	 * @return
 	 */
 	public Page<User> findAll(int page, int pageSize) {
-		PageRequest pageRequest = new PageRequest(page - 1, pageSize, Sort.Direction.DESC, "userName");
+		PageRequest pageRequest = new PageRequest(page - 1, pageSize, Sort.Direction.DESC, "username");
 		return userRepository.findAll(pageRequest);
 	}
 	
 	/**
-	 * 
+	 * delete the user
 	 * @param id
 	 */
 	public void delete(UUID id) {

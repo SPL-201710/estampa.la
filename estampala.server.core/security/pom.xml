@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
-	    <groupId>estampala.server.core</groupId>
-	    <artifactId>estampala.server.core</artifactId>
-	    <version>1.0</version>
-  	</parent>
+		<groupId>estampala.server.core</groupId>
+		<artifactId>estampala.server.core</artifactId>
+		<version>1.0</version>
+	</parent>
 	<artifactId>security</artifactId>
 	<packaging>jar</packaging>
 
@@ -26,28 +26,38 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
-	    <groupId>postgresql</groupId>
-	    <artifactId>postgresql</artifactId>
-	    <version>${postgresql.version}</version>
-	</dependency>
-    <dependency>
-    	<groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-data-jpa</artifactId>
-    </dependency>  
-    <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-core</artifactId>
-        <version>4.1.4.Final</version>
-    </dependency> 
-		<dependency>
-	    	<groupId>estampala.server.core</groupId>	    
-		    <artifactId>commons</artifactId>
-		    <version>${commons.version}</version>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${postgresql.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>io.jsonwebtoken</groupId>
-		    <artifactId>jjwt</artifactId>
-		    <version>0.7.0</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>4.1.4.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>estampala.server.core</groupId>
+			<artifactId>commons</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>estampala.server.core</groupId>
+			<artifactId>users</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.10</version>
 		</dependency>
 	</dependencies>
 </project>
