@@ -51,7 +51,7 @@ public class PrintService {
 			}
 
 			Print print = new Print(UUID.randomUUID(), item.getDescription(), item.getImage(), item.getName(),
-					item.getPrice(), item.getRating(), theme);
+					item.getPrice(), item.getRating(), item.getPopularity(), theme);
 			return repository.save(print);
 		}
 
@@ -71,6 +71,7 @@ public class PrintService {
 			print.setName(item.getName());
 			print.setPrice(item.getPrice());
 			print.setRating(item.getRating());
+			print.setPopularity(item.getPopularity());
 			print.setTheme(theme);
 
 			return repository.save(print);

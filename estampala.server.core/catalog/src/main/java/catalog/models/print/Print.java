@@ -37,6 +37,9 @@ public class Print {
 	@Column(nullable = false)
 	private String name;
 
+	@Column(nullable = true)
+	private int popularity;
+
 	@Column(nullable = false)
 	private long price;
 
@@ -50,7 +53,7 @@ public class Print {
 
 	}
 
-	public Print(UUID id, String description, byte[] image, String name, long price, int rating,
+	public Print(UUID id, String description, byte[] image, String name, long price, int rating, int popularity,
 			Theme theme) {
 		super();
 		this.id = id;
@@ -59,6 +62,7 @@ public class Print {
 		this.name = name;
 		this.price = price;
 		this.rating = rating;
+		this.popularity = popularity;
 		this.theme = theme;
 	}
 
@@ -92,6 +96,14 @@ public class Print {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getPopularity() {
+		return popularity;
+	}
+
+	public void setPopularity(int popularity) {
+		this.popularity = popularity;
 	}
 
 	public long getPrice() {

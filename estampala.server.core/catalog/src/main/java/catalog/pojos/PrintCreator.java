@@ -13,6 +13,7 @@ public class PrintCreator {
 	private String name;
 	private long price;
 	private int rating;
+	private int popularity;
 
 	public UUID getPrint() {
 		return this.print;
@@ -52,6 +53,14 @@ public class PrintCreator {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getPopularity() {
+		return popularity;
+	}
+
+	public void setPopularity(int popularity) {
+		this.popularity = popularity;
 	}
 
 	public long getPrice() {
