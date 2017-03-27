@@ -10,6 +10,7 @@ import exceptions.InvalidTokenException;
 import users.exceptions.UserNotFoundException;
 import model.UserSession;
 import model.UserSessionRepository;
+import users.exceptions.UserNotFoundException;
 import users.models.User;
 import users.services.UserService;
 

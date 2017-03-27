@@ -28,7 +28,7 @@ public class Product {
 	private UUID id;
 	
 	@Column(nullable = false)
-	private int totalPrice;
+	private double totalPrice;
 	
 	@OneToMany
 	private Collection<PrintInShirt> printsInShirts;
@@ -40,7 +40,7 @@ public class Product {
 
 	}
 		
-	public Product(UUID id, int totalPrice, Collection<PrintInShirt> printsInShirts, Collection<TextInShirt> textsInShirts) {
+	public Product(UUID id, double totalPrice, Collection<PrintInShirt> printsInShirts, Collection<TextInShirt> textsInShirts) {
 		super();
 		this.id = id;
 		this.totalPrice = totalPrice;		
@@ -56,11 +56,11 @@ public class Product {
 		this.id = id;
 	}
 
-	public int getTotalPrice() {
+	public double getTotalPrice() {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(int totalPrice) {
+	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 

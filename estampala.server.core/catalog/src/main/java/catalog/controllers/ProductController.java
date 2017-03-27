@@ -14,54 +14,54 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import catalog.exceptions.ShirtNotFoundException;
-import catalog.models.shirt.Shirt;
-import catalog.pojos.ShirtCreator;
-import catalog.services.ShirtService;
+import catalog.exceptions.ProductNotFoundException;
+import catalog.models.product.Product;
+import catalog.pojos.ProductCreator;
+import catalog.services.ProductService;
 import commons.controllers.EstampalaController;
 import commons.exceptions.EstampalaException;
 import commons.responses.SuccessResponse;
 
 @RestController
-@RequestMapping("/shirts")
-public class ShirtController extends EstampalaController {
+@RequestMapping("/products")
+public class ProductController extends EstampalaController {
 
 	@Autowired
-	private ShirtService service;
+	private ProductService service;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<Page<Shirt>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {
-		return new ResponseEntity<Page<Shirt>>(service.findAll(page, pageSize), HttpStatus.OK);
+	public ResponseEntity<Page<Product>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {
+		return new ResponseEntity<Page<Product>>(service.findAll(page, pageSize), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Shirt> get(@PathVariable UUID id) throws ShirtNotFoundException {
+	public ResponseEntity<Product> get(@PathVariable UUID id) throws ProductNotFoundException {
 		if(!service.exists(id)) {
-			throw new ShirtNotFoundException();
+			throw new ProductNotFoundException();
 		}
 
-		return new ResponseEntity<Shirt>(service.find(id), HttpStatus.OK);
+		return new ResponseEntity<Product>(service.find(id), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Shirt> create(@RequestBody(required=false) ShirtCreator element) throws EstampalaException {
-		return new ResponseEntity<Shirt>(service.save(element), HttpStatus.OK);
+	public ResponseEntity<Product> create(@RequestBody(required=false) ProductCreator element) throws EstampalaException {
+		return new ResponseEntity<Product>(service.save(element), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Shirt> update(@PathVariable UUID id, @RequestBody ShirtCreator element) throws EstampalaException {
+	public ResponseEntity<Product> update(@PathVariable UUID id, @RequestBody ProductCreator element) throws EstampalaException {
 		if(!service.exists(id)) {
-			throw new ShirtNotFoundException();
+			throw new ProductNotFoundException();
 		}
 
-		element.setShirt(id);
-		return new ResponseEntity<Shirt>(service.update(element), HttpStatus.OK);
+		element.setProduct(id);
+		return new ResponseEntity<Product>(service.update(element), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws ShirtNotFoundException {
+	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws ProductNotFoundException {
 		if(!service.exists(id)) {
-			throw new ShirtNotFoundException();
+			throw new ProductNotFoundException();
 		}
 
 		service.delete(id);
@@ -69,7 +69,7 @@ public class ShirtController extends EstampalaController {
 		SuccessResponse response = new SuccessResponse();
 		response.setHttpStatus(HttpStatus.OK);
 		response.setSuccess(true);
-		response.setMessage("The shirt was successfully deleted");
+		response.setMessage("The Product was successfully deleted");
 
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}

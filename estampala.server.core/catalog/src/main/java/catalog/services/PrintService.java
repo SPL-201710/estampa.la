@@ -6,14 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import catalog.models.theme.Theme;
+import catalog.exceptions.ThemeNotFoundException;
 import catalog.models.print.Print;
 import catalog.models.print.PrintRepository;
-import commons.exceptions.EstampalaException;
-import catalog.exceptions.ThemeNotFoundException;
+import catalog.models.theme.Theme;
 import catalog.pojos.PrintCreator;
+import commons.exceptions.EstampalaException;
+import users.exceptions.UserNotFoundException;
+import users.models.User;
+import users.services.UserService;
 
 /**
  *
@@ -28,6 +33,9 @@ public class PrintService {
 
 	@Autowired
 	private ThemeService themeService;
+	
+	@Autowired
+	private UserService userService;
 
 	public PrintService() {
 
@@ -37,21 +45,32 @@ public class PrintService {
 		return repository.findOne(id);
 	}
 
-	public Page<Print> findAll(int page, int pageSize) {
-		PageRequest pageRequest = new PageRequest(page - 1, pageSize, Sort.Direction.DESC, "name");
-		return repository.findAll(pageRequest);
+	public Page<Print> findAll(int page, int pageSize, String popularity, Specification<Print> spec) {
+		
+		Direction direction = Sort.Direction.DESC;
+		if (popularity != null && "asc".equalsIgnoreCase(popularity)){
+			direction = Sort.Direction.ASC;
+		}
+		
+		PageRequest pageRequest = new PageRequest(page - 1, pageSize, direction, "popularity");
+		return repository.findAll(spec, pageRequest);
 	}
 
 	public Print save(PrintCreator item) throws EstampalaException {
 		if (item != null){
 
+			User artist = userService.findUserById(item.getArtist());
+			if (artist == null){
+				throw new UserNotFoundException(item.getArtist());
+			}
+			
 			Theme theme = themeService.find(item.getTheme());
 			if (theme == null){
 				throw new ThemeNotFoundException();
 			}
-
-			Print print = new Print(UUID.randomUUID(), item.getDescription(), item.getImage(), item.getName(),
-					item.getPrice(), item.getRating(), item.getPopularity(), theme);
+					
+			Print print = new Print(UUID.randomUUID(), item.getDescription(), item.getImage(), item.getName(), item.getPrice(), item.getRating(), item.getPopularity(), theme, artist);
+					
 			return repository.save(print);
 		}
 
@@ -60,6 +79,7 @@ public class PrintService {
 
 	public Print update(PrintCreator item) throws EstampalaException {
 		if (item != null){
+			
 			Theme theme = themeService.find(item.getTheme());
 			if (theme == null){
 				throw new ThemeNotFoundException();

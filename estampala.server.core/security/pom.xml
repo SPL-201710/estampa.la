@@ -15,6 +15,11 @@
 	</properties>
 
 	<dependencies>
+	<dependency>
+    	<groupId>estampala.server.core</groupId>
+	    <artifactId>users</artifactId>
+	    <version>${users.version}</version>
+    </dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

@@ -1,18 +1,18 @@
 package catalog.pojos;
 
 import java.util.UUID;
-import catalog.models.theme.Theme;
 
 public class PrintCreator {
 
 	private UUID print;
 	private UUID theme;
+	private UUID artist;
 
 	private String description;
 	private byte[] image;
 	private String name;
 	private long price;
-	private int rating;
+	private int rating;	
 	private int popularity;
 
 	public UUID getPrint() {
@@ -78,4 +78,12 @@ public class PrintCreator {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
+
+	public UUID getArtist() {
+		return artist;
+	}
+
+	public void setArtist(UUID artist) {
+		this.artist = artist;
+	}	
 }

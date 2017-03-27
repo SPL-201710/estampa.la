@@ -12,6 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import catalog.models.theme.Theme;
+import users.models.User;
 
 /**
  * @author akane
@@ -48,13 +49,15 @@ public class Print {
 
 	@ManyToOne
 	private Theme theme;
+	
+	@ManyToOne
+	private User artist;
 
 	Print(){
 
 	}
 
-	public Print(UUID id, String description, byte[] image, String name, long price, int rating, int popularity,
-			Theme theme) {
+	public Print(UUID id, String description, byte[] image, String name, long price, int rating, int popularity, Theme theme, User artist){
 		super();
 		this.id = id;
 		this.description = description;
@@ -64,6 +67,7 @@ public class Print {
 		this.rating = rating;
 		this.popularity = popularity;
 		this.theme = theme;
+		this.artist = artist;
 	}
 
 	public UUID getId() {
@@ -128,5 +132,13 @@ public class Print {
 
 	public void setTheme(Theme theme) {
 		this.theme = theme;
+	}	
+
+	public User getArtist() {
+		return artist;
+	}
+
+	public void setArtist(User artist) {
+		this.artist = artist;
 	}
 }
