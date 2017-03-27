@@ -19,59 +19,59 @@ import shoppingcart.models.ShoppingTransaction;
 import shoppingcart.services.TransactionService;
 
 @RestController
-@RequestMapping("/transaction")
+@RequestMapping("/transactions")
 public class ShoppingTransactionController extends EstampalaController{
-	
+
 	@Autowired
 	private TransactionService txService;
-	
-	@RequestMapping(value = "/create",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ShoppingTransaction> createTransaction(@RequestBody ShoppingTransaction transaction) {
-		
+
 		return new ResponseEntity<ShoppingTransaction>(txService.saveTransaction(transaction), HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(value = "", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ShoppingTransaction> updateShoppingTransaction(@RequestBody ShoppingTransaction transaction) throws TransactionNotFoundException {
-		
+
 		if(transaction.getId() == null) {
 			throw new TransactionNotFoundException(null);
 		}
-		
+
 		if(!txService.exists(transaction.getId())) {
 			throw new TransactionNotFoundException(transaction.getId());
 		}
-		
+
 		transaction = txService.saveTransaction(transaction);
-		
+
 		return new ResponseEntity<ShoppingTransaction>(transaction, HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(value = "", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ShoppingTransaction> deleteShoppingTransaction(@RequestBody ShoppingTransaction transaction) throws TransactionNotFoundException {
-		
+
 		if(transaction.getId() == null) {
 			throw new TransactionNotFoundException(null);
 		}
-		
+
 		if(!txService.exists(transaction.getId())) {
 			throw new TransactionNotFoundException(transaction.getId());
 		}
-		
+
 		transaction = txService.saveTransaction(transaction);
-		
+
 		return new ResponseEntity<ShoppingTransaction>(transaction, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ShoppingTransaction>> findAllByUserId(@PathVariable UUID id) throws TransactionNotFoundException {
-		
+
 		if(id == null) {
 			throw new TransactionNotFoundException(null);
 		}
-		
+
 		List<ShoppingTransaction> transactions = txService.findAllByUserId(id);
-		
+
 		return new ResponseEntity<List<ShoppingTransaction>>(transactions, HttpStatus.OK);
 	}
 }
