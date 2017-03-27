@@ -6,8 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -52,14 +50,14 @@ public class Print {
 	private Theme theme;
 
 	@Column(nullable = false)
-	@Type(type="pg-uuid")
-	private UUID owner;
+	//@Type(type="pg-uuid")
+	private String owner;
 
 	Print() {
 
 	}
 
-	public Print(UUID id, String description, byte[] image, String name, long price, int rating, int popularity, Theme theme, UUID owner){
+	public Print(UUID id, String description, byte[] image, String name, long price, int rating, int popularity, Theme theme, String owner){
 		super();
 		this.id = id;
 		this.description = description;
@@ -136,11 +134,11 @@ public class Print {
 		this.theme = theme;
 	}
 
-	public UUID getOwner() {
+	public String getOwner() {
 		return owner;
 	}
 
-	public void setOwner(UUID owner) {
+	public void setOwner(String owner) {
 		this.owner = owner;
 	}
 }

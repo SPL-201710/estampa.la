@@ -26,6 +26,7 @@ import commons.responses.SuccessResponse;
 import net.kaczmarzyk.spring.data.jpa.domain.Like;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
+import net.kaczmarzyk.spring.data.jpa.domain.EqualIgnoreCase;
 
 
 @RestController
@@ -35,21 +36,16 @@ public class PrintController extends EstampalaController {
 	@Autowired
 	private PrintService service;
 
-	/*@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Page<Print>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page,
 											@RequestParam(value="page_size", defaultValue="10", required = false) int pageSize,
 											@RequestParam(value="popularity", defaultValue="asc", required = false) String popularity,
-											@And({	@Spec(path = "theme", spec = Like.class),
-													@Spec(path = "artist", spec = Like.class),
+											@And({	@Spec(path = "theme.name", spec = Like.class),
+													@Spec(path = "owner", spec = EqualIgnoreCase.class),
 													@Spec(path = "rating", spec = Like.class)}) Specification<Print> spec) {
 
 
 		return new ResponseEntity<Page<Print>>(service.findAll(page, pageSize, popularity, spec), HttpStatus.OK);
-	}*/
-
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<Page<Print>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {
-			return new ResponseEntity<Page<Print>>(service.findAll(page, pageSize), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
