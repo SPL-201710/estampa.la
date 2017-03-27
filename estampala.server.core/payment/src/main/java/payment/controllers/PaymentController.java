@@ -1,4 +1,4 @@
-package catalog.controllers;
+package payment.controllers;
 
 import java.util.UUID;
 
@@ -14,54 +14,54 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import catalog.exceptions.ShirtNotFoundException;
-import catalog.models.shirt.Shirt;
-import catalog.pojos.ShirtCreator;
-import catalog.services.ShirtService;
 import commons.controllers.EstampalaController;
 import commons.exceptions.EstampalaException;
 import commons.responses.SuccessResponse;
+import payment.exceptions.PaymentNotFoundException;
+import payment.models.Payment;
+import payment.pojos.PaymentCreator;
+import payment.services.PaymentService;
 
 @RestController
-@RequestMapping("/shirts")
-public class ShirtController extends EstampalaController {
+@RequestMapping("/payments")
+public class PaymentController extends EstampalaController {
 
 	@Autowired
-	private ShirtService service;
+	private PaymentService service;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<Page<Shirt>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {
-		return new ResponseEntity<Page<Shirt>>(service.findAll(page, pageSize), HttpStatus.OK);
+	public ResponseEntity<Page<Payment>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {
+		return new ResponseEntity<Page<Payment>>(service.findAll(page, pageSize), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Shirt> get(@PathVariable UUID id) throws ShirtNotFoundException {
+	public ResponseEntity<Payment> get(@PathVariable UUID id) throws PaymentNotFoundException {
 		if(!service.exists(id)) {
-			throw new ShirtNotFoundException();
+			throw new PaymentNotFoundException();
 		}
 
-		return new ResponseEntity<Shirt>(service.find(id), HttpStatus.OK);
+		return new ResponseEntity<Payment>(service.find(id), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Shirt> create(@RequestBody(required=false) ShirtCreator element) throws EstampalaException {
-		return new ResponseEntity<Shirt>(service.save(element), HttpStatus.OK);
+	public ResponseEntity<Payment> create(@RequestBody(required=false) PaymentCreator element) throws EstampalaException {
+		return new ResponseEntity<Payment>(service.save(element), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Shirt> update(@PathVariable UUID id, @RequestBody ShirtCreator element) throws EstampalaException {
+	public ResponseEntity<Payment> update(@PathVariable UUID id, @RequestBody PaymentCreator element) throws EstampalaException {
 		if(!service.exists(id)) {
-			throw new ShirtNotFoundException();
+			throw new PaymentNotFoundException();
 		}
 
-		element.setShirt(id);
-		return new ResponseEntity<Shirt>(service.update(element), HttpStatus.OK);
+		element.setPayment(id);
+		return new ResponseEntity<Payment>(service.update(element), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws ShirtNotFoundException {
+	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws PaymentNotFoundException {
 		if(!service.exists(id)) {
-			throw new ShirtNotFoundException();
+			throw new PaymentNotFoundException();
 		}
 
 		service.delete(id);
@@ -69,7 +69,7 @@ public class ShirtController extends EstampalaController {
 		SuccessResponse response = new SuccessResponse();
 		response.setHttpStatus(HttpStatus.OK);
 		response.setSuccess(true);
-		response.setMessage("The shirt was successfully deleted");
+		response.setMessage("The Payment was successfully deleted");
 
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}

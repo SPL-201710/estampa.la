@@ -6,9 +6,17 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD:estampala.server.core/security/src/main/java/security/services/SecurityService.java
 import security.exceptions.InvalidTokenException;
 import security.model.UserSession;
 import security.model.UserSessionRepository;
+=======
+import exceptions.InvalidTokenException;
+import users.exceptions.UserNotFoundException;
+import model.UserSession;
+import model.UserSessionRepository;
+import users.exceptions.UserNotFoundException;
+>>>>>>> master:estampala.server.core/security/src/main/java/services/SecurityService.java
 import users.models.User;
 import users.services.UserService;
 import users.exceptions.UserNotFoundException;

@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -25,8 +26,8 @@ public class PrintText {
 	@Type(type="pg-uuid")
 	private UUID id;
 	
-	@Column(nullable = false)
-	private Fonts font;
+	@ManyToOne
+	private PrintFont font;
 			
 	@Column(nullable = false)
 	private String message;
@@ -38,7 +39,7 @@ public class PrintText {
 
 	}
 
-	public PrintText(UUID id, Fonts font, String message, int size) {
+	public PrintText(UUID id, PrintFont font, String message, int size) {
 		super();
 		this.id = id;
 		this.font = font;
@@ -54,11 +55,11 @@ public class PrintText {
 		this.id = id;
 	}
 
-	public Fonts getFont() {
+	public PrintFont getFont() {
 		return font;
 	}
 
-	public void setFont(Fonts font) {
+	public void setFont(PrintFont font) {
 		this.font = font;
 	}
 
