@@ -1,4 +1,4 @@
-package controllers;
+package security.controllers;
 
 import javax.security.auth.login.CredentialException;
 
@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
-import exceptions.InvalidTokenException;
+import security.exceptions.InvalidTokenException;
+import security.model.UserAuth;
+import security.services.SecurityService;
 import users.exceptions.UserNotFoundException;
-import model.UserAuth;
-import services.SecurityService;
 
 @RestController
 @RequestMapping("/auth")
@@ -22,7 +22,7 @@ public class SecurityController {
 	@Autowired
 	private SecurityService securityService;
 
-	@RequestMapping(value = "/token",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/login",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public String login(@RequestBody UserAuth auth) throws CredentialException, UserNotFoundException {
 
 		return securityService.login(auth.getUsername(), auth.getPassword());

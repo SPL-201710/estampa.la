@@ -49,7 +49,7 @@ public class Print {
 	@ManyToOne
 	private Theme theme;
 
-	Print(){
+	Print() {
 
 	}
 

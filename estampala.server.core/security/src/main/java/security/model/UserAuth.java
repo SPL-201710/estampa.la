@@ -1,17 +1,17 @@
-package model;
+package security.model;
 
 /**
  * wrapper class for authenticating an user
  * @author Jorge
  */
 public class UserAuth {
-	
+
 	private String username;
-	
+
 	private String password;
-	
+
 	public UserAuth() {
-		
+
 	}
 
 	public String getUsername() {

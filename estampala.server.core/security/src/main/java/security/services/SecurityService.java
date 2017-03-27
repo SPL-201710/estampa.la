@@ -1,4 +1,4 @@
-package services;
+package security.services;
 
 import javax.security.auth.login.CredentialException;
 
@@ -6,12 +6,12 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import exceptions.InvalidTokenException;
-import users.exceptions.UserNotFoundException;
-import model.UserSession;
-import model.UserSessionRepository;
+import security.exceptions.InvalidTokenException;
+import security.model.UserSession;
+import security.model.UserSessionRepository;
 import users.models.User;
 import users.services.UserService;
+import users.exceptions.UserNotFoundException;
 
 @Service
 public class SecurityService {
@@ -64,8 +64,7 @@ public class SecurityService {
 		return token;
 	}
 
-	public String validateToken(String jwt) throws InvalidTokenException {
-
+	public String validateToken(String jwt) throws InvalidTokenException, UserNotFoundException {
 		return tokenService.validateToken(jwt);
 	}
 }
