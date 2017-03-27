@@ -24,7 +24,7 @@ public class ShoppingTransaction {
 	private UUID id;
 	
 	@NotNull
-	private UUID user;
+	private UUID transactionUser;
 	
 	@NotNull
 	@OneToOne
@@ -46,11 +46,11 @@ public class ShoppingTransaction {
 	}
 	
 	public UUID getUser() {
-		return user;
+		return transactionUser;
 	}
 
 	public void setUser(UUID user) {
-		this.user = user;
+		this.transactionUser = user;
 	}
 
 	public ShoppingCart getCart() {
