@@ -17,8 +17,8 @@ import catalog.models.theme.Theme;
 import catalog.pojos.PrintCreator;
 import commons.exceptions.EstampalaException;
 import users.exceptions.UserNotFoundException;
-import users.models.User;
-import users.services.UserService;
+//import users.models.User;
+//import users.services.UserService;
 
 /**
  *
@@ -33,9 +33,9 @@ public class PrintService {
 
 	@Autowired
 	private ThemeService themeService;
-	
-	@Autowired
-	private UserService userService;
+
+	//@Autowired
+	//private UserService userService;
 
 	public PrintService() {
 
@@ -45,32 +45,38 @@ public class PrintService {
 		return repository.findOne(id);
 	}
 
-	public Page<Print> findAll(int page, int pageSize, String popularity, Specification<Print> spec) {
-		
+	/*public Page<Print> findAll(int page, int pageSize, String popularity, Specification<Print> spec) {
+
 		Direction direction = Sort.Direction.DESC;
 		if (popularity != null && "asc".equalsIgnoreCase(popularity)){
 			direction = Sort.Direction.ASC;
 		}
-		
+
 		PageRequest pageRequest = new PageRequest(page - 1, pageSize, direction, "popularity");
 		return repository.findAll(spec, pageRequest);
+	}*/
+
+	public Page<Print> findAll(int page, int pageSize) {
+			PageRequest pageRequest = new PageRequest(page - 1, pageSize, Sort.Direction.DESC, "popularity");
+			return repository.findAll(pageRequest);
 	}
 
 	public Print save(PrintCreator item) throws EstampalaException {
 		if (item != null){
 
-			User artist = userService.findUserById(item.getArtist());
-			if (artist == null){
+			/*User owner = userService.findUserById(item.getArtist());
+			if (owner == null){
 				throw new UserNotFoundException(item.getArtist());
-			}
-			
+			}*/
+			UUID owner = item.getOwner();
+
 			Theme theme = themeService.find(item.getTheme());
 			if (theme == null){
 				throw new ThemeNotFoundException();
 			}
-					
-			Print print = new Print(UUID.randomUUID(), item.getDescription(), item.getImage(), item.getName(), item.getPrice(), item.getRating(), item.getPopularity(), theme, artist);
-					
+
+			Print print = new Print(UUID.randomUUID(), item.getDescription(), item.getImage(), item.getName(), item.getPrice(), item.getRating(), item.getPopularity(), theme, owner);
+
 			return repository.save(print);
 		}
 
@@ -79,11 +85,17 @@ public class PrintService {
 
 	public Print update(PrintCreator item) throws EstampalaException {
 		if (item != null){
-			
+
 			Theme theme = themeService.find(item.getTheme());
 			if (theme == null){
 				throw new ThemeNotFoundException();
 			}
+
+			/*User owner = userService.findUserById(item.getArtist());
+			if (owner == null){
+				throw new UserNotFoundException(item.getArtist());
+			}*/
+			UUID owner = item.getOwner();
 
 			Print print = find(item.getPrint());
 			print.setDescription(item.getDescription());
@@ -93,6 +105,7 @@ public class PrintService {
 			print.setRating(item.getRating());
 			print.setPopularity(item.getPopularity());
 			print.setTheme(theme);
+			print.setOwner(owner);
 
 			return repository.save(print);
 		}

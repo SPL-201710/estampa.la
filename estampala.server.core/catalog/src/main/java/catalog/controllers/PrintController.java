@@ -35,20 +35,23 @@ public class PrintController extends EstampalaController {
 	@Autowired
 	private PrintService service;
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<Page<Print>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, 
+	/*@RequestMapping(value = "", method = RequestMethod.GET)
+	public ResponseEntity<Page<Print>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page,
 											@RequestParam(value="page_size", defaultValue="10", required = false) int pageSize,
 											@RequestParam(value="popularity", defaultValue="asc", required = false) String popularity,
-											@And({	@Spec(path = "theme", spec = Like.class), 
+											@And({	@Spec(path = "theme", spec = Like.class),
 													@Spec(path = "artist", spec = Like.class),
 													@Spec(path = "rating", spec = Like.class)}) Specification<Print> spec) {
-		
-				
+
+
 		return new ResponseEntity<Page<Print>>(service.findAll(page, pageSize, popularity, spec), HttpStatus.OK);
-	}	
-	
-	
-	
+	}*/
+
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public ResponseEntity<Page<Print>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {
+			return new ResponseEntity<Page<Print>>(service.findAll(page, pageSize), HttpStatus.OK);
+	}
+
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Print> get(@PathVariable UUID id) throws PrintNotFoundException {
 		if(!service.exists(id)) {

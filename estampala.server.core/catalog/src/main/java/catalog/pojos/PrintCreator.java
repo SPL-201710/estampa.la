@@ -6,13 +6,13 @@ public class PrintCreator {
 
 	private UUID print;
 	private UUID theme;
-	private UUID artist;
+	private UUID owner;
 
 	private String description;
 	private byte[] image;
 	private String name;
-	private long price;
-	private int rating;	
+	private long 	price;
+	private int rating;
 	private int popularity;
 
 	public UUID getPrint() {
@@ -79,11 +79,11 @@ public class PrintCreator {
 		this.rating = rating;
 	}
 
-	public UUID getArtist() {
-		return artist;
+	public UUID getOwner() {
+		return owner;
 	}
 
-	public void setArtist(UUID artist) {
-		this.artist = artist;
-	}	
+	public void setOwner(UUID owner) {
+		this.owner = owner;
+	}
 }

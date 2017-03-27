@@ -14,7 +14,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import catalog.models.theme.Theme;
-import users.models.User;
 
 /**
  * @author akane
@@ -51,15 +50,16 @@ public class Print {
 
 	@ManyToOne
 	private Theme theme;
-	
-	@ManyToOne
-	private User artist;
+
+	@Column(nullable = false)
+	@Type(type="pg-uuid")
+	private UUID owner;
 
 	Print() {
 
 	}
 
-	public Print(UUID id, String description, byte[] image, String name, long price, int rating, int popularity, Theme theme, User artist){
+	public Print(UUID id, String description, byte[] image, String name, long price, int rating, int popularity, Theme theme, UUID owner){
 		super();
 		this.id = id;
 		this.description = description;
@@ -69,7 +69,7 @@ public class Print {
 		this.rating = rating;
 		this.popularity = popularity;
 		this.theme = theme;
-		this.artist = artist;
+		this.owner = owner;
 	}
 
 	public UUID getId() {
@@ -134,13 +134,13 @@ public class Print {
 
 	public void setTheme(Theme theme) {
 		this.theme = theme;
-	}	
-
-	public User getArtist() {
-		return artist;
 	}
 
-	public void setArtist(User artist) {
-		this.artist = artist;
+	public UUID getOwner() {
+		return owner;
+	}
+
+	public void setOwner(UUID owner) {
+		this.owner = owner;
 	}
 }

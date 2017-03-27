@@ -10,10 +10,10 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-
+//@ComponentScan(basePackages = {"catalog.controllers", "catalog.services", "users", "users.controllers", "users.services" })
 @Configuration
-@ComponentScan(basePackages = {"catalog.controllers", "catalog.services", "users", "users.controllers", "users.services" })
 @EnableAutoConfiguration
+@ComponentScan
 public class Application {
 
     public static void main(String[] args) {
