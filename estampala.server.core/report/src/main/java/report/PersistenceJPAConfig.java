@@ -1,4 +1,4 @@
-package catalog;
+package report;
 
 import java.util.Properties;
 

@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 
 @Configuration
-@ComponentScan
+@ComponentScan(basePackages = {"catalog.controllers", "catalog.services", "users", "users.controllers", "users.services" })
 @EnableAutoConfiguration
 public class Application {
 
