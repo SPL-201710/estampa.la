@@ -49,18 +49,18 @@ public class PrintService {
 		PageRequest pageRequest = new PageRequest(page - 1, pageSize, direction, "popularity");
 		return repository.findAll(spec, pageRequest);
 	}
-	
+
 	public Print save(PrintCreator item) throws EstampalaException {
 		if (item != null){
-			
-			UUID owner = item.getOwner();					
+
+			UUID owner = item.getOwner();
 
 			Theme theme = themeService.find(item.getTheme());
 			if (theme == null){
 				throw new ThemeNotFoundException();
 			}
 
-			Print print = new Print(UUID.randomUUID(), item.getDescription(), item.getImage(), item.getName(), item.getPrice(), item.getRating(), item.getPopularity(), theme, owner.toString());
+			Print print = new Print(UUID.randomUUID(), item.getDescription(), item.getImage(), item.getName(), item.getPrice(), item.getRating(), item.getPopularity(), theme, owner);
 
 			return repository.save(print);
 		}
@@ -76,8 +76,8 @@ public class PrintService {
 				throw new ThemeNotFoundException();
 			}
 
-			UUID owner = item.getOwner();			
-			
+			UUID owner = item.getOwner();
+
 			Print print = find(item.getPrint());
 			print.setDescription(item.getDescription());
 			print.setImage(item.getImage());
@@ -86,7 +86,7 @@ public class PrintService {
 			print.setRating(item.getRating());
 			print.setPopularity(item.getPopularity());
 			print.setTheme(theme);
-			print.setOwner(owner.toString());
+			print.setOwner(owner);
 
 			return repository.save(print);
 		}
