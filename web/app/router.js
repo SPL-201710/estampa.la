@@ -7,6 +7,9 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('prints.list', { path: '/estampas/' });
+  this.route('prints.add', { path: '/estampas/crear' });
+  this.route('login');
 });
 
 export default Router;

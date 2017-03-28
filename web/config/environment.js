@@ -29,6 +29,8 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
+    ENV.APP.API_HOST= 'http://users.peoplerunning.com';
+    ENV.contentSecurityPolicy = {'connnect-src': "'self' http://users.peoplerunning.com"};
   }
 
   if (environment === 'test') {
@@ -43,8 +45,31 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    // ENV.APP.API_HOST= 'http://peoplerunning.com';
   }
+
+  ENV['ember-simple-auth'] = {
+    headers: {
+      'Accept': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    },
+    crossOriginWhitelist: ['*']
+  }
+
+  ENV['ember-simple-auth-token'] = {
+    serverTokenEndpoint: 'http://users.peoplerunning.co/api/v1/users/login/',
+    identificationField: 'username',
+    passwordField: 'password',
+    tokenPropertyName: 'token',
+    refreshTokenPropertyName: 'refresh_token',
+    authorizationPrefix: 'Token ',
+    authorizationHeaderName: 'Authorization',
+    headers: {
+      'Accept': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    },
+    crossOriginWhitelist: ['*']
+  };
 
   return ENV;
 };
