@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import catalog.exceptions.ShirtAlreadyExistsException;
 import catalog.exceptions.ShirtNotFoundException;
 import catalog.models.shirt.Shirt;
 import catalog.pojos.ShirtCreator;

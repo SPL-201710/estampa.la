@@ -14,41 +14,41 @@ import org.hibernate.annotations.Type;
 
 /**
  * @author akane
- * 
+ *
  */
 
 @Entity(name = "estampalaUser")
 public class User {
-	
+
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
 	@Column(name = "id", unique = true, nullable = false)
 	@Type(type="pg-uuid")
 	private UUID id;
-	
+
 	private String username;
 	private String password;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String phoneNumber;
-	
+
 	@Column(name = "role", nullable = false)
-    @Enumerated(EnumType.STRING)
+  @Enumerated(EnumType.STRING)
 	private Role role;
-	
+
 	public User(){
-		
+
 	}
-	
+
 	public UUID getId() {
 		return id;
 	}
 	public void setId(UUID id) {
 		this.id = id;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
@@ -63,7 +63,7 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public String getFirstName() {
 		return firstName;
 	}

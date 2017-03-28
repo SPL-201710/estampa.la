@@ -1,19 +1,20 @@
 package catalog.pojos;
 
 import java.util.UUID;
-import catalog.models.theme.Theme;
 
 public class PrintCreator {
 
 	private UUID print;
 	private UUID theme;
+	private UUID owner;
 
 	private String description;
 	private byte[] image;
 	private String name;
-	private long price;
+	private long 	price;
 	private int rating;
 	private int popularity;
+	private String ownerUsername;
 
 	public UUID getPrint() {
 		return this.print;
@@ -77,5 +78,21 @@ public class PrintCreator {
 
 	public void setRating(int rating) {
 		this.rating = rating;
+	}
+
+	public UUID getOwner() {
+		return owner;
+	}
+
+	public void setOwner(UUID owner) {
+		this.owner = owner;
+	}
+
+	public String getOwnerUsername() {
+		return ownerUsername;
+	}
+
+	public void setOwnerUsername(String ownerUsername) {
+		this.ownerUsername = ownerUsername;
 	}
 }

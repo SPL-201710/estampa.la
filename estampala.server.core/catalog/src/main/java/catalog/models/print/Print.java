@@ -49,12 +49,18 @@ public class Print {
 	@ManyToOne
 	private Theme theme;
 
-	Print(){
+	@Column(nullable = false)
+	@Type(type="pg-uuid")
+	private UUID owner;
+	
+	@Column(nullable = true)	
+	private String ownerUsername;
+	
+	Print() {
 
 	}
 
-	public Print(UUID id, String description, byte[] image, String name, long price, int rating, int popularity,
-			Theme theme) {
+	public Print(UUID id, String description, byte[] image, String name, long price, int rating, int popularity, Theme theme, UUID owner, String ownerUsername){
 		super();
 		this.id = id;
 		this.description = description;
@@ -64,6 +70,8 @@ public class Print {
 		this.rating = rating;
 		this.popularity = popularity;
 		this.theme = theme;
+		this.owner = owner;
+		this.ownerUsername = ownerUsername;
 	}
 
 	public UUID getId() {
@@ -129,4 +137,20 @@ public class Print {
 	public void setTheme(Theme theme) {
 		this.theme = theme;
 	}
+
+	public UUID getOwner() {
+		return owner;
+	}
+
+	public void setOwner(UUID owner) {
+		this.owner = owner;
+	}
+
+	public String getOwnerUsername() {
+		return ownerUsername;
+	}
+
+	public void setOwnerUsername(String ownerUsername) {
+		this.ownerUsername = ownerUsername;
+	}	
 }

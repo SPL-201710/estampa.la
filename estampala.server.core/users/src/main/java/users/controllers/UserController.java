@@ -1,6 +1,7 @@
 package users.controllers;
 
 import java.util.UUID;
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,11 +17,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import commons.controllers.EstampalaController;
 import commons.responses.SuccessResponse;
+
 import users.exceptions.UserAlreadyExistsException;
 import users.exceptions.UserNotFoundException;
+import users.exceptions.InvalidTokenException;
 import users.models.User;
+import users.models.UserAuth;
+import users.models.UserSession;
 import users.services.UserService;
+import users.services.SecurityService;
+import users.services.SecurityService;
 
+import javax.security.auth.login.CredentialException;
+import org.springframework.web.context.request.WebRequest;
+
+import java.util.Collections;
 
 /**
  *
@@ -33,42 +44,14 @@ public class UserController extends EstampalaController{
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value = "/create",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> createUser(@RequestBody User user) throws UserAlreadyExistsException {
-
-		if(userService.exists(user.getUsername())) {
-			throw new UserAlreadyExistsException(user.getUsername());
-		}
-
-		return new ResponseEntity<User>(userService.saveUser(user), HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> updateUser(@RequestBody User user) throws UserNotFoundException {
-
-		if(!userService.exists(user.getUsername())) {
-			throw new UserNotFoundException(user.getUsername());
-		}
-
-		user = userService.saveUser(user);
-
-		return new ResponseEntity<User>(user, HttpStatus.OK);
-	}
+	@Autowired
+	private SecurityService securityService;
 
 	@RequestMapping(value = "",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Page<User>> getAll(@RequestParam(value="page", defaultValue = "1", required = true) int page,
 			@RequestParam(value="page_size", defaultValue = "1", required = true) int pageSize) {
+
 		return new ResponseEntity<Page<User>>(userService.findAll(page, pageSize), HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/findOne",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> get(@RequestParam(value="username", required = false) String username) throws UserNotFoundException {
-
-		if(!userService.exists(username)) {
-			throw new UserNotFoundException(username);
-		}
-
-		return new ResponseEntity<User>(userService.findUserByUsername(username), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
@@ -78,6 +61,33 @@ public class UserController extends EstampalaController{
 		}
 
 		return new ResponseEntity<User>(userService.findUserById(id), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/filter/",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> get(@RequestParam(value="username", required = true) String username) throws UserNotFoundException {
+		if(!userService.exists(username)) {
+			throw new UserNotFoundException(username);
+		}
+
+		return new ResponseEntity<User>(userService.findUserByUsername(username), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> createUser(@RequestBody User user) throws UserAlreadyExistsException {
+		if(userService.exists(user.getUsername())) {
+			throw new UserAlreadyExistsException(user.getUsername());
+		}
+
+		return new ResponseEntity<User>(userService.saveUser(user), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> updateUser(@PathVariable UUID id, @RequestBody User user) throws UserNotFoundException {
+		if(!userService.exists(id)) {
+			throw new UserNotFoundException(id);
+		}
+		user.setId(id);
+		return new ResponseEntity<User>(userService.saveUser(user), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
@@ -95,5 +105,29 @@ public class UserController extends EstampalaController{
 		response.setMessage("The user was successfully deleted");
 
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
+	}
+
+	@RequestMapping(value = "/login",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public UserSession login(@RequestBody UserAuth auth) throws CredentialException, UserNotFoundException {
+
+		return securityService.login(auth.getUsername(), auth.getPassword());
+	}
+
+	@RequestMapping(value = "/logout/",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SuccessResponse> logout(@RequestParam(value="token", required = true) String token) throws InvalidTokenException, UserNotFoundException {
+
+		securityService.logout(token);
+		SuccessResponse response = new SuccessResponse();
+		response.setHttpStatus(HttpStatus.OK);
+		response.setSuccess(true);
+		response.setMessage("The token was successfully deleted");
+
+		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
+	}
+
+	@RequestMapping(value = "/auth/",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public UserSession validateToken(@RequestParam(value="token", required = true) String token) throws CredentialException, UserNotFoundException, InvalidTokenException {
+
+		return securityService.validateToken(token);
 	}
 }

@@ -6,14 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import catalog.models.theme.Theme;
+import catalog.exceptions.ThemeNotFoundException;
 import catalog.models.print.Print;
 import catalog.models.print.PrintRepository;
-import commons.exceptions.EstampalaException;
-import catalog.exceptions.ThemeNotFoundException;
+import catalog.models.theme.Theme;
 import catalog.pojos.PrintCreator;
+import commons.exceptions.EstampalaException;
 
 /**
  *
@@ -37,21 +39,29 @@ public class PrintService {
 		return repository.findOne(id);
 	}
 
-	public Page<Print> findAll(int page, int pageSize) {
-		PageRequest pageRequest = new PageRequest(page - 1, pageSize, Sort.Direction.DESC, "name");
-		return repository.findAll(pageRequest);
+	public Page<Print> findAll(int page, int pageSize, String popularity, Specification<Print> spec) {
+
+		Direction direction = Sort.Direction.DESC;
+		if (popularity != null && "asc".equalsIgnoreCase(popularity)){
+			direction = Sort.Direction.ASC;
+		}
+
+		PageRequest pageRequest = new PageRequest(page - 1, pageSize, direction, "popularity");
+		return repository.findAll(spec, pageRequest);
 	}
 
 	public Print save(PrintCreator item) throws EstampalaException {
 		if (item != null){
+
+			UUID owner = item.getOwner();
 
 			Theme theme = themeService.find(item.getTheme());
 			if (theme == null){
 				throw new ThemeNotFoundException();
 			}
 
-			Print print = new Print(UUID.randomUUID(), item.getDescription(), item.getImage(), item.getName(),
-					item.getPrice(), item.getRating(), item.getPopularity(), theme);
+			Print print = new Print(UUID.randomUUID(), item.getDescription(), item.getImage(), item.getName(), item.getPrice(), item.getRating(), item.getPopularity(), theme, owner, item.getOwnerUsername());
+
 			return repository.save(print);
 		}
 
@@ -60,10 +70,13 @@ public class PrintService {
 
 	public Print update(PrintCreator item) throws EstampalaException {
 		if (item != null){
+
 			Theme theme = themeService.find(item.getTheme());
 			if (theme == null){
 				throw new ThemeNotFoundException();
 			}
+
+			UUID owner = item.getOwner();
 
 			Print print = find(item.getPrint());
 			print.setDescription(item.getDescription());
@@ -73,6 +86,7 @@ public class PrintService {
 			print.setRating(item.getRating());
 			print.setPopularity(item.getPopularity());
 			print.setTheme(theme);
+			print.setOwner(owner);
 
 			return repository.save(print);
 		}
