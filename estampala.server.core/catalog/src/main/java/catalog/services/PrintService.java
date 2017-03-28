@@ -60,7 +60,7 @@ public class PrintService {
 				throw new ThemeNotFoundException();
 			}
 
-			Print print = new Print(UUID.randomUUID(), item.getDescription(), item.getImage(), item.getName(), item.getPrice(), item.getRating(), item.getPopularity(), theme, owner);
+			Print print = new Print(UUID.randomUUID(), item.getDescription(), item.getImage(), item.getName(), item.getPrice(), item.getRating(), item.getPopularity(), theme, owner, item.getOwnerUsername());
 
 			return repository.save(print);
 		}

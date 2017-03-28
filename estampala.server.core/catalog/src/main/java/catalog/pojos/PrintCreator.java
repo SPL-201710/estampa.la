@@ -14,6 +14,7 @@ public class PrintCreator {
 	private long 	price;
 	private int rating;
 	private int popularity;
+	private String ownerUsername;
 
 	public UUID getPrint() {
 		return this.print;
@@ -85,5 +86,13 @@ public class PrintCreator {
 
 	public void setOwner(UUID owner) {
 		this.owner = owner;
+	}
+
+	public String getOwnerUsername() {
+		return ownerUsername;
+	}
+
+	public void setOwnerUsername(String ownerUsername) {
+		this.ownerUsername = ownerUsername;
 	}
 }

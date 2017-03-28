@@ -23,10 +23,10 @@ import catalog.services.PrintService;
 import commons.controllers.EstampalaController;
 import commons.exceptions.EstampalaException;
 import commons.responses.SuccessResponse;
+import net.kaczmarzyk.spring.data.jpa.domain.Equal;
 import net.kaczmarzyk.spring.data.jpa.domain.Like;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
-import net.kaczmarzyk.spring.data.jpa.domain.EqualIgnoreCase;
 
 
 @RestController
@@ -41,8 +41,8 @@ public class PrintController extends EstampalaController {
 											@RequestParam(value="page_size", defaultValue="10", required = false) int pageSize,
 											@RequestParam(value="popularity", defaultValue="asc", required = false) String popularity,
 											@And({	@Spec(path = "theme.name", params={"theme"}, spec = Like.class),
-													@Spec(path = "owner", spec = EqualIgnoreCase.class),
-													@Spec(path = "rating", spec = Like.class)}) Specification<Print> spec) {
+													@Spec(path = "ownerUsername", params={"owner"}, spec = Equal.class),
+													@Spec(path = "rating", spec = Equal.class)}) Specification<Print> spec) {
 
 
 		return new ResponseEntity<Page<Print>>(service.findAll(page, pageSize, popularity, spec), HttpStatus.OK);

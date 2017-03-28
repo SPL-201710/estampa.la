@@ -36,10 +36,7 @@ public class TextInShirt {
 	
 	@ManyToOne
 	private ShirtPrintPosition shirtPrintPosition;
-	
-	//@ManyToOne
-	//private Product product;
-	
+		
 	TextInShirt(){
 
 	}
