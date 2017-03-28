@@ -7,7 +7,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import catalog.exceptions.ShirtColorNotFoundException;
 import catalog.exceptions.ShirtMaterialNotFoundException;
+import catalog.exceptions.ShirtSizeNotFoundException;
+import catalog.exceptions.ShirtStyleNotFoundException;
 import catalog.models.shirt.Shirt;
 import catalog.models.shirt.ShirtColor;
 import catalog.models.shirt.ShirtMaterial;
@@ -55,9 +58,21 @@ public class ShirtService {
 			if (material == null){
 				throw new ShirtMaterialNotFoundException();
 			}
+			
 			ShirtColor color = colorService.find(item.getShirtColor());
+			if (color == null){
+				throw new ShirtColorNotFoundException();
+			}
+			
 			ShirtSize size = sizeService.find(item.getShirtSize());
+			if (size == null){
+				throw new ShirtSizeNotFoundException();
+			}
+			
 			ShirtStyle style = styleService.find(item.getShirtStyle());
+			if (style == null){
+				throw new ShirtStyleNotFoundException();
+			}
 
 			Shirt shirt = new Shirt(UUID.randomUUID(), style, size, color, material);
 			return repository.save(shirt);

@@ -40,7 +40,7 @@ public class PrintController extends EstampalaController {
 	public ResponseEntity<Page<Print>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page,
 											@RequestParam(value="page_size", defaultValue="10", required = false) int pageSize,
 											@RequestParam(value="popularity", defaultValue="asc", required = false) String popularity,
-											@And({	@Spec(path = "theme.name", spec = Like.class),
+											@And({	@Spec(path = "theme.name", params={"theme"}, spec = Like.class),
 													@Spec(path = "owner", spec = EqualIgnoreCase.class),
 													@Spec(path = "rating", spec = Like.class)}) Specification<Print> spec) {
 

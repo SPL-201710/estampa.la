@@ -1,16 +1,21 @@
 package catalog.models.product;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+
+import catalog.models.shirt.Shirt;
 
 /**
  * @author akane
@@ -30,20 +35,24 @@ public class Product {
 	@Column(nullable = false)
 	private double totalPrice;
 	
-	@OneToMany
-	private Collection<PrintInShirt> printsInShirts;
+	@ManyToOne
+	private Shirt shirt;
 	
-	@OneToMany
-	private Collection<TextInShirt> textsInShirts;
+	@OneToMany(cascade=CascadeType.ALL) 	
+	private List<PrintInShirt> printsInShirts = new ArrayList<>();
+	
+	@OneToMany(cascade=CascadeType.ALL) 
+	private List<TextInShirt> textsInShirts = new ArrayList<>();
 
 	Product(){
 
 	}
-		
-	public Product(UUID id, double totalPrice, Collection<PrintInShirt> printsInShirts, Collection<TextInShirt> textsInShirts) {
+
+	public Product(UUID id, double totalPrice, Shirt shirt, List<PrintInShirt> printsInShirts,	List<TextInShirt> textsInShirts) {
 		super();
 		this.id = id;
-		this.totalPrice = totalPrice;		
+		this.totalPrice = totalPrice;
+		this.shirt = shirt;
 		this.printsInShirts = printsInShirts;
 		this.textsInShirts = textsInShirts;
 	}
@@ -64,19 +73,27 @@ public class Product {
 		this.totalPrice = totalPrice;
 	}
 
-	public Collection<PrintInShirt> getPrintsInShirts() {
+	public List<PrintInShirt> getPrintsInShirts() {
 		return printsInShirts;
 	}
 
-	public void setPrintsInShirts(Collection<PrintInShirt> printsInShirts) {
+	public void setPrintsInShirts(List<PrintInShirt> printsInShirts) {
 		this.printsInShirts = printsInShirts;
 	}
 
-	public Collection<TextInShirt> getTextsInShirts() {
+	public List<TextInShirt> getTextsInShirts() {
 		return textsInShirts;
 	}
 
-	public void setTextsInShirts(Collection<TextInShirt> textsInShirts) {
+	public void setTextsInShirts(List<TextInShirt> textsInShirts) {
 		this.textsInShirts = textsInShirts;
-	}	
+	}
+
+	public Shirt getShirt() {
+		return shirt;
+	}
+
+	public void setShirt(Shirt shirt) {
+		this.shirt = shirt;
+	}
 }

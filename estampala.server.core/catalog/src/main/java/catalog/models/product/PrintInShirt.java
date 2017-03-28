@@ -35,6 +35,9 @@ public class PrintInShirt {
 	@ManyToOne
 	private ShirtPrintPosition shirtPrintPosition;
 	
+	//@ManyToOne
+	//private Product product;
+	 
 	PrintInShirt(){
 
 	}
@@ -43,7 +46,7 @@ public class PrintInShirt {
 		super();
 		this.id = id;
 		this.print = print;
-		this.shirtPrintPosition = shirtPrintPosition;
+		this.shirtPrintPosition = shirtPrintPosition;		
 	}
 
 	public UUID getId() {
@@ -68,5 +71,13 @@ public class PrintInShirt {
 
 	public void setShirtPrintPosition(ShirtPrintPosition shirtPrintPosition) {
 		this.shirtPrintPosition = shirtPrintPosition;
-	}	
+	}
+/*
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}	*/
 }

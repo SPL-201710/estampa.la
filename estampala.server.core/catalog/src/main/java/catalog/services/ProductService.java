@@ -1,7 +1,6 @@
 package catalog.services;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +23,6 @@ import catalog.models.product.TextInShirt;
 import catalog.models.shirt.Shirt;
 import catalog.models.shirt.ShirtPrintPosition;
 import catalog.pojos.ProductCreator;
-import catalog.pojos.ProductDesign;
 import catalog.pojos.ProductPrintText;
 import catalog.pojos.ProductPrintsInShirt;
 import catalog.pojos.ProductTextsInShirt;
@@ -51,8 +49,8 @@ public class ProductService {
 	private ShirtPrintPositionService shirtPrintPositionService;
 	
 	@Autowired
-	private PrintFontsService printFontsService;	
-	
+	private PrintFontsService printFontsService;
+		
 	public ProductService() {
 		
 	}
@@ -69,24 +67,21 @@ public class ProductService {
 	public Product save(ProductCreator item) throws EstampalaException {
 		if (item != null){
 			
-			Collection<PrintInShirt> printsInShirts = new ArrayList<>();
-			Collection<TextInShirt> textsInShirts = new ArrayList<>();
-			
-			if (item.getDesigns() != null){				
-				for(ProductDesign proDesign : item.getDesigns()){
-					if (proDesign.getShirt() != null){
-						Shirt shirt = shirtService.find(proDesign.getShirt());
-						if (shirt == null){
-							throw new ShirtNotFoundException();
-						}
+			List<PrintInShirt> printsInShirts = new ArrayList<>();
+			List<TextInShirt> textsInShirts = new ArrayList<>();
 						
-						printsInShirts.add(createPrintInShirt(proDesign.getPrintsInShirts()));						
-						textsInShirts.add(createTextInShirt(proDesign.getTextsInShirts()));
-					}
+			Shirt shirt = null;
+			if (item.getShirt() != null){
+				shirt = shirtService.find(item.getShirt());
+				if (shirt == null){
+					throw new ShirtNotFoundException();
 				}
-			}			
+				
+				printsInShirts.add(createPrintInShirt(item.getPrintsInShirts()));						
+				textsInShirts.add(createTextInShirt(item.getTextsInShirts()));
+			}						
 
-			Product product = new Product(UUID.randomUUID(), item.getTotalPrice(), printsInShirts, textsInShirts);
+			Product product = new Product(UUID.randomUUID(), item.getTotalPrice(), shirt, printsInShirts, textsInShirts);
 			return repository.save(product);
 		}
 		return null;
@@ -95,24 +90,21 @@ public class ProductService {
 	public Product update(ProductCreator item) throws EstampalaException {
 		if (item != null){
 			
-			Collection<PrintInShirt> printsInShirts = new ArrayList<>();
-			Collection<TextInShirt> textsInShirts = new ArrayList<>();
+			List<PrintInShirt> printsInShirts = new ArrayList<>();
+			List<TextInShirt> textsInShirts = new ArrayList<>();
 			
-			if (item.getDesigns() != null){				
-				for(ProductDesign proDesign : item.getDesigns()){
-					if (proDesign.getShirt() != null){
-						Shirt shirt = shirtService.find(proDesign.getShirt());
-						if (shirt == null){
-							throw new ShirtNotFoundException();
-						}
-						
-						printsInShirts.add(createPrintInShirt(proDesign.getPrintsInShirts()));						
-						textsInShirts.add(createTextInShirt(proDesign.getTextsInShirts()));
-					}
+			Shirt shirt = null;
+			if (item.getShirt() != null){
+				shirt = shirtService.find(item.getShirt());
+				if (shirt == null){
+					throw new ShirtNotFoundException();
 				}
+				
+				printsInShirts.add(createPrintInShirt(item.getPrintsInShirts()));						
+				textsInShirts.add(createTextInShirt(item.getTextsInShirts()));
 			}			
 
-			Product product = new Product(item.getProduct(), item.getTotalPrice(), printsInShirts, textsInShirts);
+			Product product = new Product(item.getProduct(), item.getTotalPrice(), shirt, printsInShirts, textsInShirts);
 			return repository.save(product);
 		}
 		return null;
@@ -148,7 +140,7 @@ public class ProductService {
 					throw new ShirtPrintPositionNotFoundException();
 				}
 				
-				printInShirt = new PrintInShirt(UUID.randomUUID(), print, shirtPrintPosition);								
+				printInShirt = new PrintInShirt(UUID.randomUUID(), print, shirtPrintPosition);
 			}
 		}
 		
