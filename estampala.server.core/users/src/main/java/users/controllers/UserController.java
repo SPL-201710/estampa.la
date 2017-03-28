@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import commons.controllers.EstampalaController;
 import commons.responses.SuccessResponse;
@@ -47,6 +48,7 @@ public class UserController extends EstampalaController{
 	@Autowired
 	private SecurityService securityService;
 
+	@CrossOrigin
 	@RequestMapping(value = "",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Page<User>> getAll(@RequestParam(value="page", defaultValue = "1", required = true) int page,
 			@RequestParam(value="page_size", defaultValue = "1", required = true) int pageSize) {
@@ -72,6 +74,7 @@ public class UserController extends EstampalaController{
 		return new ResponseEntity<User>(userService.findUserByUsername(username), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> createUser(@RequestBody User user) throws UserAlreadyExistsException {
 		if(userService.exists(user.getUsername())) {
@@ -107,6 +110,7 @@ public class UserController extends EstampalaController{
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/login",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public UserSession login(@RequestBody UserAuth auth) throws CredentialException, UserNotFoundException {
 
