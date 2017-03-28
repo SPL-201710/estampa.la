@@ -29,5 +29,6 @@ export default DS.JSONAPISerializer.extend({
     //   console.log(snapshot.hasMany('themes'));
     // });
     return json;
-  }
+  },
+  keyForAttribute(key) { return key; }
 });

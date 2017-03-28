@@ -1,4 +1,13 @@
 {{outlet}}
+<div class="bcrumbs">
+    <div class="container">
+        <ul>
+            <li>{{#link-to "index"}}Inicio{{/link-to}}</li>
+            <li>Login</li>
+        </ul>
+    </div>
+</div>
+
 <div class="clearfix space20"></div>
 
 <div class="account-wrap">
@@ -11,22 +20,22 @@
           <div class="account-form">
             <form class="form-login" {{action 'authenticate' on='submit'}}>
               <ul class="form-list row">
-                <li class="col-md-6 col-sm-12">
+                <!-- <li class="col-md-6 col-sm-12">
                   <a href="#" class="btn facebook"><i class="fa fa-facebook"></i>Sign in with Facebook</a>
                 </li>
                 <li class="col-md-6 col-sm-12">
                   <a href="#" class="btn twitter"><i class="fa fa-twitter"></i>Sign in with Twitter</a>
+                </li> -->
+                <li class="col-md-12 col-sm-12">
+                  <label>Usuario <em>*</em></label>
+                  {{input id='identification' placeholder='Ingresa Tu usuario' value=identification}}
                 </li>
                 <li class="col-md-12 col-sm-12">
-                  <label>User name or email <em>*</em></label>
-                  {{input id='identification' placeholder='Enter Login' value=identification}}
-                </li>
-                <li class="col-md-12 col-sm-12">
-                  <label>Your password <em>*</em></label>
-                  {{input id='password' placeholder='Enter Password' type='password' value=password}}
+                  <label>Password <em>*</em></label>
+                  {{input id='password' placeholder='Ingresa Tu Password' type='password' value=password}}
                 </li>
                 <li class="col-md-12 col-sm-12 pwd text-right">
-                  <label><a href="#"> forgot password? </a> </label>
+                  <label><a href="#"> Olvidaste tu password? </a> </label>
                 </li>
               </ul>
               <div class="buttons-set">
@@ -46,11 +55,11 @@
               <li><i class="fa fa-edit"></i> Ser Artista y Vender Tus Obras</li>
               <li><i class="fa fa-edit"></i> Poder Realizar Compras</li>
               <li><i class="fa fa-edit"></i> Destacarte Un Artista Profesional</li>
-              <li><i class="fa fa-edit"></i> Recibir Noticias y Descuentos</li>
               <li><i class="fa fa-edit"></i> Compartir Tus Creaciones Con Tus Amigos</li>
             </ul>
             <div class="buttons-set">
-                <button class="btn-black" type="submit"><span>Crear Cuenta</span></button>
+               {{#link-to 'users.add' tagName='button' class="btn-black"}}Crear Cuenta{{/link-to}}
+                <!-- <button  type="submit"><span>Crear Cuenta</span></button> -->
             </div>
           </div>
         </div>

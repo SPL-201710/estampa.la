@@ -1,0 +1,57 @@
+{{outlet}}
+<!-- BREADCRUMBS -->
+<div class="bcrumbs">
+  <div class="container">
+    <ul>
+      <li>{{#link-to "index"}}Inicio{{/link-to}}</li>
+      <li>Crear usuario</li>
+    </ul>
+  </div>
+</div>
+<div class="clearfix space20"></div>
+
+<div class="account-wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div id="account-id">
+          <h4 class="account-title"><span class="fa fa-chevron-right"></span>Change Your Personal Details</h4>
+          <div class="account-form">
+            <form id="shipping-zip-form" {{action 'addUser' on="submit"}}>
+              <ul class="form-list row">
+                <li class="col-md-6 col-sm-6">
+                  <label>Nombre de Usuario <em>*</em></label>
+                  {{input value=name required="required" type="text" class="input-text"}}
+                </li>
+                <li class="col-md-6 col-sm-6">
+                  <label>Password <em>*</em></label>
+                  {{input value=password required="required" type="password" class="input-text"}}
+                </li>
+                <li class="col-md-6 col-sm-6">
+                  <label>Primer Nombre <em>*</em></label>
+                  {{input value=firstName required="required" type="text" class="input-text"}}
+                </li>
+                <li class="col-md-6 col-sm-6">
+                  <label>Segundo Nombre <em>*</em></label>
+                  {{input value=lastName required="required" type="text" class="input-text"}}
+                </li>
+                <li class="col-md-6 col-sm-6">
+                  <label>Email <em>*</em></label>
+                  {{input value=email required="required" type="text" class="input-text"}}
+                </li>
+                <li class="col-md-6 col-sm-6">
+                  <label>Teléfono<em>*</em></label>
+                  {{input value=phoneNumber required="required" type="text" class="input-text"}}
+                </li>
+              </ul>
+              <div class="buttons-set">
+                <button class="btn-black" type="submit" {{action 'addUser' on="submit"}}><span><span>Crear Usuario</span></span></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix space20"></div>

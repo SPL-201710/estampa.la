@@ -29,8 +29,8 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV.APP.API_HOST= 'http://users.peoplerunning.com';
-    ENV.contentSecurityPolicy = {'connnect-src': "'self' http://users.peoplerunning.com"};
+    ENV.APP.API_HOST= 'http://users.peoplerunning.co';
+    ENV.contentSecurityPolicy = {'connnect-src': "'self' http://users.peoplerunning.co"};
   }
 
   if (environment === 'test') {
@@ -52,8 +52,7 @@ module.exports = function(environment) {
     headers: {
       'Accept': 'application/json',
       'Access-Control-Allow-Origin': '*'
-    },
-    crossOriginWhitelist: ['*']
+    }    
   }
 
   ENV['ember-simple-auth-token'] = {
@@ -67,8 +66,7 @@ module.exports = function(environment) {
     headers: {
       'Accept': 'application/json',
       'Access-Control-Allow-Origin': '*'
-    },
-    crossOriginWhitelist: ['*']
+    }
   };
 
   return ENV;
