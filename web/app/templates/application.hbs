@@ -19,10 +19,8 @@
                                 <div class="tbr-info">
                                     <span>Usuario <i class="fa fa-caret-down"></i></span>
                                     <div class="tbr-inner">
-                                        <a href="my-account.html">Mi Cuenta</a>
-                                        <a href="#">Login</a>
-                                        <a href="#">Sign Up</a>
-                                        <a href="#">My Wishlist</a>
+                                        <a href="#">Mi Cuenta</a>
+                                        {{#link-to "users.login"}}Login{{/link-to}}
                                         <a href="#">Checkout</a>
                                     </div>
                                 </div>
@@ -47,7 +45,7 @@
                             <span class="icon-bar"></span>
                         </button>
                         <!-- Logo -->
-                        <a class="navbar-brand" href="./index.html"><img src="images/logo.png" class="img-responsive" alt=""/></a>
+                        {{#link-to "index" class="navbar-brand"}}<img src="/images/logo.png" class="img-responsive" alt=""/>{{/link-to}}
                     </div>
                     <!-- Cart & Search -->
                     <div class="header-xtra pull-right">
@@ -56,7 +54,7 @@
                             <div class="cart-info">
                                 <small>You have <em class="highlight">3 item(s)</em> in your shopping bag</small>
                                 <div class="ci-item">
-                                    <img src="images/products/fashion/8.jpg" width="80" alt=""/>
+                                    <img src="/images/products/fashion/8.jpg" width="80" alt=""/>
                                     <div class="ci-item-info">
                                         <h5><a href="./single-product.html">Product fashion</a></h5>
                                         <p>2 x $250.00</p>
@@ -67,7 +65,7 @@
                                     </div>
                                 </div>
                                 <div class="ci-item">
-                                    <img src="images/products/fashion/15.jpg" width="80" alt=""/>
+                                    <img src="/images/products/fashion/15.jpg" width="80" alt=""/>
                                     <div class="ci-item-info">
                                         <h5><a href="./single-product.html">Product fashion</a></h5>
                                         <p>2 x $250.00</p>
@@ -93,9 +91,9 @@
                                 <a href="{}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Inicio</a>
                             </li>
                             <li class="dropdown">
-                                <a href="./categories-grid.html" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-expanded="false">Artista</a>
+                                <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-expanded="false">Artista</a>
                                 <ul class="dropdown-menu submenu" role="menu">
-                                    <li><a href="">Administrar de estampas</a></li>
+                                    <li>{{#link-to "prints.list"}}Administrar de estampas{{/link-to}}</li>
                                     <li><a href="">Reportes</a></li>
                                 </ul>
                             </li>
@@ -104,17 +102,7 @@
                 </div>
             </div>
         </nav>
-    </header>
-
-    <!-- BREADCRUMBS -->
-    <div class="bcrumbs">
-        <div class="container">
-            <ul>
-                <li><a href="#">Inicio</a></li>
-                <li>Catálogo</li>
-            </ul>
-        </div>
-    </div>
+    </header>    
 
     {{outlet}}
 
@@ -126,7 +114,7 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6 widget-footer">
                     <h5>Acerca De Estampa.la</h5>
-                    <img src="images/logo_blanco.png" class="img-responsive space10" alt=""/>
+                    <img src="/images/logo_blanco.png" class="img-responsive space10" alt=""/>
                     <p>Somos una empresa que apoya el desarrollo de los verdaderos artistas de camisetas.</p>
                     <div class="clearfix"></div>
                     <ul class="f-social">
@@ -184,7 +172,7 @@
                     <p>Copyright 2017 &middot; Todos los derechos reservados</p>
                 </div>
                 <div class="col-md-5 col-sm-5">
-                    <img src="images/basic/payment.png" class="pull-right img-responsive payment" alt=""/>
+                    <img src="/images/basic/payment.png" class="pull-right img-responsive payment" alt=""/>
                 </div>
             </div>
         </div>
@@ -192,23 +180,23 @@
 
 </div>
 
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="plugin/owl-carousel/owl.carousel.min.js"></script>
-<script src="js/bs-navbar.js"></script>
-<script src="js/vendors/isotope/isotope.pkgd.js"></script>
-<script src="js/vendors/slick/slick.min.js"></script>
-<script src="js/vendors/tweets/tweecool.min.js"></script>
-<script src="js/vendors/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
-<script src="js/vendors/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
-<script src="js/jquery.sticky.js"></script>
-<script src="js/jquery.subscribe-better.js"></script>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/plugin/owl-carousel/owl.carousel.min.js"></script>
+<script src="/js/bs-navbar.js"></script>
+<script src="/js/vendors/isotope/isotope.pkgd.js"></script>
+<script src="/js/vendors/slick/slick.min.js"></script>
+<script src="/js/vendors/tweets/tweecool.min.js"></script>
+<script src="/js/vendors/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+<script src="/js/vendors/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+<script src="/js/jquery.sticky.js"></script>
+<script src="/js/jquery.subscribe-better.js"></script>
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <!-- <script src="js/select2.min.js"></script> -->
 <!-- <script src="js/vendors/select/jquery.selectBoxIt.min.js"></script> -->
 <script type="text/javascript" defer>
   $(document).ready(function(){
-    $.getScript("js/select2.min.js", function(){
+    $.getScript("/js/select2.min.js", function(){
       $('.select_author').select2();
     });
   });
