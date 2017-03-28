@@ -40,7 +40,7 @@ public class PersistenceJPAConfig {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(dataSource());
-		em.setPackagesToScan(new String[] { "catalog.models" });
+		em.setPackagesToScan(new String[] { "payment.models" });
 
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);

@@ -7,11 +7,11 @@ public class PaymentCreator {
 
 	private UUID payment;
 	private Date date;
-	private UUID user;
+	private UUID user_id;
 	private UUID product;
 	private double value;
-	
-	
+
+
 	public UUID getPayment() {
 		return payment;
 	}
@@ -24,11 +24,11 @@ public class PaymentCreator {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public UUID getUser() {
-		return user;
+	public UUID getUser_id() {
+		return user_id;
 	}
-	public void setUser(UUID user) {
-		this.user = user;
+	public void setUser_id(UUID user_id) {
+		this.user_id = user_id;
 	}
 	public UUID getProduct() {
 		return product;
@@ -41,5 +41,5 @@ public class PaymentCreator {
 	}
 	public void setValue(double value) {
 		this.value = value;
-	}	
+	}
 }

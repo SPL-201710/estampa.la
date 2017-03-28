@@ -39,7 +39,6 @@ public class PaymentController extends EstampalaController {
 		if(!service.exists(id)) {
 			throw new PaymentNotFoundException();
 		}
-
 		return new ResponseEntity<Payment>(service.find(id), HttpStatus.OK);
 	}
 
@@ -53,7 +52,6 @@ public class PaymentController extends EstampalaController {
 		if(!service.exists(id)) {
 			throw new PaymentNotFoundException();
 		}
-
 		element.setPayment(id);
 		return new ResponseEntity<Payment>(service.update(element), HttpStatus.OK);
 	}
@@ -63,7 +61,6 @@ public class PaymentController extends EstampalaController {
 		if(!service.exists(id)) {
 			throw new PaymentNotFoundException();
 		}
-
 		service.delete(id);
 
 		SuccessResponse response = new SuccessResponse();

@@ -40,7 +40,7 @@ public class CatalogPersistenceJPAConfig {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(dataSource());
-		em.setPackagesToScan(new String[] { "catalog.models", "catalog.models.print", "users.models" });
+		em.setPackagesToScan(new String[] { "catalog.models" });
 
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);

@@ -7,16 +7,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import catalog.exceptions.ProductNotFoundException;
-import catalog.models.product.Product;
-import catalog.services.ProductService;
 import commons.exceptions.EstampalaException;
 import payment.models.Payment;
 import payment.models.PaymentRepository;
 import payment.pojos.PaymentCreator;
-import users.exceptions.UserNotFoundException;
-import users.models.User;
-import users.services.UserService;
 
 /**
  *
@@ -28,10 +22,6 @@ public class PaymentService {
 
 	@Autowired
 	private PaymentRepository repository;
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private ProductService productService;	
 
 	public PaymentService() {
 
@@ -47,54 +37,31 @@ public class PaymentService {
 	}
 
 	public Payment save(PaymentCreator item) throws EstampalaException {
-		if (item != null){
-			User user = userService.findUserById(item.getUser());
-			if (user == null){
-				throw new UserNotFoundException(item.getUser());
-			}
-			
-			Product product = productService.find(item.getProduct());
-			if (product == null){
-				throw new ProductNotFoundException();
-			}
-			
-			Payment payment = new Payment(UUID.randomUUID(), item.getDate(), item.getValue(), user, product);
-					
+		if (item != null) {
+			Payment payment = new Payment(UUID.randomUUID(), item.getDate(), item.getValue(), item.getUser_id(), item.getProduct());
 			return repository.save(payment);
 		}
 		return null;
 	}
 
 	public Payment update(PaymentCreator item) throws EstampalaException {
-		if (item != null){
-			User user = userService.findUserById(item.getUser());
-			if (user == null){
-				throw new UserNotFoundException(item.getUser());
-			}
-			
-			Product product = productService.find(item.getProduct());
-			if (product == null){
-				throw new ProductNotFoundException();
-			}
-			
-			Payment payment = new Payment(item.getPayment(), item.getDate(), item.getValue(), user, product);
-					
+		if (item != null) {
+			Payment payment = new Payment(item.getPayment(), item.getDate(), item.getValue(), item.getUser_id(), item.getProduct());
 			return repository.save(payment);
 		}
 		return null;
 	}
 
-	public void delete(UUID id){
+	public void delete(UUID id) {
 		if(id != null){
 			repository.delete(id);
 		}
 	}
 
-	public boolean exists(UUID id){
+	public boolean exists(UUID id) {
 		if(id != null){
 			return repository.exists(id);
 		}
-
 		return false;
 	}
 }

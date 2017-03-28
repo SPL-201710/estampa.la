@@ -7,21 +7,11 @@
   </parent>
   <artifactId>payment</artifactId>
 
-  <dependencies>  	
-    <dependency>
-    	<groupId>estampala.server.core</groupId>
-	    <artifactId>users</artifactId>
-	    <version>${users.version}</version>
-	</dependency>
-	<dependency>
-    	<groupId>estampala.server.core</groupId>
-	    <artifactId>commons</artifactId>
-	    <version>${commons.version}</version>
-	</dependency>
-	<dependency>
-    	<groupId>estampala.server.core</groupId>
-	    <artifactId>catalog</artifactId>
-	    <version>${catalog.version}</version>
-	</dependency>
+  <dependencies>
+  	<dependency>
+      	<groupId>estampala.server.core</groupId>
+  	    <artifactId>commons</artifactId>
+  	    <version>${commons.version}</version>
+  	</dependency>
   </dependencies>
 </project>
