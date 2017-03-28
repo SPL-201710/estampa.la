@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import commons.controllers.EstampalaController;
+import commons.responses.SuccessResponse;
 import shoppingcart.exceptions.TransactionNotFoundException;
 import shoppingcart.models.ShoppingTransaction;
 import shoppingcart.services.TransactionService;
@@ -31,36 +32,32 @@ public class ShoppingTransactionController extends EstampalaController{
 		return new ResponseEntity<ShoppingTransaction>(txService.saveTransaction(transaction), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ShoppingTransaction> updateShoppingTransaction(@RequestBody ShoppingTransaction transaction) throws TransactionNotFoundException {
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ShoppingTransaction> updateShoppingTransaction(@PathVariable UUID id, @RequestBody ShoppingTransaction transaction) throws TransactionNotFoundException {
 
-		if(transaction.getId() == null) {
-			throw new TransactionNotFoundException(null);
-		}
-
-		if(!txService.exists(transaction.getId())) {
+		if(!txService.exists(id)) {
 			throw new TransactionNotFoundException(transaction.getId());
 		}
 
+		transaction.setId(id);
 		transaction = txService.saveTransaction(transaction);
 
 		return new ResponseEntity<ShoppingTransaction>(transaction, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ShoppingTransaction> deleteShoppingTransaction(@RequestBody ShoppingTransaction transaction) throws TransactionNotFoundException {
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SuccessResponse> deleteShoppingTransaction(@PathVariable UUID id) throws TransactionNotFoundException {
 
-		if(transaction.getId() == null) {
-			throw new TransactionNotFoundException(null);
+		if(!txService.exists(id)) {
+			throw new TransactionNotFoundException(id);
 		}
 
-		if(!txService.exists(transaction.getId())) {
-			throw new TransactionNotFoundException(transaction.getId());
-		}
+		SuccessResponse response = new SuccessResponse();
+		response.setHttpStatus(HttpStatus.OK);
+		response.setSuccess(true);
+		response.setMessage("The shoppingcart was successfully deleted");
 
-		transaction = txService.saveTransaction(transaction);
-
-		return new ResponseEntity<ShoppingTransaction>(transaction, HttpStatus.OK);
+		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)

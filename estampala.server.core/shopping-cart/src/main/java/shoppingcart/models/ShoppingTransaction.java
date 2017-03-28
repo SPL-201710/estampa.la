@@ -27,8 +27,7 @@ public class ShoppingTransaction {
 	private UUID transactionUser;
 	
 	@NotNull
-	@OneToOne
-	private ShoppingCart cart;
+	private UUID shoppingCart;
 	
 	@NotNull
 	private Date date;
@@ -45,22 +44,22 @@ public class ShoppingTransaction {
 		this.id = id;
 	}
 	
-	public UUID getUser() {
+	public UUID getTransactionUser() {
 		return transactionUser;
 	}
 
-	public void setUser(UUID user) {
-		this.transactionUser = user;
+	public void setTransactionUser(UUID transactionUser) {
+		this.transactionUser = transactionUser;
 	}
 
-	public ShoppingCart getCart() {
-		return cart;
+	public UUID getShoppingCart() {
+		return shoppingCart;
 	}
 
-	public void setCart(ShoppingCart cart) {
-		this.cart = cart;
+	public void setShoppingCart(UUID shoppingCart) {
+		this.shoppingCart = shoppingCart;
 	}
-	
+
 	public Date getDate() {
 		return date;
 	}
