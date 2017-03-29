@@ -56,6 +56,7 @@ public class UserController extends EstampalaController{
 		return new ResponseEntity<Page<User>>(userService.findAll(page, pageSize), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> get(@PathVariable UUID id) throws UserNotFoundException {
 		if(!userService.exists(id)) {
@@ -65,6 +66,7 @@ public class UserController extends EstampalaController{
 		return new ResponseEntity<User>(userService.findUserById(id), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/filter/",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> get(@RequestParam(value="username", required = true) String username) throws UserNotFoundException {
 		if(!userService.exists(username)) {
@@ -84,6 +86,7 @@ public class UserController extends EstampalaController{
 		return new ResponseEntity<User>(userService.saveUser(user), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> updateUser(@PathVariable UUID id, @RequestBody User user) throws UserNotFoundException {
 		if(!userService.exists(id)) {
@@ -93,6 +96,7 @@ public class UserController extends EstampalaController{
 		return new ResponseEntity<User>(userService.saveUser(user), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws UserNotFoundException {
 
@@ -117,6 +121,7 @@ public class UserController extends EstampalaController{
 		return securityService.login(auth.getUsername(), auth.getPassword());
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/logout/",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> logout(@RequestParam(value="token", required = true) String token) throws InvalidTokenException, UserNotFoundException {
 
@@ -129,6 +134,7 @@ public class UserController extends EstampalaController{
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/auth/",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public UserSession validateToken(@RequestParam(value="token", required = true) String token) throws CredentialException, UserNotFoundException, InvalidTokenException {
 
