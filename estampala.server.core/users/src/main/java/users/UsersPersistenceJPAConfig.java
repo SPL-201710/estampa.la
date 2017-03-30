@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-public class PersistenceJPAConfig {
+public class UsersPersistenceJPAConfig {
 
 	@Value("${spring.datasource.driverClassName}")
 	private String driverClassName;

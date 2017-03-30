@@ -7,17 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import users.exceptions.InvalidTokenException;
+import users.exceptions.UserNotFoundException;
+import users.models.User;
+import users.models.UserAuth;
+import users.models.UserAuthRepository;
+import users.models.UserRepository;
 import users.models.UserSession;
 import users.models.UserSessionRepository;
-import users.models.User;
-import users.services.UserService;
-import users.exceptions.UserNotFoundException;
 
 @Service
 public class SecurityService {
 
 	@Autowired
-	private UserService userService;
+	private UserRepository userRepository;
+	
+	@Autowired
+	private UserAuthRepository userAuthRepository;
 
 	@Autowired
 	private TokenAuthenticationService tokenService;
@@ -39,15 +44,16 @@ public class SecurityService {
 	 */
 	public UserSession login(String username, String password) throws UserNotFoundException, CredentialException {
 		String hashPwd = DigestUtils.sha256Hex(password);
-		User user = userService.findUserByUsername(username);
+		User user = userRepository.findByUsername(username);
 
 		if(user == null) {
 			throw new UserNotFoundException(username);
 		}
 
-		if(user.getPassword().equals(hashPwd)) {
-			UserSession userSession = sessionRepository.findAllByUser(user.getId());
-			if(userSession == null) {
+		UserAuth userAuth = userAuthRepository.findByUser(user.getId());
+		if(userAuth.getPassword().equals(hashPwd)) {
+			UserSession userSession = sessionRepository.findAllByUser(userAuth.getId());
+			if(userSession == null) {				
 				String token = tokenService.generateToken(username);
 				UserSession session = new UserSession();
 				session.setJWT(token);

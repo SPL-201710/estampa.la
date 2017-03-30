@@ -6,6 +6,8 @@ import commons.exceptions.EstampalaException;
 import commons.responses.ErrorResponse;
 
 public class InvalidTokenException extends EstampalaException {
+	
+	private static final long serialVersionUID = 1L;
 
 	public InvalidTokenException() {
 

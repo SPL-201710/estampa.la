@@ -1,13 +1,13 @@
 package users.models;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -27,19 +27,29 @@ public class User {
 	@Type(type="pg-uuid")
 	private UUID id;
 
-	private String username;
-	private String password;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String phoneNumber;
+	private String username;	
+			
+	@ManyToMany
+	private List<Role> roles;
 
-	@Column(name = "role", nullable = false)
-  @Enumerated(EnumType.STRING)
-	private Role role;
+	User(){
 
-	public User(){
-
+	}
+		
+	public User(UUID id, String firstName, String lastName, String email, String username,
+			String phoneNumber, List<Role> roles) {
+		super();
+		this.id = id;				
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.roles = roles;
+		this.username = username;
 	}
 
 	public UUID getId() {
@@ -47,21 +57,6 @@ public class User {
 	}
 	public void setId(UUID id) {
 		this.id = id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getFirstName() {
@@ -91,10 +86,19 @@ public class User {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public Role getRole() {
-		return role;
+	public List<Role> getRoles() {
+		return roles;
 	}
-	public void setRole(Role role) {
-		this.role = role;
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}	
 }

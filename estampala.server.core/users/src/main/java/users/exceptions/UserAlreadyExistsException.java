@@ -18,7 +18,7 @@ public class UserAlreadyExistsException extends EstampalaException{
 		ErrorResponse error = new ErrorResponse();
 		error.setError("user_already_exists");
 		error.setSucess(false);
-		error.setMessage(String.format("The user {0} already exists", username));
+		error.setMessage(String.format("The user %1 already exists", username));
 		error.setHttpStatus(HttpStatus.BAD_REQUEST);
 		
 		setError(error);		
