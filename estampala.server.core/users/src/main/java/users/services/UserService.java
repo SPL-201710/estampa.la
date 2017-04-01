@@ -21,8 +21,10 @@ import users.models.Role;
 import users.models.RoleRepository;
 import users.models.User;
 import users.models.UserAuth;
+import users.models.UserSession;
 import users.models.UserAuthRepository;
 import users.models.UserRepository;
+import users.models.UserSessionRepository;
 import users.pojos.UserCreator;
 
 
@@ -41,6 +43,9 @@ public class UserService {
 
 	@Autowired
 	private RoleRepository roleRepository;
+
+	@Autowired
+	private UserSessionRepository userSessionRepository;
 
 	public UserService() {
 
@@ -169,6 +174,14 @@ public class UserService {
 		if(!userRepository.exists(id)) {
 			throw new UserNotFoundException(id);
 		}
+
+		UserAuth userAuth = userAuthRepository.findByUser(id);
+		if(userAuth != null)
+			userAuthRepository.delete(userAuth.getId());
+
+		UserSession userSession =	userSessionRepository.findAllByUser(id);
+		if(userSession != null)
+			userSessionRepository.delete(userSession.getId());
 
 		userRepository.delete(id);
 	}

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.CascadeType;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -31,19 +32,19 @@ public class User {
 	private String lastName;
 	private String email;
 	private String phoneNumber;
-	private String username;	
-			
-	@ManyToMany
+	private String username;
+
+	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Role> roles;
 
 	User(){
 
 	}
-		
+
 	public User(UUID id, String firstName, String lastName, String email, String username,
 			String phoneNumber, List<Role> roles) {
 		super();
-		this.id = id;				
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -100,5 +101,5 @@ public class User {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}	
+	}
 }

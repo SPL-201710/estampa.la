@@ -102,7 +102,7 @@ public class UserController extends EstampalaController{
 			throw new UserNotFoundException(id);
 		}
 
-		userService.delete(id);
+		userService.deleteUser(id);
 
 		SuccessResponse response = new SuccessResponse();
 		response.setHttpStatus(HttpStatus.OK);

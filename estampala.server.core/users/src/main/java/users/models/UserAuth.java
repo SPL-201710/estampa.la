@@ -19,27 +19,27 @@ import org.hibernate.annotations.Type;
 
 @Entity
 public class UserAuth {
-	
+
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
 	@Column(name = "id", unique = true, nullable = false)
 	@Type(type="pg-uuid")
 	private UUID id;
-	
+
 	@OneToOne
 	private User user;
-	
+
 	private String password;
-	
+
 	UserAuth() {
-		
+
 	}
-		
+
 	public UserAuth(UUID id, User user, String password) {
 		super();
 		this.id = id;
-		this.user = user;		
+		this.user = user;
 		this.password = password;
 	}
 
@@ -65,5 +65,5 @@ public class UserAuth {
 
 	public void setUser(User user) {
 		this.user = user;
-	}	
+	}
 }
