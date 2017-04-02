@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import commons.responses.EstampalaResponse;
-import commons.util.Util;
+import commons.util.EstampalaTools;
 
 public class AuthorizationFilter implements Filter {
 
@@ -25,13 +25,13 @@ public class AuthorizationFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		
-		EstampalaResponse validToken = Util.validateToken(request);
+		EstampalaResponse validToken = EstampalaTools.validateToken(request);
 		
 		if(validToken.isSuccess()){
 			chain.doFilter(request,res);
 		}
 		else{			
-			Util.sendHttpUnauthorizedResponse(response, validToken.getMessage());
+			EstampalaTools.sendHttpUnauthorizedResponse(response, validToken.getMessage());
 		}		
 	}
 	
