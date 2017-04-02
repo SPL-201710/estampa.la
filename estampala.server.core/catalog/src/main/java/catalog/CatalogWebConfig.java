@@ -11,7 +11,7 @@ import net.kaczmarzyk.spring.data.jpa.web.SpecificationArgumentResolver;
 
 @Configuration
 @EnableJpaRepositories
-public class WebConfig extends WebMvcConfigurerAdapter  {
+public class CatalogWebConfig extends WebMvcConfigurerAdapter  {
 	
 	@Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {

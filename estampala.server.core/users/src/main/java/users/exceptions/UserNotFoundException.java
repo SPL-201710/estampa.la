@@ -32,7 +32,7 @@ public class UserNotFoundException extends EstampalaException{
 		ErrorResponse error = new ErrorResponse();
 		error.setError("user_not_found");
 		error.setSucess(false);
-		error.setMessage(String.format("The user {0} not exists", param));
+		error.setMessage(String.format("The user %1 not exists", param));
 		error.setHttpStatus(HttpStatus.NOT_FOUND);
 		
 		setError(error);		
