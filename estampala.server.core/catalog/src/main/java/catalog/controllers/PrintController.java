@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import catalog.exceptions.PrintAlreadyExistsException;
 import catalog.exceptions.PrintNotFoundException;
@@ -36,6 +37,7 @@ public class PrintController extends EstampalaController {
 	@Autowired
 	private PrintService service;
 
+	@CrossOrigin
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Page<Print>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page,
 											@RequestParam(value="page_size", defaultValue="10", required = false) int pageSize,
@@ -48,6 +50,7 @@ public class PrintController extends EstampalaController {
 		return new ResponseEntity<Page<Print>>(service.findAll(page, pageSize, popularity, spec), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Print> get(@PathVariable UUID id) throws PrintNotFoundException {
 		if(!service.exists(id)) {
@@ -57,6 +60,7 @@ public class PrintController extends EstampalaController {
 		return new ResponseEntity<Print>(service.find(id), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Print> create(@RequestBody(required=false) PrintCreator element) throws EstampalaException {
 		if(service.exists(element.getPrint())) {
@@ -66,6 +70,7 @@ public class PrintController extends EstampalaController {
 		return new ResponseEntity<Print>(service.save(element), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Print> update(@PathVariable UUID id, @RequestBody PrintCreator element) throws EstampalaException {
 		if(!service.exists(id)) {
@@ -76,12 +81,12 @@ public class PrintController extends EstampalaController {
 		return new ResponseEntity<Print>(service.update(element), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws PrintNotFoundException {
 		if(!service.exists(id)) {
 			throw new PrintNotFoundException();
 		}
-
 		service.delete(id);
 
 		SuccessResponse response = new SuccessResponse();

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import catalog.exceptions.ThemeAlreadyExistsException;
 import catalog.exceptions.ThemeNotFoundException;
@@ -28,11 +29,13 @@ public class ThemeController extends EstampalaController {
 	@Autowired
 	private ThemeService service;
 
+	@CrossOrigin
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Page<Theme>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {
 		return new ResponseEntity<Page<Theme>>(service.findAll(page, pageSize), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Theme> get(@PathVariable UUID id) throws ThemeNotFoundException {
 		if(!service.exists(id)) {
@@ -42,6 +45,7 @@ public class ThemeController extends EstampalaController {
 		return new ResponseEntity<Theme>(service.find(id), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Theme> create(@RequestBody(required=false) Theme element) throws ThemeAlreadyExistsException {
 		if(service.exists(element.getId())) {
@@ -51,6 +55,7 @@ public class ThemeController extends EstampalaController {
 		return new ResponseEntity<Theme>(service.save(element), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Theme> update(@PathVariable UUID id, @RequestBody Theme element) throws ThemeNotFoundException {
 		if(!service.exists(id)) {
@@ -61,12 +66,12 @@ public class ThemeController extends EstampalaController {
 		return new ResponseEntity<Theme>(service.save(element), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws ThemeNotFoundException {
 		if(!service.exists(id)) {
 			throw new ThemeNotFoundException();
 		}
-
 		service.delete(id);
 
 		SuccessResponse response = new SuccessResponse();
