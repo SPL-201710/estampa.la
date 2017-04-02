@@ -67,7 +67,7 @@ public class UserController extends EstampalaController{
 	@RequestMapping(value = "/roles", method = RequestMethod.GET)
 	public ResponseEntity<Page<User>> getAllRole(@RequestParam(value="page", defaultValue="1", required = false) int page,
 											@RequestParam(value="page_size", defaultValue="10", required = false) int pageSize,
-											@RequestParam(value="role", defaultValue="asc", required = true) String role) {
+											@RequestParam(value="role", defaultValue="USER", required = true) String role) {
 
 
 		return new ResponseEntity<Page<User>>(userService.findAllRole(page, pageSize, role), HttpStatus.OK);
@@ -94,7 +94,7 @@ public class UserController extends EstampalaController{
 	}
 
 	@CrossOrigin
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH}, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> updateUser(@PathVariable UUID id, @RequestBody UserCreator user) throws EstampalaException {
 		if(!userService.exists(id)) {
 			throw new UserNotFoundException(id);
