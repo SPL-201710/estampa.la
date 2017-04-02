@@ -17,6 +17,7 @@ Router.map(function() {
 
   this.route('shirtstyles.list', {path: '/estilos/'});
   this.route('shirtstyles.add', {path: '/estilos/crear'});
+  this.route('shirtstyles.edit', { path: '/estilos/editar/:shirtstyle_id' });
 });
 
 export default Router;
