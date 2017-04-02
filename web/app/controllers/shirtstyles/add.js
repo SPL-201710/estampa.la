@@ -12,11 +12,11 @@ export default Ember.Controller.extend({
       function transitionToIndex (user) {
         alert("Estilo creado");
         self.transitionToRoute('shirtstyles.list');
-      };
+      }
 
       function failure (reason) {
         alert(reason);
-      };
+      }
 
       newShirtStyle.save().then(transitionToIndex).catch(failure);
     }
