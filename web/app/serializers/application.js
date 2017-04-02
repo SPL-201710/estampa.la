@@ -8,8 +8,7 @@ export default DS.JSONAPISerializer.extend({
       modelString.indexOf(":") + 1, modelString.lastIndexOf(":")
     );
 
-    if(payload.content){
-      console.log("holi");
+    if(payload.content){  
       payload.content.forEach(function(item){
         var newItem = {
           id: item.id,
@@ -22,7 +21,7 @@ export default DS.JSONAPISerializer.extend({
       delete payload.content;
       return this._super(store, primaryModelClass, payload, id, requestType);
     }
-    else{      
+    else{
       var newItem = {
         id: payload.id,
         type: newType,

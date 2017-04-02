@@ -29,11 +29,11 @@ export default Ember.Controller.extend({
         function transitionToIndex (user) {
           alert("Estampa creada");
           self.transitionToRoute('index');
-        };
+        }
 
         function failure (reason) {
           alert(reason);
-        };
+        }
 
         newPrint.save().then(transitionToIndex).catch(failure);
       };

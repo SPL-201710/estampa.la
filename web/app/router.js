@@ -15,8 +15,9 @@ Router.map(function() {
   this.route('users.add', { path: '/usuarios/crear' });
   this.route('users.edit', { path: '/usuarios/cuenta' });
 
-  this.route('shirtstyles.list', {path: '/estilos/'}
+  this.route('shirtstyles.list', {path: '/estilos/'});
   this.route('shirtstyles.add', {path: '/estilos/crear'});
+  this.route('shirtstyles.edit', { path: '/estilos/editar/:shirtstyle_id' });
 });
 
 export default Router;

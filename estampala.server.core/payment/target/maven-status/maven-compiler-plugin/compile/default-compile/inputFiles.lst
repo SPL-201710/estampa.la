@@ -1,9 +1,11 @@
+/home/farruza/dev/java-projects/estampa.la/estampala.server.core/payment/src/main/java/payment/models/PaymentMethodPSE.java
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/payment/src/main/java/payment/pojos/PaymentCreator.java
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/payment/src/main/java/payment/exceptions/PaymentAlreadyExistsException.java
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/payment/src/main/java/payment/exceptions/PaymentNotFoundException.java
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/payment/src/main/java/payment/models/PaymentRepository.java
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/payment/src/main/java/payment/controllers/PaymentController.java
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/payment/src/main/java/payment/Application.java
+/home/farruza/dev/java-projects/estampa.la/estampala.server.core/payment/src/main/java/payment/PaymentPersistenceJPAConfig.java
+/home/farruza/dev/java-projects/estampa.la/estampala.server.core/payment/src/main/java/payment/models/PaymentMethodPSERepository.java
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/payment/src/main/java/payment/services/PaymentService.java
-/home/farruza/dev/java-projects/estampa.la/estampala.server.core/payment/src/main/java/payment/PersistenceJPAConfig.java
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/payment/src/main/java/payment/models/Payment.java

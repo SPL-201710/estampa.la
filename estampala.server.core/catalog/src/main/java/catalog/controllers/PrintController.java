@@ -82,6 +82,17 @@ public class PrintController extends EstampalaController {
 	}
 
 	@CrossOrigin
+	@RequestMapping(value = "/{id}", method = RequestMethod.PATCH, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Print> updatePatch(@PathVariable UUID id, @RequestBody PrintCreator element) throws EstampalaException {
+		if(!service.exists(id)) {
+			throw new PrintNotFoundException();
+		}
+
+		element.setPrint(id);
+		return new ResponseEntity<Print>(service.update(element), HttpStatus.OK);
+	}
+
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws PrintNotFoundException {
 		if(!service.exists(id)) {
