@@ -1,0 +1,53 @@
+{{outlet}}
+<div class="bcrumbs">
+  <div class="container">
+    <ul>
+      <li>{{#link-to "index"}}Inicio{{/link-to}}</li>
+      <li>Crear usuario</li>
+    </ul>
+  </div>
+</div>
+<div class="clearfix space20"></div>
+
+<div class="account-wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div id="account-id">
+          <h4 class="account-title"><span class="fa fa-chevron-right"></span>Change Your Personal Details</h4>
+          <div class="account-form">
+            <form id="shipping-zip-form" {{action 'editUser' on="submit"}}>
+              <ul class="form-list row">
+                {{input id="modelid" value=model.id required="required" type="hidden" class="input-text" disabled="disabled"}}
+                <li class="col-md-6 col-sm-6">
+                  <label>Nombre de Usuario <em>*</em></label>
+                  {{input id="username" value=model.username required="required" type="text" class="input-text" disabled="disabled"}}
+                </li>
+                <li class="col-md-6 col-sm-6">
+                  <label>Primer Nombre <em>*</em></label>
+                  {{input id="firstName" value=model.firstName required="required" type="text" class="input-text"}}
+                </li>
+                <li class="col-md-6 col-sm-6">
+                  <label>Segundo Nombre <em>*</em></label>
+                  {{input id="lastName" value=model.lastName required="required" type="text" class="input-text"}}
+                </li>
+                <li class="col-md-6 col-sm-6">
+                  <label>Email <em>*</em></label>
+                  {{input id="email" value=model.email required="required" type="text" class="input-text"}}
+                </li>
+                <li class="col-md-6 col-sm-6">
+                  <label>Teléfono<em>*</em></label>
+                  {{input id="phoneNumber" value=model.phoneNumber required="required" type="text" class="input-text"}}
+                </li>
+              </ul>
+              <div class="buttons-set">
+                <button class="btn-black" type="submit" {{action 'editUser' on="submit"}}><span><span>Actualizar Datos</span></span></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix space20"></div>

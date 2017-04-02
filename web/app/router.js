@@ -11,6 +11,7 @@ Router.map(function() {
   this.route('prints.add', { path: '/estampas/crear' });
   this.route('users.login', { path: '/usuarios/login' });
   this.route('users.add', { path: '/usuarios/crear' });
+  this.route('users.edit', { path: '/usuarios/cuenta' });
 });
 
 export default Router;

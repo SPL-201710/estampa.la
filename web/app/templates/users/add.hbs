@@ -15,24 +15,24 @@
     <div class="row">
       <div class="col-md-12 col-sm-12">
         <div id="account-id">
-          <h4 class="account-title"><span class="fa fa-chevron-right"></span>Change Your Personal Details</h4>
+          <h4 class="account-title"><span class="fa fa-chevron-right"></span>Ingresar Datos Personales</h4>
           <div class="account-form">
             <form id="shipping-zip-form" {{action 'addUser' on="submit"}}>
               <ul class="form-list row">
                 <li class="col-md-6 col-sm-6">
                   <label>Nombre de Usuario <em>*</em></label>
-                  {{input value=name required="required" type="text" class="input-text"}}
+                  {{input value=username required="required" type="text" class="input-text"}}
                 </li>
                 <li class="col-md-6 col-sm-6">
                   <label>Password <em>*</em></label>
                   {{input value=password required="required" type="password" class="input-text"}}
                 </li>
                 <li class="col-md-6 col-sm-6">
-                  <label>Primer Nombre <em>*</em></label>
+                  <label>Nombres <em>*</em></label>
                   {{input value=firstName required="required" type="text" class="input-text"}}
                 </li>
                 <li class="col-md-6 col-sm-6">
-                  <label>Segundo Nombre <em>*</em></label>
+                  <label>Apellido <em>*</em></label>
                   {{input value=lastName required="required" type="text" class="input-text"}}
                 </li>
                 <li class="col-md-6 col-sm-6">
@@ -42,6 +42,16 @@
                 <li class="col-md-6 col-sm-6">
                   <label>Teléfono<em>*</em></label>
                   {{input value=phoneNumber required="required" type="text" class="input-text"}}
+                </li>
+                <li class="col-md-6 col-sm-6">
+                  <select value=role class="form-control select_theme" name="role" onchange={{action "updateValue" value="target.value"}}>
+                    <option value=""></option>
+                    {{#each model.roles as |role|}}
+                      {{#unless (eq role.name "ADMIN")}}
+                        <option value={{role.id}}>{{role.name}}</option>
+                      {{/unless}}
+                    {{/each}}
+                  </select>
                 </li>
               </ul>
               <div class="buttons-set">

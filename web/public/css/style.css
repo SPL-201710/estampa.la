@@ -605,6 +605,7 @@ h5.heading2 span {
 .item-thumb {
     position: relative;
     overflow: hidden;
+    height: 100px;
 }
 
 .product-overlay {
