@@ -16,7 +16,6 @@
       <table class="table">
         <thead>
           <tr>
-            <th>#</th>
             <th>Nombre</th>
             <th>Editar</th>
             <th>Eliminar</th>
@@ -25,7 +24,6 @@
         <tbody>
           {{#each model as |estilo|}}
           <tr>
-            <th scope="row">{{estilo.id}}</th>
             <td>{{estilo.name}}</td>
             <td>{{#link-to "shirtstyles.edit" estilo.id class="btn btn-info"}}Editar{{/link-to}}</td>
             <td><button {{action "deleteShirtStyle" estilo}} class="btn btn-danger">Eliminar</button></td>

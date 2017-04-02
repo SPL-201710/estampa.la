@@ -68,6 +68,17 @@ public class ShirtPrintPositionController extends EstampalaController {
 	}
 
 	@CrossOrigin
+	@RequestMapping(value = "/{id}", method = RequestMethod.PATCH, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ShirtPrintPosition> updatePatch(@PathVariable UUID id, @RequestBody ShirtPrintPosition element) throws ShirtPrintPositionNotFoundException {
+		if(!service.exists(id)) {
+			throw new ShirtPrintPositionNotFoundException();
+		}
+
+		element.setId(id);
+		return new ResponseEntity<ShirtPrintPosition>(service.save(element), HttpStatus.OK);
+	}
+
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws ShirtSizeNotFoundException {
 		if(!service.exists(id)) {
