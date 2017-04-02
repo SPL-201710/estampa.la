@@ -87,7 +87,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                     <!-- Navmenu -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
@@ -100,6 +100,7 @@
                                 <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-expanded="false">Administrar</a>
                                 <ul class="dropdown-menu submenu" role="menu">
                                   <li>{{#link-to "prints.list"}}Temas{{/link-to}}</li>
+                                  <li>{{#link-to "shirtstyles.list"}}Estilos{{/link-to}}</li>
                                 </ul>
                               </li>
                               {{else if (eq (role session.data.authenticated.user) "ARTIST")}}

@@ -25,7 +25,7 @@ export default Ember.Controller.extend({
         lastName: this.get('lastName'),
         email: this.get('email'),
         phoneNumber: this.get('phoneNumber'),
-        roles: ["feac7c3a-fb28-425e-ac33-46163abef9fd"]
+        roles: roleArray
       });
 
       var self = this;
@@ -46,7 +46,7 @@ export default Ember.Controller.extend({
       };
 
       function failure (reason) {
-        alert(reason);        
+        alert(reason);
       };
 
       newUser.save().then(transitionToIndex).catch(failure);

@@ -1,10 +1,9 @@
 {{outlet}}
-<div class="clearfix space20"></div>
+<!-- <div class="clearfix space20"></div>
 <div class="account-wrap">
   <div class="container">
     <div class="row">
-      <div class="col-md-12 col-sm-12">
-        <!-- HTML -->
+      <div class="col-md-12 col-sm-12">        
         <div id="account-id">
           <h4 class="account-title"><span class="fa fa-chevron-right"></span>Cargar Nueva Estampa</h4>
           <div class="account-form">
@@ -12,11 +11,11 @@
               <ul class="form-list row">
                 <li class="col-md-6 col-sm-6">
                   <label>Nombre <em>*</em></label>
-                  {{input value=name placeholder="Nombre de la estampa" required="required" type="text" class="input-text"}}
+                  {{input value=model.name placeholder="Nombre de la estampa" required="required" type="text" class="input-text"}}
                 </li>
                 <li class="col-md-6 col-sm-6">
                   <label>Precio <em>*</em></label>
-                  {{input value=price placeholder="Precio de la estampa" required="required" type="text" class="input-text"}}
+                  {{input value=model.price placeholder="Precio de la estampa" required="required" type="text" class="input-text"}}
                 </li>
                 <li class="col-md-6 col-sm-6">
                   <label>Tema <em>*</em></label>
@@ -52,4 +51,4 @@
   $.getScript("/js/select2.min.js", function(){
     $('.select_theme').select2();
   });
-</script>
+</script> -->

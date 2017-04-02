@@ -9,6 +9,7 @@ export default DS.JSONAPISerializer.extend({
     );
 
     if(payload.content){
+      console.log("holi");
       payload.content.forEach(function(item){
         var newItem = {
           id: item.id,
@@ -21,7 +22,7 @@ export default DS.JSONAPISerializer.extend({
       delete payload.content;
       return this._super(store, primaryModelClass, payload, id, requestType);
     }
-    else{
+    else{      
       var newItem = {
         id: payload.id,
         type: newType,
@@ -34,11 +35,7 @@ export default DS.JSONAPISerializer.extend({
   },
   serialize: function(snapshot, options) {
     var json = snapshot.attributes();
-    // debugger;
-    // snapshot.eachRelationship(function(name, relationship) {
-    //   console.log(snapshot.hasMany('themes'));
-    // });
     return json;
   },
-  keyForAttribute(key) { return key; }  
+  keyForAttribute(key) { return key; }
 });

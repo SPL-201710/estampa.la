@@ -10,9 +10,10 @@ export default Ember.Controller.extend({
       var reader = new FileReader();
       var imageBase64 = "";
       var self = this;
-      
+
       reader.onloadend = function () {
         imageBase64 = reader.result.replace(/^data:image\/[a-z]+;base64,/, "");
+        this.store.adapterFor('application').set('host', 'http://catalog.peoplerunning.co');
         let newPrint = self.get('store').createRecord('print', {
           name: self.get('name'),
           description: self.get('description'),
@@ -25,7 +26,16 @@ export default Ember.Controller.extend({
           ownerUsername: "farruza"
         });
 
-        newPrint.save();
+        function transitionToIndex (user) {
+          alert("Estampa creada");
+          self.transitionToRoute('index');
+        };
+
+        function failure (reason) {
+          alert(reason);
+        };
+
+        newPrint.save().then(transitionToIndex).catch(failure);
       };
 
       var file = Ember.$("#image")[0].files[0];
