@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import catalog.exceptions.ShirtSizeAlreadyExistsException;
 import catalog.exceptions.ShirtSizeNotFoundException;
@@ -22,17 +23,19 @@ import commons.controllers.EstampalaController;
 import commons.responses.SuccessResponse;
 
 @RestController
-@RequestMapping("/shirtSizes")
+@RequestMapping("/shirtsizes")
 public class ShirtSizeController extends EstampalaController {
 
 	@Autowired
 	private ShirtSizeService service;
 
+	@CrossOrigin
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Page<ShirtSize>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {
 		return new ResponseEntity<Page<ShirtSize>>(service.findAll(page, pageSize), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ShirtSize> get(@PathVariable UUID id) throws ShirtSizeNotFoundException {
 		if(!service.exists(id)) {
@@ -42,6 +45,7 @@ public class ShirtSizeController extends EstampalaController {
 		return new ResponseEntity<ShirtSize>(service.find(id), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ShirtSize> create(@RequestBody(required=false) ShirtSize element) throws ShirtSizeAlreadyExistsException {
 		if(service.exists(element.getId())) {
@@ -51,6 +55,7 @@ public class ShirtSizeController extends EstampalaController {
 		return new ResponseEntity<ShirtSize>(service.save(element), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ShirtSize> update(@PathVariable UUID id, @RequestBody ShirtSize element) throws ShirtSizeNotFoundException {
 		if(!service.exists(id)) {
@@ -61,12 +66,12 @@ public class ShirtSizeController extends EstampalaController {
 		return new ResponseEntity<ShirtSize>(service.save(element), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws ShirtSizeNotFoundException {
 		if(!service.exists(id)) {
 			throw new ShirtSizeNotFoundException();
 		}
-
 		service.delete(id);
 
 		SuccessResponse response = new SuccessResponse();

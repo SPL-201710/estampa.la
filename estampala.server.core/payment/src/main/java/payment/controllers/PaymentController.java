@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import commons.controllers.EstampalaController;
 import commons.exceptions.EstampalaException;
@@ -29,11 +30,13 @@ public class PaymentController extends EstampalaController {
 	@Autowired
 	private PaymentService service;
 
+	@CrossOrigin
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Page<Payment>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {
 		return new ResponseEntity<Page<Payment>>(service.findAll(page, pageSize), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Payment> get(@PathVariable UUID id) throws PaymentNotFoundException {
 		if(!service.exists(id)) {
@@ -42,11 +45,13 @@ public class PaymentController extends EstampalaController {
 		return new ResponseEntity<Payment>(service.find(id), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Payment> create(@RequestBody(required=false) PaymentCreator element) throws EstampalaException {
 		return new ResponseEntity<Payment>(service.save(element), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Payment> update(@PathVariable UUID id, @RequestBody PaymentCreator element) throws EstampalaException {
 		if(!service.exists(id)) {
@@ -56,6 +61,7 @@ public class PaymentController extends EstampalaController {
 		return new ResponseEntity<Payment>(service.update(element), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws PaymentNotFoundException {
 		if(!service.exists(id)) {

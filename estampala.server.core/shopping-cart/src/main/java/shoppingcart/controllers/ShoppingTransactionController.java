@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import commons.controllers.EstampalaController;
 import commons.responses.SuccessResponse;
@@ -28,11 +29,13 @@ public class ShoppingTransactionController extends EstampalaController{
 	@Autowired
 	private TransactionService txService;
 
+	@CrossOrigin
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Page<ShoppingTransaction>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {
 			return new ResponseEntity<Page<ShoppingTransaction>>(txService.findAll(page, pageSize), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ShoppingTransaction> get(@PathVariable UUID id) throws TransactionNotFoundException {
 		if(!txService.exists(id)) {
@@ -42,12 +45,14 @@ public class ShoppingTransactionController extends EstampalaController{
 		return new ResponseEntity<ShoppingTransaction>(txService.findById(id), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ShoppingTransaction> createTransaction(@RequestBody ShoppingTransaction transaction) {
 
 		return new ResponseEntity<ShoppingTransaction>(txService.saveTransaction(transaction), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ShoppingTransaction> updateShoppingTransaction(@PathVariable UUID id, @RequestBody ShoppingTransaction transaction) throws TransactionNotFoundException {
 
@@ -61,12 +66,12 @@ public class ShoppingTransactionController extends EstampalaController{
 		return new ResponseEntity<ShoppingTransaction>(transaction, HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> deleteShoppingTransaction(@PathVariable UUID id) throws TransactionNotFoundException {
 		if(!txService.exists(id)) {
 			throw new TransactionNotFoundException(id);
 		}
-
 		txService.deleteTransaction(id);
 
 		SuccessResponse response = new SuccessResponse();
@@ -77,6 +82,7 @@ public class ShoppingTransactionController extends EstampalaController{
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ShoppingTransaction>> findAllByUserId(@PathVariable UUID id) throws TransactionNotFoundException {
 
