@@ -33,7 +33,6 @@ public class Role {
 
 	}
 
-		
 	public Role(UUID id, String name) {
 		super();
 		this.id = id;

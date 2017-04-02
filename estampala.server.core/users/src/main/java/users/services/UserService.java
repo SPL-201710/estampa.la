@@ -213,6 +213,11 @@ public class UserService {
 		PageRequest pageRequest = new PageRequest(page - 1, pageSize, direction, "firstName");
 		return userRepository.findAll(spec, pageRequest);
 	}
+	
+	public Page<User> findAllRole(int page, int pageSize, String role) {
+		PageRequest pageRequest = new PageRequest(page - 1, pageSize);
+		return userRepository.findAllRole(role, pageRequest);
+	}
 
 	/**
 	 * delete the user

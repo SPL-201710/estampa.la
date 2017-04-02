@@ -54,14 +54,23 @@ public class UserController extends EstampalaController{
 	public ResponseEntity<Page<User>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page,
 											@RequestParam(value="page_size", defaultValue="10", required = false) int pageSize,
 											@RequestParam(value="order", defaultValue="asc", required = false) String popularity,
-											@And({	@Spec(path = "roles.name", params={"role"}, spec = Equal.class),
-													@Spec(path = "username", params={"username"}, spec = Equal.class),
+											@And({	@Spec(path = "username", params={"username"}, spec = Equal.class),
 													@Spec(path = "firstName", params={"firstName"}, spec = Like.class),
 													@Spec(path = "lastName", params={"lastName"}, spec = Equal.class),
 													@Spec(path = "email", params={"email"}, spec = Equal.class)}) Specification<User> spec) {
 
 
 		return new ResponseEntity<Page<User>>(userService.findAll(page, pageSize, popularity, spec), HttpStatus.OK);
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/roles", method = RequestMethod.GET)
+	public ResponseEntity<Page<User>> getAllRole(@RequestParam(value="page", defaultValue="1", required = false) int page,
+											@RequestParam(value="page_size", defaultValue="10", required = false) int pageSize,
+											@RequestParam(value="role", defaultValue="asc", required = true) String role) {
+
+
+		return new ResponseEntity<Page<User>>(userService.findAllRole(page, pageSize, role), HttpStatus.OK);
 	}
 
 	@CrossOrigin
