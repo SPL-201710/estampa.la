@@ -26,10 +26,12 @@ import net.kaczmarzyk.spring.data.jpa.domain.Like;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 import users.exceptions.InvalidTokenException;
+import users.exceptions.RequiredParameterException;
 import users.exceptions.UserAlreadyExistsException;
 import users.exceptions.UserNotFoundException;
 import users.models.User;
 import users.models.UserSession;
+import users.pojos.UserAuthData;
 import users.pojos.UserCreator;
 import users.pojos.UserLogin;
 import users.services.SecurityService;
@@ -146,5 +148,20 @@ public class UserController extends EstampalaController{
 	public UserSession validateToken(@RequestParam(value="token", required = true) String token) throws CredentialException, UserNotFoundException, InvalidTokenException {
 
 		return securityService.validateToken(token);
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/auth/{id}",method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SuccessResponse> changePassword(@PathVariable UUID id, @RequestBody UserAuthData authData) 
+			throws CredentialException, UserNotFoundException, InvalidTokenException, RequiredParameterException {
+
+		securityService.changeUserPassword(id, authData);
+		
+		SuccessResponse response = new SuccessResponse();
+		response.setHttpStatus(HttpStatus.OK);
+		response.setSuccess(true);
+		response.setMessage("The password was successfully updated");
+		
+		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}
 }
