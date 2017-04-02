@@ -41,7 +41,7 @@ export default Ember.Controller.extend({
         self.get('session').authenticate(authenticator, credentials).then(function() {
           selfold.transitionToRoute('index');
         }, function(error) {
-          alert("Error de usuario o clave");
+          alert("Error de usuario o clave " + error);
         });
       }
 

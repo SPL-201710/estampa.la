@@ -5,13 +5,14 @@ export default Ember.Controller.extend({
 
   actions: {
     authenticate: function() {
-      var credentials = this.getProperties('identification', 'password');      
+      var credentials = this.getProperties('identification', 'password');
       var authenticator = 'authenticator:jwt';
 
       var self = this;
       this.get('session').authenticate(authenticator, credentials).then(function() {
         self.transitionToRoute('index');
       }, function(error) {
+        console.log(error);
         alert("Error de usuario o clave");
       });
     }
