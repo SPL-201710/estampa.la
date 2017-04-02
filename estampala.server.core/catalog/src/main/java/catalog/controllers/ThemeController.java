@@ -56,6 +56,17 @@ public class ThemeController extends EstampalaController {
 	}
 
 	@CrossOrigin
+	@RequestMapping(value = "/{id}", method = RequestMethod.PATCH, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Theme> updatePatch(@PathVariable UUID id, @RequestBody Theme element) throws ThemeNotFoundException {
+		if(!service.exists(id)) {
+			throw new ThemeNotFoundException();
+		}
+
+		element.setId(id);
+		return new ResponseEntity<Theme>(service.save(element), HttpStatus.OK);
+	}
+
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Theme> update(@PathVariable UUID id, @RequestBody Theme element) throws ThemeNotFoundException {
 		if(!service.exists(id)) {

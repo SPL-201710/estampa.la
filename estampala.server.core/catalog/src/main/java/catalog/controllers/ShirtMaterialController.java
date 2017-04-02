@@ -67,6 +67,17 @@ public class ShirtMaterialController extends EstampalaController {
 	}
 
 	@CrossOrigin
+	@RequestMapping(value = "/{id}", method = RequestMethod.PATCH, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ShirtMaterial> updatePatch(@PathVariable UUID id, @RequestBody ShirtMaterial element) throws ShirtMaterialNotFoundException {
+		if(!service.exists(id)) {
+			throw new ShirtMaterialNotFoundException();
+		}
+
+		element.setId(id);
+		return new ResponseEntity<ShirtMaterial>(service.save(element), HttpStatus.OK);
+	}
+
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws ShirtMaterialNotFoundException {
 		if(!service.exists(id)) {

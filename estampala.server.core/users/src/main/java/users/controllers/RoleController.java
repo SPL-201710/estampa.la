@@ -67,6 +67,17 @@ public class RoleController extends EstampalaController {
 	}
 
 	@CrossOrigin
+	@RequestMapping(value = "/{id}", method = RequestMethod.PATCH, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Role> updatePatch(@PathVariable UUID id, @RequestBody(required=false) Role element) throws RoleNotFoundException {
+		if(!service.exists(id)) {
+			throw new RoleNotFoundException();
+		}
+
+		element.setId(id);
+		return new ResponseEntity<Role>(service.update(element), HttpStatus.OK);
+	}
+
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws RoleNotFoundException {
 		if(!service.exists(id)) {

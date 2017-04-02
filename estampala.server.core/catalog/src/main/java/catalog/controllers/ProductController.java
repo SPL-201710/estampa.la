@@ -64,6 +64,17 @@ public class ProductController extends EstampalaController {
 	}
 
 	@CrossOrigin
+	@RequestMapping(value = "/{id}", method = RequestMethod.PATCH, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Product> updatePatch(@PathVariable UUID id, @RequestBody ProductCreator element) throws EstampalaException {
+		if(!service.exists(id)) {
+			throw new ProductNotFoundException();
+		}
+
+		element.setProduct(id);
+		return new ResponseEntity<Product>(service.update(element), HttpStatus.OK);
+	}
+
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws ProductNotFoundException {
 		if(!service.exists(id)) {

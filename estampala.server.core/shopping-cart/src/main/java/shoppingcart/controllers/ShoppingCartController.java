@@ -68,6 +68,18 @@ public class ShoppingCartController extends EstampalaController {
 	}
 
 	@CrossOrigin
+	@RequestMapping(value = "/{id}", method = RequestMethod.PATCH, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ShoppingCart> updateShoppingCartPatch(@PathVariable UUID id, @RequestBody ShoppingCart cart) throws CartNotFoundException {
+		if(!cartService.exists(id)) {
+			throw new CartNotFoundException(id);
+		}
+		cart.setId(id);
+		cart = cartService.saveShoppingCart(cart);
+
+		return new ResponseEntity<ShoppingCart>(cart, HttpStatus.OK);
+	}
+
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> deleteShoppingCart(@PathVariable UUID id) throws CartNotFoundException {
 		if(!cartService.exists(id)) {

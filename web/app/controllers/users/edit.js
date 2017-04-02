@@ -29,7 +29,7 @@ export default Ember.Controller.extend({
           "email": Ember.$("#email").val(),
           "phoneNumber": Ember.$("#phoneNumber").val()
         })
-      }
+      };
       var self = this;
       $.ajax(settings).done(function (response) {
         alert("Datos Actualizados");

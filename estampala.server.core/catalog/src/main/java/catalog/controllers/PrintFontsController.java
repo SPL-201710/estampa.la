@@ -67,6 +67,17 @@ public class PrintFontsController extends EstampalaController {
 	}
 
 	@CrossOrigin
+	@RequestMapping(value = "/{id}", method = RequestMethod.PATCH, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PrintFont> updatePatch(@PathVariable UUID id, @RequestBody PrintFont element) throws PrintFontNotFoundException {
+		if(!service.exists(id)) {
+			throw new PrintFontNotFoundException();
+		}
+
+		element.setId(id);
+		return new ResponseEntity<PrintFont>(service.save(element), HttpStatus.OK);
+	}
+
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws PrintFontNotFoundException {
 		if(!service.exists(id)) {

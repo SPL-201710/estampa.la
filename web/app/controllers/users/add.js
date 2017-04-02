@@ -43,11 +43,11 @@ export default Ember.Controller.extend({
         }, function(error) {
           alert("Error de usuario o clave");
         });
-      };
+      }
 
       function failure (reason) {
         alert(reason);
-      };
+      }
 
       newUser.save().then(transitionToIndex).catch(failure);
     }

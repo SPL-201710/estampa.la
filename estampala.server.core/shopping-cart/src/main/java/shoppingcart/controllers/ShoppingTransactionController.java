@@ -67,6 +67,20 @@ public class ShoppingTransactionController extends EstampalaController{
 	}
 
 	@CrossOrigin
+	@RequestMapping(value = "/{id}", method = RequestMethod.PATCH, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ShoppingTransaction> updateShoppingTransactionPatch(@PathVariable UUID id, @RequestBody ShoppingTransaction transaction) throws TransactionNotFoundException {
+
+		if(!txService.exists(id)) {
+			throw new TransactionNotFoundException(transaction.getId());
+		}
+
+		transaction.setId(id);
+		transaction = txService.saveTransaction(transaction);
+
+		return new ResponseEntity<ShoppingTransaction>(transaction, HttpStatus.OK);
+	}
+
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> deleteShoppingTransaction(@PathVariable UUID id) throws TransactionNotFoundException {
 		if(!txService.exists(id)) {
