@@ -6,17 +6,17 @@
       <div class="col-md-12 col-sm-12">
         <!-- HTML -->
         <div id="account-id">
-          <h4 class="account-title"><span class="fa fa-chevron-right"></span>Crear Nuevo Estilo de Estampa</h4>
+          <h4 class="account-title"><span class="fa fa-chevron-right"></span>Actualizar Estilo de Estampa</h4>
           <div class="account-form">
-            <form {{action 'addShirtStyle' on="submit"}}>
+            <form {{action 'updateShirtStyle' model.id on="submit"}}>
                 <ul class="form-list row">
                   <li class="col-md-6 col-sm-6">
                     <label>Nombre <em>*</em></label>
-                    {{input value=name placeholder="Nombre del estilo" required="required" type="text" class="input-text"}}
+                    {{input value=model.name placeholder="Nombre del estilo" required="required" type="text" class="input-text"}}
                   </li>
                 </ul>
                 <div class="buttons-set">
-                  <button {{action 'addShirtStyle'}} class="btn-black" type="submit"><span><span>Crear</span></span></button>
+                  <button {{action 'updateShirtStyle' model.id}} class="btn-black" type="submit"><span><span>Actualizar</span></span></button>
                 </div>
             </form>
           </div>
