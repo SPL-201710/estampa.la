@@ -1,10 +1,11 @@
 import DS from 'ember-data';
 
-export default DS.Model.extend({  
-  userName: DS.attr('string'),
+export default DS.Model.extend({
+  username: DS.attr('string'),
 	password: DS.attr('string'),
-	firtsName: DS.attr('string'),
+	firstName: DS.attr('string'),
 	lastName: DS.attr('string'),
 	email: DS.attr('string'),
-	phoneNumber: DS.attr('string')
+	phoneNumber: DS.attr('string'),
+  roles: DS.attr('array')
 });

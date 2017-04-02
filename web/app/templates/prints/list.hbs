@@ -12,12 +12,15 @@
     </div>
     <div class="space50"></div>
     <div class="row">
-    {{#each model as |estampa|}}
+    {{#each model as |estampa|}}    
       <div class="col-md-4 col-sm-6">
         <div class="product-item">
           <div class="item-thumb">
             <img src="data:image/png;base64, {{estampa.image}}" alt="{{estampa.name}}" />
-            <div class="overlay-rmore fa fa-pencil quickview"></div>
+            {{#link-to "prints.edit" estampa.id}}
+            <div class="overlay-rmore fa fa-pencil quickview">
+            </div>
+            {{/link-to}}
             <div class="product-overlay">
               <a href="#" class="addcart fa fa-close"></a>
             </div>

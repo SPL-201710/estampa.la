@@ -50,22 +50,25 @@ module.exports = function(environment) {
 
   ENV['ember-simple-auth'] = {
     headers: {
-      'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    }    
+      "content-type": "application/json",
+      "cache-control": "no-cache"
+    },
+    authorizer: 'authorizer:jwt',
+    routeAfterAuthentication: 'index'
   }
 
   ENV['ember-simple-auth-token'] = {
-    serverTokenEndpoint: 'http://users.peoplerunning.co/api/v1/users/login/',
+    serverTokenEndpoint: 'http://users.peoplerunning.co/api/v1/users/login',
     identificationField: 'username',
     passwordField: 'password',
-    tokenPropertyName: 'token',
+    tokenPropertyName: 'jwt',
     refreshTokenPropertyName: 'refresh_token',
     authorizationPrefix: 'Token ',
     authorizationHeaderName: 'Authorization',
+    routeAfterAuthentication: 'index',
     headers: {
-      'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*'
+      "content-type": "application/json",
+      "cache-control": "no-cache"
     }
   };
 

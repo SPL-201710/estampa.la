@@ -1,0 +1,38 @@
+{{outlet}}
+{{outlet}}
+<div class="container">
+  <div class="col-md-12">
+    <div class="pagenav-wrap">
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <div class="pull-right">
+            {{#link-to "shirtstyles.add" class="btn btn-success"}}Agregar Estilo{{/link-to}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="space50"></div>
+    <div class="row">
+    {{#each model as |estilo|}}
+      {{estilo.name}}<br/>
+      <!-- <div class="col-md-4 col-sm-6">
+        <div class="product-item">
+          <div class="item-thumb">
+            <img src="data:image/png;base64, {{estampa.image}}" alt="{{estampa.name}}" />
+            {{#link-to "prints.edit" estampa.id}}
+            <div class="overlay-rmore fa fa-pencil quickview">
+            </div>
+            {{/link-to}}
+            <div class="product-overlay">
+              <a href="#" class="addcart fa fa-close"></a>
+            </div>
+          </div>
+          <div class="product-info">
+            <h4 class="product-title"><a href="#x">{{estampa.name}}</a></h4>
+          </div>
+        </div>
+      </div> -->
+    {{/each}}
+    </div>
+  </div>
+</div>

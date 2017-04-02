@@ -5,31 +5,15 @@ export default Ember.Controller.extend({
 
   actions: {
     authenticate: function() {
-      var credentials = this.getProperties('identification', 'password');
+      var credentials = this.getProperties('identification', 'password');      
       var authenticator = 'authenticator:jwt';
 
-      this.get('session').authenticate(authenticator, credentials);
-      // var settings = {
-      //   "async": true,
-      //   "crossDomain": true,
-      //   "url": "http://users.peoplerunning.co/api/v1/users/login/",
-      //   "method": "POST",
-      //   "headers": {
-      //     "content-type": "application/json",
-      //     "cache-control": "no-cache",
-      //     'Access-Control-Allow-Origin': 'http://users.peoplerunning.co/'
-      //   },
-      //   "processData": false,
-      //   "data": {
-      //     "username": "farruza",
-      //     "password": "123"
-      //   }
-      // }
-      //
-      // Ember.$.ajax(settings).done(function (response) {
-      //   console.log(response);
-      // });
-
+      var self = this;
+      this.get('session').authenticate(authenticator, credentials).then(function() {
+        self.transitionToRoute('index');
+      }, function(error) {
+        alert("Error de usuario o clave");
+      });
     }
   }
 });

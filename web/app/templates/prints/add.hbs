@@ -1,51 +1,51 @@
 {{outlet}}
 <div class="clearfix space20"></div>
 <div class="account-wrap">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 col-sm-12">
-                <!-- HTML -->
-                <div id="account-id">
-                    <h4 class="account-title"><span class="fa fa-chevron-right"></span>Cargar Nueva Estampa</h4>
-                    <div class="account-form">
-                        <form {{action 'addPrint' on="submit"}}>
-                            <ul class="form-list row">
-                                <li class="col-md-6 col-sm-6">
-                                    <label>Nombre <em>*</em></label>
-                                    {{input value=name placeholder="Nombre de la estampa" required="required" type="text" class="input-text"}}
-                                </li>
-                                <li class="col-md-6 col-sm-6">
-                                    <label>Precio <em>*</em></label>
-                                    {{input value=price placeholder="Precio de la estampa" required="required" type="text" class="input-text"}}
-                                </li>
-                                <li class="col-md-6 col-sm-6">
-                                    <label>Tema <em>*</em></label>
-                                    <select value=theme class="form-control select_theme" name=theme id="theme" onchange={{action 'selectTheme' value="target.value"}}>
-                                      <option></option>
-                                      {{#each model.themes as |theme|}}
-                                        <option value={{theme.id}}>{{theme.name}}</option>
-                                      {{/each}}
-                                    </select>
-                                </li>
-                                <li class="col-md-6 col-sm-6">
-                                    <label>Imagen <em>*</em></label>
-                                    {{input id="image" value=image type="file" class="form-control-file" name=image aria-describedby="fileHelp"}}
-                                    <small class="form-text text-muted">Carga tu estampa.</small>
-                                </li>
-                                <li class="col-md-12 col-sm-12">
-                                    <label>Descripción <em>*</em></label>
-                                    {{textarea value=description class="form-control" rows="5"}}
-                                </li>
-                            </ul>
-                            <div class="buttons-set">
-                                <button {{action 'addPrint'}} class="btn-black" type="submit"><span><span>Cargar</span></span></button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <!-- HTML -->
+        <div id="account-id">
+          <h4 class="account-title"><span class="fa fa-chevron-right"></span>Cargar Nueva Estampa</h4>
+          <div class="account-form">
+            <form {{action 'addPrint' on="submit"}}>
+              <ul class="form-list row">
+                <li class="col-md-6 col-sm-6">
+                  <label>Nombre <em>*</em></label>
+                  {{input value=name placeholder="Nombre de la estampa" required="required" type="text" class="input-text"}}
+                </li>
+                <li class="col-md-6 col-sm-6">
+                  <label>Precio <em>*</em></label>
+                  {{input value=price placeholder="Precio de la estampa" required="required" type="text" class="input-text"}}
+                </li>
+                <li class="col-md-6 col-sm-6">
+                  <label>Tema <em>*</em></label>
+                  <select value=theme class="form-control select_theme" name=theme id="theme" onchange={{action 'selectTheme' value="target.value"}}>
+                    <option></option>
+                    {{#each model.themes as |theme|}}
+                      <option value={{theme.id}}>{{theme.name}}</option>
+                    {{/each}}
+                  </select>
+                </li>
+                <li class="col-md-6 col-sm-6">
+                  <label>Imagen <em>*</em></label>
+                  {{input id="image" value=image type="file" class="form-control-file" name=image aria-describedby="fileHelp"}}
+                  <small class="form-text text-muted">Carga tu estampa.</small>
+                </li>
+                <li class="col-md-12 col-sm-12">
+                  <label>Descripción <em>*</em></label>
+                  {{textarea value=description class="form-control" rows="5"}}
+                </li>
+              </ul>
+              <div class="buttons-set">
+                <button {{action 'addPrint'}} class="btn-black" type="submit"><span><span>Cargar</span></span></button>
+              </div>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <script type="text/javascript" defer>

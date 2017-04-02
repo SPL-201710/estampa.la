@@ -120,15 +120,14 @@
         </div>
         <div class="space50"></div>
         <div class="row">
+          {{#each model.prints as |estampa|}}
           <div class="col-md-4 col-sm-6">
             <div class="product-item">
               <div class="item-thumb">
-                <span class="badge new">New</span>
-                <img src="images/products/fashion/4.jpg" class="img-responsive" alt=""/>
+                <img src="data:image/png;base64, {{estampa.image}}" class="img-responsive" alt=""/>
                 <div class="overlay-rmore fa fa-check quickview" data-toggle="modal" data-target="#myModal"></div>
                 <div class="product-overlay">
                   <a href="#" class="addcart fa fa-shopping-cart"></a>
-                  <a href="#" class="compare fa fa-signal"></a>
                   <a href="#" class="likeitem fa fa-heart-o"></a>
                 </div>
               </div>
@@ -143,183 +142,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4 col-sm-6">
-            <div class="product-item">
-              <div class="item-thumb">
-                <img src="images/products/fashion/5.jpg" class="img-responsive" alt=""/>
-                <div class="overlay-rmore fa fa-check quickview" data-toggle="modal" data-target="#myModal"></div>
-                <div class="product-overlay">
-                  <a href="#" class="addcart fa fa-shopping-cart"></a>
-                  <a href="#" class="compare fa fa-signal"></a>
-                  <a href="#" class="likeitem fa fa-heart-o"></a>
-                </div>
-              </div>
-              <div class="product-info">
-                <h4 class="product-title"><a href="./single-product.html">Product fashion</a></h4>
-                <span class="product-price">$99.00 <em>- Pre order</em></span>
-                <div class="item-colors">
-                  <a href="#" class="brown"></a>
-                  <a href="#" class="yellow"></a>
-                  <a href="#" class="litebrown"></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6">
-            <div class="product-item">
-              <div class="item-thumb">
-                <span class="badge offer">-50%</span>
-                <img src="images/products/fashion/6.jpg" class="img-responsive" alt=""/>
-                <div class="overlay-rmore fa fa-check quickview" data-toggle="modal" data-target="#myModal"></div>
-                <div class="product-overlay">
-                  <a href="#" class="addcart fa fa-shopping-cart"></a>
-                  <a href="#" class="compare fa fa-signal"></a>
-                  <a href="#" class="likeitem fa fa-heart-o"></a>
-                </div>
-              </div>
-              <div class="product-info">
-                <h4 class="product-title"><a href="./single-product.html">Product fashion</a></h4>
-                <span class="product-price">$99.00 <em>- Pre order</em></span>
-                <div class="item-colors">
-                  <a href="#" class="darkgrey"></a>
-                  <a href="#" class="red"></a>
-                  <a href="#" class="brown"></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6">
-            <div class="product-item">
-              <div class="item-thumb">
-                <img src="images/products/fashion/7.jpg" class="img-responsive" alt=""/>
-                <div class="overlay-rmore fa fa-check quickview" data-toggle="modal" data-target="#myModal"></div>
-                <div class="product-overlay">
-                  <a href="#" class="addcart fa fa-shopping-cart"></a>
-                  <a href="#" class="compare fa fa-signal"></a>
-                  <a href="#" class="likeitem fa fa-heart-o"></a>
-                </div>
-              </div>
-              <div class="product-info">
-                <h4 class="product-title"><a href="./single-product.html">Product fashion</a></h4>
-                <span class="product-price">$99.00 <em>- Pre order</em></span>
-                <div class="item-colors">
-                  <a href="#" class="brown"></a>
-                  <a href="#" class="litebrown"></a>
-                  <a href="#" class="red"></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6">
-            <div class="product-item">
-              <div class="item-thumb">
-                <img src="images/products/fashion/8.jpg" class="img-responsive" alt=""/>
-                <div class="overlay-rmore fa fa-check quickview" data-toggle="modal" data-target="#myModal"></div>
-                <div class="product-overlay">
-                  <a href="#" class="addcart fa fa-shopping-cart"></a>
-                  <a href="#" class="compare fa fa-signal"></a>
-                  <a href="#" class="likeitem fa fa-heart-o"></a>
-                </div>
-              </div>
-              <div class="product-info">
-                <h4 class="product-title"><a href="./single-product.html">Product fashion</a></h4>
-                <span class="product-price">$99.00 <em>- Pre order</em></span>
-                <div class="item-colors">
-                  <a href="#" class="liteblue"></a>
-                  <a href="#" class="white"></a>
-                  <a href="#" class="litebrown"></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6">
-            <div class="product-item">
-              <div class="item-thumb">
-                <img src="images/products/fashion/8.jpg" class="img-responsive" alt=""/>
-                <div class="overlay-rmore fa fa-check quickview" data-toggle="modal" data-target="#myModal"></div>
-                <div class="product-overlay">
-                  <a href="#" class="addcart fa fa-shopping-cart"></a>
-                  <a href="#" class="compare fa fa-signal"></a>
-                  <a href="#" class="likeitem fa fa-heart-o"></a>
-                </div>
-              </div>
-              <div class="product-info">
-                <h4 class="product-title"><a href="./single-product.html">Product fashion</a></h4>
-                <span class="product-price">$99.00 <em>- Pre order</em></span>
-                <div class="item-colors">
-                  <a href="#" class="liteblue"></a>
-                  <a href="#" class="white"></a>
-                  <a href="#" class="litebrown"></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6">
-            <div class="product-item">
-              <div class="item-thumb">
-                <img src="images/products/fashion/8.jpg" class="img-responsive" alt=""/>
-                <div class="overlay-rmore fa fa-check quickview" data-toggle="modal" data-target="#myModal"></div>
-                <div class="product-overlay">
-                  <a href="#" class="addcart fa fa-shopping-cart"></a>
-                  <a href="#" class="compare fa fa-signal"></a>
-                  <a href="#" class="likeitem fa fa-heart-o"></a>
-                </div>
-              </div>
-              <div class="product-info">
-                <h4 class="product-title"><a href="./single-product.html">Product fashion</a></h4>
-                <span class="product-price">$99.00 <em>- Pre order</em></span>
-                <div class="item-colors">
-                  <a href="#" class="liteblue"></a>
-                  <a href="#" class="white"></a>
-                  <a href="#" class="litebrown"></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6">
-            <div class="product-item">
-              <div class="item-thumb">
-                <img src="images/products/fashion/8.jpg" class="img-responsive" alt=""/>
-                <div class="overlay-rmore fa fa-check quickview" data-toggle="modal" data-target="#myModal"></div>
-                <div class="product-overlay">
-                  <a href="#" class="addcart fa fa-shopping-cart"></a>
-                  <a href="#" class="compare fa fa-signal"></a>
-                  <a href="#" class="likeitem fa fa-heart-o"></a>
-                </div>
-              </div>
-              <div class="product-info">
-                <h4 class="product-title"><a href="./single-product.html">Product fashion</a></h4>
-                <span class="product-price">$99.00 <em>- Pre order</em></span>
-                <div class="item-colors">
-                  <a href="#" class="liteblue"></a>
-                  <a href="#" class="white"></a>
-                  <a href="#" class="litebrown"></a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6">
-            <div class="product-item">
-              <div class="item-thumb">
-                <img src="images/products/fashion/8.jpg" class="img-responsive" alt=""/>
-                <div class="overlay-rmore fa fa-check quickview" data-toggle="modal" data-target="#myModal"></div>
-                <div class="product-overlay">
-                  <a href="#" class="addcart fa fa-shopping-cart"></a>
-                  <a href="#" class="compare fa fa-signal"></a>
-                  <a href="#" class="likeitem fa fa-heart-o"></a>
-                </div>
-              </div>
-              <div class="product-info">
-                <h4 class="product-title"><a href="./single-product.html">Product fashion</a></h4>
-                <span class="product-price">$99.00 <em>- Pre order</em></span>
-                <div class="item-colors">
-                  <a href="#" class="liteblue"></a>
-                  <a href="#" class="white"></a>
-                  <a href="#" class="litebrown"></a>
-                </div>
-              </div>
-            </div>
-          </div>
+          {{/each}}
         </div>
         <div class="pagenav-wrap">
           <div class="row">

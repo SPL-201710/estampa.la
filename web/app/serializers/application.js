@@ -8,26 +8,33 @@ export default DS.JSONAPISerializer.extend({
       modelString.indexOf(":") + 1, modelString.lastIndexOf(":")
     );
 
-    payload.content.forEach(function(item){
+    if(payload.content){
+      console.log("holi");
+      payload.content.forEach(function(item){
+        var newItem = {
+          id: item.id,
+          type: newType,
+          attributes: item
+        };
+        newData.push(newItem);
+      });
+      payload.data = newData;
+      delete payload.content;
+      return this._super(store, primaryModelClass, payload, id, requestType);
+    }
+    else{      
       var newItem = {
-        id: item.id,
+        id: payload.id,
         type: newType,
-        attributes: item
+        attributes: payload
       };
-      newData.push(newItem);
-    });
-
-    payload.data = newData;
-    delete payload.content;
-
-    return this._super(store, primaryModelClass, payload, id, requestType);
+      var newPayload = [];
+      newPayload.data = newItem;
+      return this._super(store, primaryModelClass, newPayload, id, requestType);
+    }
   },
   serialize: function(snapshot, options) {
     var json = snapshot.attributes();
-    // debugger;
-    // snapshot.eachRelationship(function(name, relationship) {
-    //   console.log(snapshot.hasMany('themes'));
-    // });
     return json;
   },
   keyForAttribute(key) { return key; }

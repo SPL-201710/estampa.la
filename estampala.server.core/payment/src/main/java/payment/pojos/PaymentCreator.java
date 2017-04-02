@@ -3,6 +3,8 @@ package payment.pojos;
 import java.sql.Date;
 import java.util.UUID;
 
+import payment.models.PaymentMethodPSE;
+
 public class PaymentCreator {
 
 	private UUID payment;
@@ -10,7 +12,7 @@ public class PaymentCreator {
 	private UUID user_id;
 	private UUID product;
 	private double value;
-
+	private PaymentMethodPSE pse_method;
 
 	public UUID getPayment() {
 		return payment;
@@ -42,4 +44,10 @@ public class PaymentCreator {
 	public void setValue(double value) {
 		this.value = value;
 	}
+	public PaymentMethodPSE getPse_method() {
+		return pse_method;
+	}
+	public void setPse_method(PaymentMethodPSE pse_method) {
+		this.pse_method = pse_method;
+	}	
 }

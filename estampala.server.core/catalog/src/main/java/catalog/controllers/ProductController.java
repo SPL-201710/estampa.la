@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import catalog.exceptions.ProductNotFoundException;
 import catalog.models.product.Product;
@@ -29,11 +30,13 @@ public class ProductController extends EstampalaController {
 	@Autowired
 	private ProductService service;
 
+	@CrossOrigin
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Page<Product>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {
 		return new ResponseEntity<Page<Product>>(service.findAll(page, pageSize), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Product> get(@PathVariable UUID id) throws ProductNotFoundException {
 		if(!service.exists(id)) {
@@ -43,11 +46,13 @@ public class ProductController extends EstampalaController {
 		return new ResponseEntity<Product>(service.find(id), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Product> create(@RequestBody(required=false) ProductCreator element) throws EstampalaException {
 		return new ResponseEntity<Product>(service.save(element), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Product> update(@PathVariable UUID id, @RequestBody ProductCreator element) throws EstampalaException {
 		if(!service.exists(id)) {
@@ -58,12 +63,12 @@ public class ProductController extends EstampalaController {
 		return new ResponseEntity<Product>(service.update(element), HttpStatus.OK);
 	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws ProductNotFoundException {
 		if(!service.exists(id)) {
 			throw new ProductNotFoundException();
 		}
-
 		service.delete(id);
 
 		SuccessResponse response = new SuccessResponse();

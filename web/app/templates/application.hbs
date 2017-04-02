@@ -1,36 +1,39 @@
 <div class="body">
-    <!-- TOPBAR -->
-    <div class="top_bar">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-sm-12">
-                    <div class="tb_left pull-left">
-                        <p>Bienvenido a Estampa.la!</p>
-                    </div>
-                    <div class="tb_center pull-left">
-                        <ul>
-                            <li><i class="fa fa-phone"></i> Celular: <a href="#">(+57) 310 222 3344</a></li>
-                            <li><i class="fa fa-envelope-o"></i> <a href="#">contacto@estampa.la</a></li>
-                        </ul>
-                    </div>
-                    <div class="tb_right pull-right">
-                        <ul>
-                            <li>
-                                <div class="tbr-info">
-                                    <span>Usuario <i class="fa fa-caret-down"></i></span>
-                                    <div class="tbr-inner">
-                                        <a href="#">Mi Cuenta</a>
-                                        {{#link-to "users.login"}}Login{{/link-to}}
-                                        <a href="#">Checkout</a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+  <!-- TOPBAR -->
+  <div class="top_bar">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <div class="tb_left pull-left">
+            <p>Bienvenido a Estampa.la!</p>
+          </div>
+          <div class="tb_center pull-left">
+            <ul>
+              <li><i class="fa fa-phone"></i> Celular: <a href="#">(+57) 310 222 3344</a></li>
+              <li><i class="fa fa-envelope-o"></i> <a href="#">contacto@estampa.la</a></li>
+            </ul>
+          </div>
+          <div class="tb_right pull-right">
+            <ul>
+              <li>
+                <div class="tbr-info">
+                  <span>Usuario {{#if session.isAuthenticated}}({{session.data.authenticated.user.username}}){{/if}}<i class="fa fa-caret-down"></i></span>
+                  <div class="tbr-inner">
+                    {{#if session.isAuthenticated}}
+                      {{#link-to 'users.edit'}}Mi Cuenta{{/link-to}}
+                      <a {{action 'invalidateSession'}}>Logout</a>
+                    {{else}}
+                      {{#link-to "users.login"}}Login{{/link-to}}
+                    {{/if}}
+                  </div>
                 </div>
-            </div>
+              </li>
+            </ul>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
     <!-- HEADER -->
     <header>
@@ -47,6 +50,7 @@
                         <!-- Logo -->
                         {{#link-to "index" class="navbar-brand"}}<img src="/images/logo.png" class="img-responsive" alt=""/>{{/link-to}}
                     </div>
+
                     <!-- Cart & Search -->
                     <div class="header-xtra pull-right">
                         <div class="topcart">
@@ -90,19 +94,37 @@
                             <li class="dropdown">
                                 <a href="{}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Inicio</a>
                             </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-expanded="false">Artista</a>
+                            {{#if session.isAuthenticated}}
+                              {{#if (eq (role session.data.authenticated.user) "ADMIN")}}
+                              <li class="dropdown">
+                                <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-expanded="false">Administrar</a>
                                 <ul class="dropdown-menu submenu" role="menu">
-                                    <li>{{#link-to "prints.list"}}Administrar de estampas{{/link-to}}</li>
-                                    <li><a href="">Reportes</a></li>
+                                  <li>{{#link-to "prints.list"}}Temas{{/link-to}}</li>
+                                  <li>{{#link-to "shirtstyles.list"}}Estilos{{/link-to}}</li>
                                 </ul>
-                            </li>
+                              </li>
+                              {{else if (eq (role session.data.authenticated.user) "ARTIST")}}
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-expanded="false">Artista</a>
+                                    <ul class="dropdown-menu submenu" role="menu">
+                                        <li>{{#link-to "prints.list"}}Administrar estampas{{/link-to}}</li>
+                                    </ul>
+                                </li>
+                              {{else}}
+                              <li class="dropdown">
+                                  <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-expanded="false">Usuario</a>
+                                  <ul class="dropdown-menu submenu" role="menu">
+                                      <li><a href="#">Usuario</a></li>
+                                  </ul>
+                              </li>
+                              {{/if}}
+                            {{/if}}
                         </ul>
                     </div>
                 </div>
             </div>
         </nav>
-    </header>    
+    </header>
 
     {{outlet}}
 
