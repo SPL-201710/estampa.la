@@ -8,7 +8,7 @@ export default DS.JSONAPISerializer.extend({
       modelString.indexOf(":") + 1, modelString.lastIndexOf(":")
     );
 
-    if(payload.content){  
+    if(payload.content){
       payload.content.forEach(function(item){
         var newItem = {
           id: item.id,
@@ -33,6 +33,7 @@ export default DS.JSONAPISerializer.extend({
     }
   },
   serialize: function(snapshot, options) {
+    console.log(options);
     var json = snapshot.attributes();
     return json;
   },

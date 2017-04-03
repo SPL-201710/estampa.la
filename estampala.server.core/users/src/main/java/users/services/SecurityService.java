@@ -1,5 +1,7 @@
 package users.services;
 
+import java.util.UUID;
+
 import javax.security.auth.login.CredentialException;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import users.exceptions.InvalidTokenException;
+import users.exceptions.RequiredParameterException;
 import users.exceptions.UserNotFoundException;
 import users.models.User;
 import users.models.UserAuth;
@@ -14,6 +17,7 @@ import users.models.UserAuthRepository;
 import users.models.UserRepository;
 import users.models.UserSession;
 import users.models.UserSessionRepository;
+import users.pojos.UserAuthData;
 
 @Service
 public class SecurityService {
@@ -73,5 +77,38 @@ public class SecurityService {
 
 	public UserSession validateToken(String jwt) throws InvalidTokenException, UserNotFoundException {
 		return tokenService.validateToken(jwt);
+	}
+	
+	public void changeUserPassword(UUID id, UserAuthData userData) throws RequiredParameterException, UserNotFoundException, CredentialException {
+		
+		if(id == null) {
+			throw new RequiredParameterException("user ID");
+		}
+		
+		if(userData.getOriginalPwd() == null) {
+			throw new RequiredParameterException("original Password");
+		}
+		
+		if(userData.getNewPwd() == null) {
+			throw new RequiredParameterException("new Password");
+		}
+		
+		if(!userRepository.exists(id)) {
+			throw new UserNotFoundException(id);
+		}
+		
+		UserAuth userAuth = userAuthRepository.findByUser(id);
+		
+		String hashPwd = DigestUtils.sha256Hex(userData.getOriginalPwd());
+		
+		if(userAuth.getPassword().equals(hashPwd)) {
+			
+			String hashNewPwd = DigestUtils.sha256Hex(userData.getNewPwd());
+			userAuth.setPassword(hashNewPwd);
+			
+			userAuthRepository.save(userAuth);
+		} else {
+			throw new CredentialException("" + id);
+		}
 	}
 }

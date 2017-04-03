@@ -26,7 +26,7 @@ export default Ember.Controller.extend({
           ownerUsername: "farruza"
         });
 
-        function transitionToIndex (user) {
+        function transitionToIndex () {
           alert("Estampa creada");
           self.transitionToRoute('index');
         }
