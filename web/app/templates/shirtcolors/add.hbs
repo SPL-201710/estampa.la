@@ -16,7 +16,10 @@
                   </li>
                   <li class="col-md-6 col-sm-6">
                     <label>Color <em>*</em></label>
-                    {{input value=hexadecimalvalue placeholder="Color" required="required" type="text" class="form-control"}}
+                    <div id="cp1" class="input-group colorpicker-component">
+                      {{input value=hexadecimalvalue placeholder="Color" required="required" type="text" class="form-control"}}
+                      <span class="input-group-addon"><i></i></span>
+                    </div>
                   </li>
                 </ul>
                 <div class="buttons-set">
@@ -29,3 +32,8 @@
     </div>
   </div>
 </div>
+<!-- <script type="text/javascript" defer>
+  $(document).ready(function(){
+
+  });
+</script> -->

@@ -229,8 +229,13 @@
 <!-- <script src="js/vendors/select/jquery.selectBoxIt.min.js"></script> -->
 <script type="text/javascript" defer>
   $(document).ready(function(){
+    console.log("holi");
     $.getScript("/js/select2.min.js", function(){
       $('.select_author').select2();
+    });
+    $.getScript("/js/bootstrap-colorpicker.js", function(){
+      console.log("holi2");
+      $('#cp1').colorpicker();
     });
   });
 </script>
