@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
         name: self.get('name')
       });
 
-      function transitionToIndex () {
+      function transitionToIndex (user) {
         alert("Estilo creado");
         self.transitionToRoute('shirtstyles.list');
       }

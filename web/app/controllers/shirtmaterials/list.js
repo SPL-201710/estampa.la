@@ -2,12 +2,12 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   actions: {
-    deleteShirtStyle: function(shirtStyle){
+    deleteShirtMaterial: function(shirtStyle){
       shirtStyle.destroyRecord().then(function() {
-        alert("Estilo borrado");
-        window.location.href = '/estilos/';
+        alert("Material borrado");
+        window.location.href = '/materiales/';
       }, function() {
-        window.location.href = '/estilos/';
+        window.location.href = '/materiales/';
       });
     }
   }

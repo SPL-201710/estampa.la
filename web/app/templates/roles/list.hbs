@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-md-12 col-sm-12">
           <div class="pull-right">
-            {{#link-to "shirtstyles.add" class="btn btn-success"}}Agregar Estilo{{/link-to}}
+            {{#link-to "roles.add" class="btn btn-success"}}Agregar Rol{{/link-to}}
           </div>
         </div>
       </div>
@@ -21,11 +21,11 @@
           </tr>
         </thead>
         <tbody>
-          {{#each model as |estilo|}}
+          {{#each model as |rol|}}
           <tr>
-            <td>{{estilo.name}}</td>
-            <td>{{#link-to "shirtstyles.edit" estilo.id class="btn btn-info"}}Editar{{/link-to}}</td>
-            <td><button {{action "deleteShirtStyle" estilo}} class="btn btn-danger">Eliminar</button></td>
+            <td>{{rol.name}}</td>
+            <td>{{#link-to "roles.edit" rol.id class="btn btn-info"}}Editar{{/link-to}}</td>
+            <td><button {{action "deleteRole" rol}} class="btn btn-danger">Eliminar</button></td>
           </tr>
           {{/each}}
         </tbody>

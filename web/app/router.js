@@ -18,6 +18,30 @@ Router.map(function() {
   this.route('shirtstyles.list', {path: '/estilos/'});
   this.route('shirtstyles.add', {path: '/estilos/crear'});
   this.route('shirtstyles.edit', { path: '/estilos/editar/:shirtstyle_id' });
+
+  this.route('shirtsizes.list', {path: '/tallas/'});
+  this.route('shirtsizes.add', {path: '/tallas/crear'});
+  this.route('shirtsizes.edit', {path: '/tallas/editar/:shirtsize_id'});
+
+  this.route('themes.list', {path: '/temas/'});
+  this.route('themes.add', {path: '/temas/crear'});
+  this.route('themes.edit', {path: '/temas/editar/:theme_id'});
+
+  this.route('shirtmaterials.list', {path: '/materiales/'});
+  this.route('shirtmaterials.add', {path: '/materiales/crear'});
+  this.route('shirtmaterials.edit', {path: '/materiales/editar/:shirtmaterial_id'});
+
+  this.route('printfonts.list',{path: '/tiposletra/'});
+  this.route('printfonts.add',{path: '/tiposletra/crear'});
+  this.route('printfonts.edit',{path: '/tiposletra/editar/:printfont_id'});
+
+  this.route('roles.list',{path: '/roles/'});
+  this.route('roles.add',{path: '/roles/crear'});
+  this.route('roles.edit',{path: '/roles/editar/:role_id'});
+
+  this.route('shirtcolors.list',{path: '/colores/'});
+  this.route('shirtcolors.add',{path: '/colores/crear'});
+  this.route('shirtcolors.edit',{path: '/colores/editar/:shirtcolor_id'});
 });
 
 export default Router;

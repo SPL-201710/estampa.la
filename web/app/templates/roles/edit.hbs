@@ -1,0 +1,27 @@
+{{outlet}}
+<div class="clearfix space20"></div>
+<div class="account-wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <!-- HTML -->
+        <div id="account-id">
+          <h4 class="account-title"><span class="fa fa-chevron-right"></span>Actualizar Rol</h4>
+          <div class="account-form">
+            <form {{action 'updateRole' model.id on="submit"}}>
+                <ul class="form-list row">
+                  <li class="col-md-6 col-sm-6">
+                    <label>Nombre <em>*</em></label>
+                    {{input value=model.name placeholder="Nombre del rol" required="required" type="text" class="input-text"}}
+                  </li>
+                </ul>
+                <div class="buttons-set">
+                  <button {{action 'updateRole' model.id}} class="btn-black" type="submit"><span><span>Actualizar</span></span></button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
