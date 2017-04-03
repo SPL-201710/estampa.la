@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   actions: {
     addTheme: function(){
-      this.store.adapterFor('application').set('host', 'http://localhost:8080');
+      this.store.adapterFor('application').set('host', 'http://catalog.peoplerunning.co');
       var self = this;
       let newTheme = this.get('store').createRecord('theme', {
         name: self.get('name')

@@ -1,0 +1,39 @@
+{{outlet}}
+<div class="container">
+  <div class="col-md-12">
+    <div class="pagenav-wrap">
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <div class="pull-right">
+            {{#link-to "shirtprintpositions.add" class="btn btn-success"}}Agregar Posición para Estampa{{/link-to}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="space50"></div>
+    <div class="row">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Alto</th>
+            <th>Ancho</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each model as |posicion|}}
+          <tr>
+            <td>{{posicion.name}}</td>
+            <td>{{posicion.hightInCentimeters}}</td>
+            <td>{{posicion.widthInCentimeters}}</td>
+            <td>{{#link-to "shirtprintpositions.edit" posicion.id class="btn btn-info"}}Editar{{/link-to}}</td>
+            <td><button {{action "deleteShirtPrintPosition" posicion}} class="btn btn-danger">Eliminar</button></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
