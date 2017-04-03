@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
         name: self.get('name')
       });
 
-      function transitionToIndex (user) {
+      function transitionToIndex () {
         self.transitionToRoute('shirtsizes.list');
       }
 
