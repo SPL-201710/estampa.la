@@ -1,21 +1,24 @@
 {{outlet}}
-<!-- <div class="clearfix space20"></div>
+<div class="clearfix space20"></div>
 <div class="account-wrap">
   <div class="container">
     <div class="row">
-      <div class="col-md-12 col-sm-12">        
+      <div class="col-md-12 col-sm-12">
         <div id="account-id">
-          <h4 class="account-title"><span class="fa fa-chevron-right"></span>Cargar Nueva Estampa</h4>
+          <h4 class="account-title"><span class="fa fa-chevron-right"></span>Actualizar Estampa</h4>
           <div class="account-form">
-            <form {{action 'addPrint' on="submit"}}>
+            <form {{action 'editPrint' model.print.id on="submit"}}>
               <ul class="form-list row">
+                <li class="col-md-12 col-sm-12" style="text-align: center; margin: 0 auto;">
+                  <img src="data:image/png;base64, {{model.print.image}}" alt="{{model.print.name}}"/>
+                </li>
                 <li class="col-md-6 col-sm-6">
                   <label>Nombre <em>*</em></label>
-                  {{input value=model.name placeholder="Nombre de la estampa" required="required" type="text" class="input-text"}}
+                  {{input value=model.print.name placeholder="Nombre de la estampa" required="required" type="text" class="input-text"}}
                 </li>
                 <li class="col-md-6 col-sm-6">
                   <label>Precio <em>*</em></label>
-                  {{input value=model.price placeholder="Precio de la estampa" required="required" type="text" class="input-text"}}
+                  {{input value=model.print.price placeholder="Precio de la estampa" required="required" type="text" class="input-text"}}
                 </li>
                 <li class="col-md-6 col-sm-6">
                   <label>Tema <em>*</em></label>
@@ -26,18 +29,13 @@
                     {{/each}}
                   </select>
                 </li>
-                <li class="col-md-6 col-sm-6">
-                  <label>Imagen <em>*</em></label>
-                  {{input id="image" value=image type="file" class="form-control-file" name=image aria-describedby="fileHelp"}}
-                  <small class="form-text text-muted">Carga tu estampa.</small>
-                </li>
                 <li class="col-md-12 col-sm-12">
                   <label>Descripción <em>*</em></label>
-                  {{textarea value=description class="form-control" rows="5"}}
+                  {{textarea value=model.print.description class="form-control" rows="5"}}
                 </li>
               </ul>
               <div class="buttons-set">
-                <button {{action 'addPrint'}} class="btn-black" type="submit"><span><span>Cargar</span></span></button>
+                <button {{action 'editPrint' model.print.id}} class="btn-black" type="submit"><span><span>Cargar</span></span></button>
               </div>
             </form>
           </div>
@@ -51,4 +49,4 @@
   $.getScript("/js/select2.min.js", function(){
     $('.select_theme').select2();
   });
-</script> -->
+</script>

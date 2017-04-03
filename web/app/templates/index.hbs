@@ -29,20 +29,17 @@
           <h5>Autor</h5>
           <select class="select_author">
             <option></option>
-            <option value="Jose">Jose</option>
-            <option value="Fernando">Fernando</option>
+            {{#each model.artists.content as |artist|}}            
+            <option value="{{artist.id}}">{{artist.username}}</option>
+            {{/each}}
           </select>
           <div class="clearfix space20"></div>
           <h5>Temas</h5>
           <select class="select_author">
             <option></option>
-            <option>New Arrivals</option>
-            <option>Women</option>
-            <option>Men</option>
-            <option>Clothing</option>
-            <option>Shoes</option>
-            <option>Handbag</option>
-            <option>Accessories</option>
+            {{#each model.themes as |theme|}}
+            <option value="{{theme.id}}">{{theme.name}}</option>
+            {{/each}}
           </select>
           <div class="clearfix space20"></div>
           <h5>Calificación</h5>
