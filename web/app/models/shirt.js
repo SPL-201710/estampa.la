@@ -1,8 +1,8 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-	style: DS.attr(),
-	size: DS.attr(),
-	color: DS.attr(),
-	material: DS.attr()
+	shirtStyle: DS.attr('string'),
+	shirtSize: DS.attr('string'),
+	shirtColor: DS.attr('string'),
+	shirtMaterial: DS.attr('string')
 });

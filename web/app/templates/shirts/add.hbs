@@ -13,6 +13,7 @@
                   <li class="col-md-6 col-sm-6">
                     <label>Estilo <em>*</em></label>
                     <select value=style class="form-control select_theme" name="style" onchange={{action "updateStyle" value="target.value"}}>
+                      <option></option>
                       {{#each model.styles as |style|}}
                           <option value={{style.id}}>{{style.name}}</option>
                       {{/each}}
@@ -21,6 +22,7 @@
                   <li class="col-md-6 col-sm-6">
                     <label>Talla <em>*</em></label>
                     <select value=size class="form-control select_theme" name="size" onchange={{action "updateSize" value="target.value"}}>
+                      <option></option>
                       {{#each model.sizes as |size|}}
                           <option value={{size.id}}>{{size.name}}</option>
                       {{/each}}
@@ -29,6 +31,7 @@
                   <li class="col-md-6 col-sm-6">
                     <label>Color <em>*</em></label>
                     <select value=color class="form-control select_theme" name="color" onchange={{action "updateColor" value="target.value"}}>
+                      <option></option>
                       {{#each model.colors as |color|}}
                           <option value={{color.id}}>{{color.name}}</option>
                       {{/each}}
@@ -37,6 +40,7 @@
                   <li class="col-md-6 col-sm-6">
                     <label>Material <em>*</em></label>
                     <select value=material class="form-control select_theme" name="material" onchange={{action "updateMaterial" value="target.value"}}>
+                      <option></option>
                       {{#each model.materials as |material|}}
                           <option value={{material.id}}>{{material.name}}</option>
                       {{/each}}
