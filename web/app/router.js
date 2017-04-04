@@ -46,6 +46,10 @@ Router.map(function() {
   this.route('shirtprintpositions.list',{path: '/posicionestampas/'});
   this.route('shirtprintpositions.add',{path: '/posicionestampas/crear'});
   this.route('shirtprintpositions.edit',{path: '/posicionestampas/editar/:shirtprintposition_id'});
+
+  this.route('shirts.list',{path: '/camisetas/'});
+  this.route('shirts.add',{path: '/camisetas/crear'});
+  this.route('shirts.edit',{path: '/camisetas/editar/:shirt_id'});
 });
 
 export default Router;

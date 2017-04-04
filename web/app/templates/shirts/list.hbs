@@ -1,0 +1,41 @@
+{{outlet}}
+<div class="container">
+  <div class="col-md-12">
+    <div class="pagenav-wrap">
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <div class="pull-right">
+            {{#link-to "shirts.add" class="btn btn-success"}}Agregar Camiseta{{/link-to}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="space50"></div>
+    <div class="row">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Estilo</th>
+            <th>Talla</th>
+            <th>Color</th>
+            <th>Material</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each model as |shirt|}}
+          <tr>
+            <td>{{shirt.style}}</td>
+            <td>{{shirt.size}}</td>
+            <td>{{shirt.color}}</td>
+            <td>{{shirt.material}}</td>
+            <td>{{#link-to "shirts.edit" color.id class="btn btn-info"}}Editar{{/link-to}}</td>
+            <td><!--<button {{action "deleteShirts" color}} class="btn btn-danger">Eliminar</button>--></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
