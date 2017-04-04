@@ -32,9 +32,7 @@ export default Ember.Controller.extend({
         shirtSize: this.get('size'),
       	shirtColor: this.get('color'),
       	shirtMaterial: this.get('material')
-      });
-      console.log(newShirt);
-      debugger;
+      });      
 
       var self = this;
 

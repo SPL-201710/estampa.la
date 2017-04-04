@@ -8,13 +8,17 @@
         <div id="account-id">
           <h4 class="account-title"><span class="fa fa-chevron-right"></span>Actualizar Camiseta</h4>
           <div class="account-form">
-            <form {{action 'updateShirt' model.id on="submit"}}>
+            <form {{action 'updateShirt' model.shirt.id on="submit"}}>
                 <ul class="form-list row">
                   <li class="col-md-6 col-sm-6">
                     <label>Estilo <em>*</em></label>
                     <select value=style class="form-control select_theme" name="style" onchange={{action "updateStyle" value="target.value"}}>
                       {{#each model.styles as |style|}}
+                        {{#if (eq model.shirt.style.id style.id)}}
+                          <option value={{style.id}} selected>{{style.name}}</option>
+                        {{else}}
                           <option value={{style.id}}>{{style.name}}</option>
+                        {{/if}}
                       {{/each}}
                     </select>
                   </li>
@@ -22,7 +26,12 @@
                     <label>Talla <em>*</em></label>
                     <select value=size class="form-control select_theme" name="size" onchange={{action "updateSize" value="target.value"}}>
                       {{#each model.sizes as |size|}}
+                        <option value={{size.id}}>{{size.name}}</option>
+                        {{#if (eq model.shirt.size.id size.id)}}
+                          <option value={{size.id}} selected>{{size.name}}</option>
+                        {{else}}
                           <option value={{size.id}}>{{size.name}}</option>
+                        {{/if}}
                       {{/each}}
                     </select>
                   </li>
@@ -30,7 +39,11 @@
                     <label>Color <em>*</em></label>
                     <select value=color class="form-control select_theme" name="color" onchange={{action "updateColor" value="target.value"}}>
                       {{#each model.colors as |color|}}
+                        {{#if (eq model.shirt.color.id color.id)}}
+                          <option value={{color.id}} selected>{{color.name}}</option>
+                        {{else}}
                           <option value={{color.id}}>{{color.name}}</option>
+                        {{/if}}
                       {{/each}}
                     </select>
                   </li>
@@ -38,13 +51,17 @@
                     <label>Material <em>*</em></label>
                     <select value=material class="form-control select_theme" name="material" onchange={{action "updateMaterial" value="target.value"}}>
                       {{#each model.materials as |material|}}
-                          <option value={{material.id}}>{{material.name}}</option>
+                      {{#if (eq model.shirt.material.id material.id)}}
+                        <option value={{material.id}} selected>{{material.name}}</option>on>
+                      {{else}}
+                        <option value={{material.id}}>{{material.name}}</option>
+                      {{/if}}
                       {{/each}}
                     </select>
                   </li>
                 </ul>
                 <div class="buttons-set">
-                  <button {{action 'updateShirt' model.id}} class="btn-black" type="submit"><span><span>Actualizar</span></span></button>
+                  <button {{action 'updateShirt' model.shirt.id}} class="btn-black" type="submit"><span><span>Actualizar</span></span></button>
                 </div>
             </form>
           </div>
