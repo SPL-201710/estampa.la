@@ -94,7 +94,7 @@ export default Ember.Controller.extend({
       var self = this;
 
       function transitionToIndex () {
-        self.transitionToRoute('index');
+        self.transitionToRoute('cart');
       }
 
       function failure (reason) {

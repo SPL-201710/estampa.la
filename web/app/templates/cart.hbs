@@ -1,0 +1,69 @@
+{{outlet}}
+<div class="bcrumbs">
+  <div class="container">
+    <ul>
+      <li>{{#link-to "index"}}Inicio{{/link-to}}</li>
+      <li>Configurar Compra</li>
+    </ul>
+  </div>
+</div>
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="pagenav-wrap">
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <div class="pull-left">
+            <h4>Valor del envío: {{shippingValue}}</h4>
+          </div>
+          <div class="pull-right">
+            <button {{action "addCart"}}>Realizar Compra</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="space30"></div>
+    <div class="row">
+    {{#each model.content as |product|}}
+      <div class="col-md-4 col-sm-6">
+          <div class="product-info" style="text-align: center;">
+            {{#each product.printsInShirts as |printinshirt|}}
+              <!-- <img src="data:image/png;base64, {{printinshirt.print.image}}" class="img-responsive" alt="" style="height:50px;"/> -->
+              <h4 class="product-title"><span style="font-weight: bolder;">{{printinshirt.print.name}}</span></h4>
+            {{/each}}
+            <h4 class="product-title"><span>{{product.shirt.style.name}}</span></h4>
+            <h4 class="product-title"><span>{{product.shirt.size.name}}</span></h4>
+            <h4 class="product-title"><span>{{product.shirt.color.name}}</span></h4>
+            <h4 class="product-title"><span>{{product.shirt.material.name}}</span></h4>
+            <div class="clearfix space20"></div>
+            <h5>Cantidad</h5>
+            <select class="select_rating" onchange={{action 'calculate' value="product.id"}} id="product-{{product.id}}">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+        </div>
+    {{/each}}
+    </div>
+    <div class="space30"></div>
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div class="pull-left">
+          <h4 style="margin-right: 20px;">Subtotal: {{subtotal}}</h4>
+        </div>
+        <div class="pull-left">
+        <h4>Total: {{total}}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

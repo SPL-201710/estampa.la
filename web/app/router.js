@@ -52,6 +52,8 @@ Router.map(function() {
   this.route('shirts.edit',{path: '/camisetas/editar/:shirt_id'});
 
   this.route('product.add', {path: '/producto/'});
+  this.route('cart');
+  this.route('payment');
 });
 
 export default Router;
