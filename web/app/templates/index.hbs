@@ -25,11 +25,12 @@
     <div class="row">
       <aside class="col-md-3 col-sm-4">
         <div class="side-widget">
+          {{filteredPrints}}
           <h3><span>Filtrar Por:</span></h3>
           <h5>Autor</h5>
-          <select class="select_author">
+          <select onchange={{action 'changeAuthor' value="target.value"}} class="select_author">
             <option></option>
-            {{#each model.artists.content as |artist|}}            
+            {{#each model.artists.content as |artist|}}
             <option value="{{artist.id}}">{{artist.username}}</option>
             {{/each}}
           </select>
@@ -74,7 +75,7 @@
         </div>
       </aside>
       <div class="col-md-9 col-sm-8">
-        <div class="filter-wrap">
+        <!-- <div class="filter-wrap">
           <div class="row">
             <div class="col-md-4 col-sm-4">
               Ordenar por:
@@ -95,8 +96,8 @@
               </span>
             </div>
           </div>
-        </div>
-        <div class="pagenav-wrap">
+        </div> -->
+        <!-- <div class="pagenav-wrap">
           <div class="row">
             <div class="col-md-6 col-sm-6">
               Resultados: <span>1 - 9 of 86 items</span>
@@ -114,7 +115,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="space50"></div>
         <div class="row">
           {{#each model.prints as |estampa|}}
@@ -141,7 +142,7 @@
           </div>
           {{/each}}
         </div>
-        <div class="pagenav-wrap">
+        <!-- <div class="pagenav-wrap">
           <div class="row">
             <div class="col-md-6 col-sm-6">
               Resultados: <span>1 - 9 of 86 items</span>
@@ -159,7 +160,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
