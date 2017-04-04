@@ -7,8 +7,8 @@ export default Ember.Controller.extend({
       var self = this;
       let newShirtPrintPosition = this.get('store').createRecord('shirtprintposition', {
         name: self.get('name'),
-        hightInCentimeters: self.get('hightInCentimeters'),
-        widthInCentimeters: self.get('widthInCentimeters')
+        hightInCentimeters: parseInt(self.get('hightInCentimeters')),
+        widthInCentimeters: parseInt(self.get('widthInCentimeters'))
       });
 
       function transitionToIndex () {

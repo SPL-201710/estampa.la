@@ -7,8 +7,8 @@ export default Ember.Controller.extend({
         this.store.adapterFor('application').set('host', 'http://catalog.peoplerunning.co');
         this.get('store').findRecord('shirtprintposition', id).then(function(shirtprintposition) {
           shirtprintposition.set('name', self.get('model.name'));
-          shirtprintposition.set('hightInCentimeters', self.get('model.hightInCentimeters'));
-          shirtprintposition.set('widthInCentimeters', self.get('model.widthInCentimeters'));
+          shirtprintposition.set('hightInCentimeters', parseInt(self.get('model.hightInCentimeters')));
+          shirtprintposition.set('widthInCentimeters', parseInt(self.get('model.widthInCentimeters')));
           shirtprintposition.save();
           self.transitionToRoute('shirtprintpositions.list');
         });

@@ -10,11 +10,6 @@
   <dependencies>
   	<dependency>
       	<groupId>estampala.server.core</groupId>
-  	    <artifactId>catalog</artifactId>
-  	    <version>${catalog.version}</version>
-  	</dependency>
-  	<dependency>
-      	<groupId>estampala.server.core</groupId>
   	    <artifactId>commons</artifactId>
   	    <version>${commons.version}</version>
   	</dependency>

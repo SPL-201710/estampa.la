@@ -12,7 +12,7 @@ import java.util.UUID;
 
 /**
  * @author akane
- * 
+ *
  */
 
 @Entity
@@ -24,20 +24,20 @@ public class ShirtPrintPosition {
 	@Column(name = "id", unique = true, nullable = false)
 	@Type(type="pg-uuid")
 	private UUID id;
-	
+
 	@Column(nullable = false)
 	private int hightInCentimeters;
-	
+
 	@Column(nullable = false)
 	private int widthInCentimeters;
-	
+
 	@Column(nullable = false)
 	private String name;
 
 	ShirtPrintPosition(){
 
 	}
-	
+
 	public ShirtPrintPosition(UUID id, int hightInCentimeters, int widthInCentimeters, String name) {
 		super();
 		this.id = id;
@@ -54,7 +54,7 @@ public class ShirtPrintPosition {
 		this.id = id;
 	}
 
-	public int getMaxHightInCentimeters() {
+	public int getHightInCentimeters() {
 		return hightInCentimeters;
 	}
 
@@ -76,5 +76,5 @@ public class ShirtPrintPosition {
 
 	public void setName(String name) {
 		this.name = name;
-	}	
+	}
 }
