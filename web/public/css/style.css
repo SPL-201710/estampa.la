@@ -431,6 +431,12 @@ h5.heading2 span {
 
 .product-item {
     margin-bottom: 38px;
+    border: solid #fff 5px;
+}
+
+.product-item-selected {
+  border: solid #D6644A 5px;
+  border-radius: 5px;
 }
 
 .product-info {

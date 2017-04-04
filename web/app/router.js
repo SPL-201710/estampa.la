@@ -50,6 +50,8 @@ Router.map(function() {
   this.route('shirts.list',{path: '/camisetas/'});
   this.route('shirts.add',{path: '/camisetas/crear'});
   this.route('shirts.edit',{path: '/camisetas/editar/:shirt_id'});
+
+  this.route('product.add', {path: '/producto/'});
 });
 
 export default Router;

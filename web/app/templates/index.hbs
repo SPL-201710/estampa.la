@@ -31,7 +31,7 @@
           <select onchange={{action 'changeOwner' value="target.value"}} class="select_author">
             <option></option>
             {{#each model.artists.content as |artist|}}
-            <option value="{{artist.id}}">{{artist.username}}</option>
+            <option value="{{artist.username}}">{{artist.username}}</option>
             {{/each}}
           </select>
           <div class="clearfix space20"></div>
@@ -39,12 +39,12 @@
           <select class="select_author" onchange={{action 'changeTheme' value="target.value"}}>
             <option></option>
             {{#each model.themes as |theme|}}
-            <option value="{{theme.id}}">{{theme.name}}</option>
+            <option value="{{theme.name}}">{{theme.name}}</option>
             {{/each}}
           </select>
           <div class="clearfix space20"></div>
           <h5>Calificación</h5>
-          <select class="select_author" onchange={{action 'changeRate' value="target.value"}}>
+          <select class="select_rating" onchange={{action 'changeRating' value="target.value"}}>
             <option></option>
             <option value="5">5 - Alta</option>
             <option value="4">4 - Buena</option>
@@ -56,16 +56,21 @@
         </div>
       </aside>
       <div class="col-md-9 col-sm-8">
-        <!-- <div class="filter-wrap">
+        <div class="filter-wrap">
           <div class="row">
             <div class="col-md-4 col-sm-4">
+              <div class="buttons-set">
+                {{#link-to "product.add" class="btn-black" type="submit"}}<span>Crear Producto</span>{{/link-to}}
+              </div>
+            </div>
+            <!-- <div class="col-md-4 col-sm-4">
               Ordenar por:
               <select>
                 <option>-</option>
                 <option>Popularidad</option>
               </select>
-            </div>
-            <div class="col-md-8 col-sm-8">
+            </div> -->
+            <!-- <div class="col-md-8 col-sm-8">
               <span class="pull-right">
                 Mostrar:
                 <select>
@@ -75,9 +80,9 @@
                   <option>50 items</option>
                 </select>
               </span>
-            </div>
+            </div> -->
           </div>
-        </div> -->
+        </div>
         <!-- <div class="pagenav-wrap">
           <div class="row">
             <div class="col-md-6 col-sm-6">
@@ -99,25 +104,19 @@
         </div> -->
         <div class="space50"></div>
         <div class="row">
-          {{#each model.prints as |estampa|}}
+          {{#each result as |estampa|}}
           <div class="col-md-4 col-sm-6">
-            <div class="product-item">
+            <div class="product-item" id="print-{{estampa.id}}" {{action "selectPrint" estampa}}>
               <div class="item-thumb">
                 <img src="data:image/png;base64, {{estampa.image}}" class="img-responsive" alt=""/>
-                <div class="overlay-rmore fa fa-check quickview" data-toggle="modal" data-target="#myModal"></div>
+                <div class="overlay-rmore fa fa-check quickview"></div>
                 <div class="product-overlay">
-                  <a href="#" class="addcart fa fa-shopping-cart"></a>
-                  <a href="#" class="likeitem fa fa-heart-o"></a>
+                  <!-- <a href="#" class="addcart fa fa-shopping-cart"></a> -->
+                  <!-- <a href="#" class="likeitem fa fa-heart-o"></a> -->
                 </div>
               </div>
               <div class="product-info">
-                <h4 class="product-title"><a href="./single-product.html">Product fashion</a></h4>
-                <span class="product-price">$99.00 <em>- Pre order</em></span>
-                <div class="item-colors">
-                  <a href="#" class="litebrown"></a>
-                  <a href="#" class="white"></a>
-                  <a href="#" class="red"></a>
-                </div>
+                <span class="product-price"><em>Precio: </em>${{estampa.price}}</span>
               </div>
             </div>
           </div>
@@ -146,3 +145,10 @@
     </div>
   </div>
 </div>
+<script type="text/javascript" defer>
+  $(document).ready(function(){
+    $.getScript("/js/select2.min.js", function(){
+      $('.select_author').select2();
+    });
+  });
+</script>
