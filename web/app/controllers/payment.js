@@ -16,6 +16,7 @@ export default Ember.Controller.extend({
       var self = this;
 
       function transitionToIndex () {
+        alert("Transacción realizada con éxito.");
         self.transitionToRoute('index');
       }
 
