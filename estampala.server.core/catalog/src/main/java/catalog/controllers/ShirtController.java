@@ -30,6 +30,7 @@ public class ShirtController extends EstampalaController {
 	@Autowired
 	private ShirtService service;
 
+	@CrossOrigin
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Page<Shirt>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {
 		return new ResponseEntity<Page<Shirt>>(service.findAll(page, pageSize), HttpStatus.OK);
