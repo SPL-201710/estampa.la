@@ -1,1 +1,55 @@
 {{outlet}}
+<div class="clearfix space20"></div>
+<div class="account-wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <!-- HTML -->
+        <div id="account-id">
+          <h4 class="account-title"><span class="fa fa-chevron-right"></span>Actualizar Camiseta</h4>
+          <div class="account-form">
+            <form {{action 'updateShirt' model.id on="submit"}}>
+                <ul class="form-list row">
+                  <li class="col-md-6 col-sm-6">
+                    <label>Estilo <em>*</em></label>
+                    <select value=style class="form-control select_theme" name="style" onchange={{action "updateStyle" value="target.value"}}>
+                      {{#each model.styles as |style|}}
+                          <option value={{style.id}}>{{style.name}}</option>
+                      {{/each}}
+                    </select>
+                  </li>
+                  <li class="col-md-6 col-sm-6">
+                    <label>Talla <em>*</em></label>
+                    <select value=size class="form-control select_theme" name="size" onchange={{action "updateSize" value="target.value"}}>
+                      {{#each model.sizes as |size|}}
+                          <option value={{size.id}}>{{size.name}}</option>
+                      {{/each}}
+                    </select>
+                  </li>
+                  <li class="col-md-6 col-sm-6">
+                    <label>Color <em>*</em></label>
+                    <select value=color class="form-control select_theme" name="color" onchange={{action "updateColor" value="target.value"}}>
+                      {{#each model.colors as |color|}}
+                          <option value={{color.id}}>{{color.name}}</option>
+                      {{/each}}
+                    </select>
+                  </li>
+                  <li class="col-md-6 col-sm-6">
+                    <label>Material <em>*</em></label>
+                    <select value=material class="form-control select_theme" name="material" onchange={{action "updateMaterial" value="target.value"}}>
+                      {{#each model.materials as |material|}}
+                          <option value={{material.id}}>{{material.name}}</option>
+                      {{/each}}
+                    </select>
+                  </li>
+                </ul>
+                <div class="buttons-set">
+                  <button {{action 'updateShirt' model.id}} class="btn-black" type="submit"><span><span>Actualizar</span></span></button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
