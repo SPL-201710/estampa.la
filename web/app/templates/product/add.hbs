@@ -1,0 +1,125 @@
+{{outlet}}
+<!-- BREADCRUMBS -->
+<div class="bcrumbs">
+  <div class="container">
+    <ul>
+      <li>{{#link-to "index"}}Inicio{{/link-to}}</li>
+      <li>Crear Producto</li>
+    </ul>
+  </div>
+</div>
+
+<div class="clearfix space20"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-sm-6">
+      <div class="space50"></div>
+      <div class="row">
+        {{#each printsSelected as |print|}}
+        <div class="col-md-6 col-sm-6">
+          <div class="product-item" id="print-{{print.id}}">
+            <div class="item-thumb">
+              <img src="data:image/png;base64, {{print.image}}" class="img-responsive" alt=""/>
+              <div class="product-overlay">
+              </div>
+            </div>
+            <div class="product-info">
+              <span class="product-price"><em>Precio: </em>${{print.price}}</span>
+              <li class="col-md-12 col-sm-12">
+                <label>Posición</label>
+                <select value=printPosition id="select-{{print.id}}" class="form-control select_theme" name=theme onchange={{action 'selectPrintPosition' print.id}}>
+                  <option></option>
+                  {{#each model.shirtprintpositions as |printposition|}}
+                    <option value={{printposition.id}}>{{printposition.name}}</option>
+                  {{/each}}
+                </select>
+              </li>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+      <div class="space50"></div>
+      <div class="row">
+        <li class="col-md-12 col-sm-12">
+          <label>Selecciona Tu Camiseta</label>
+          <select value=shirt class="form-control select_theme" name=shirt onchange={{action 'selectShirt' value="target.value"}}>
+            <option></option>
+            {{#each model.shirts as |shirt|}}
+              <option value={{shirt.id}}>{{shirt.style.name}} ( {{shirt.size.name}}, {{shirt.color.name}}, {{shirt.material.name}} )</option>
+            {{/each}}
+          </select>
+        </li>
+      </div>
+      <div class="space50"></div>
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <div id="account-id">
+            <label>Agrega Texto</label>
+            <div class="account-form">
+              <form {{action 'addText' on="submit"}}>
+                <ul class="form-list row">
+                  <li class="col-md-12 col-sm-12">
+                    <label>Posición</label>
+                    <select value=textPosition class="form-control select_theme" name=textPosition onchange={{action 'selectTextPosition' value="target.value"}}>
+                      <option></option>
+                      {{#each model.shirtprintpositions as |printposition|}}
+                        <option value={{printposition.id}}>{{printposition.name}}</option>
+                      {{/each}}
+                    </select>
+                  </li>
+                  <li class="col-md-12 col-sm-12">
+                    <label>Fuente</label>
+                    <select value=textPosition class="form-control select_theme" name=textPosition onchange={{action 'selectPrintFont' value="target.value"}}>
+                      <option></option>
+                      {{#each model.printfonts as |printfont|}}
+                        <option value={{printfont.id}}>{{printfont.name}}</option>
+                      {{/each}}
+                    </select>
+                  </li>
+                  <li class="col-md-12 col-sm-12">
+                    <label>Mensaje <em>*</em></label>
+                    {{input value=message placeholder="Mensaje" required="required" type="text" class="input-text"}}
+                  </li>
+                  <li class="col-md-12 col-sm-12">
+                    <label>Tamaño (en número) <em>*</em></label>
+                    {{input value=size placeholder="Font Size" required="required" type="text" class="input-text"}}
+                  </li>
+                </ul>
+                <div class="buttons-set">
+                  <button {{action 'addText'}} class="btn-black" type="submit"><span><span>Agregar Texto</span></span></button>
+                </div>
+                <div class="space20"></div>
+                {{textsInShirtsEvent}}
+                <div class="row">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Mensaje</th>
+                        <th>Tamaño</th>
+                        <th>Eliminar</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {{#each texts as |text|}}
+                      <tr>
+                        <td>{{text.printText.message}}</td>
+                        <td>{{text.printText.size}}</td>
+                        <td><button {{action "deleteText" text.printText.message}} class="btn btn-danger">Eliminar</button></td>
+                      </tr>
+                      {{/each}}
+                    </tbody>
+                  </table>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <td><button {{action "addProduct"}} class="btn btn-success">Crear Producto</button></td>
+    </div>
+    <div class="col-md-6 col-sm-6" style="background-color: #ccc; height: 100%;">
+    </div>
+  </div>
+</div>
