@@ -28,7 +28,7 @@
           {{filteredPrints}}
           <h3><span>Filtrar Por:</span></h3>
           <h5>Autor</h5>
-          <select onchange={{action 'changeAuthor' value="target.value"}} class="select_author">
+          <select onchange={{action 'changeOwner' value="target.value"}} class="select_author">
             <option></option>
             {{#each model.artists.content as |artist|}}
             <option value="{{artist.id}}">{{artist.username}}</option>
@@ -36,7 +36,7 @@
           </select>
           <div class="clearfix space20"></div>
           <h5>Temas</h5>
-          <select class="select_author">
+          <select class="select_author" onchange={{action 'changeTheme' value="target.value"}}>
             <option></option>
             {{#each model.themes as |theme|}}
             <option value="{{theme.id}}">{{theme.name}}</option>
@@ -44,33 +44,14 @@
           </select>
           <div class="clearfix space20"></div>
           <h5>Calificación</h5>
-          <ul class="brand-list">
-            <li>
-              <div class="radio">
-                <label><input type="radio" name="optradio">5 - Excelente</label>
-              </div>
-            </li>
-            <li>
-              <div class="radio">
-                <label><input type="radio" name="optradio">4 - Buena</label>
-              </div>
-            </li>
-            <li>
-              <div class="radio">
-                <label><input type="radio" name="optradio">3 - Normal</label>
-              </div>
-            </li>
-            <li>
-              <div class="radio">
-                <label><input type="radio" name="optradio">2 - Regular</label>
-              </div>
-            </li>
-            <li>
-              <div class="radio">
-                <label><input type="radio" name="optradio">1 - Mala</label>
-              </div>
-            </li>
-          </ul>
+          <select class="select_author" onchange={{action 'changeRate' value="target.value"}}>
+            <option></option>
+            <option value="5">5 - Alta</option>
+            <option value="4">4 - Buena</option>
+            <option value="3">3 - Normal</option>
+            <option value="2">2 - Regular</option>
+            <option value="1">1 - Mala</option>
+          </select>
           <div class="clearfix space20"></div>
         </div>
       </aside>

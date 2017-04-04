@@ -4,10 +4,17 @@ export default Ember.Controller.extend({
   init: function() {
     this._super();
     this.set('author', "");
+    this.set('theme', "");
+    this.set('rate', "");
   },
-  author: "",
-  filteredPrints: Ember.computed('author', function() {
-    console.log(this.get('author'));
+  owner: "",
+  theme: "",
+  rate: "",
+
+  filteredPrints: Ember.computed('owner', 'theme', 'rate', function() {
+    console.log(this.get('owner'));
+    console.log(this.get('theme'));
+    console.log(this.get('rate'));
       // const filterTerm = this.get('filter');
       // var model = this.get('model');
       //
@@ -18,8 +25,14 @@ export default Ember.Controller.extend({
       // return filtered;
   }),
   actions: {
-    changeAuthor(param) {
-      this.set('author', param);
+    changeOwner(param) {
+      this.set('owner', param);
+    },
+    changeTheme(param) {
+      this.set('theme', param);
+    },
+    changeRate(param) {
+      this.set('rate', param);
     }
   }
 });
