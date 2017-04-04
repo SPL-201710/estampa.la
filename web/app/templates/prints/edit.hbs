@@ -25,7 +25,11 @@
                   <select value=theme class="form-control select_theme" name=theme id="theme" onchange={{action 'selectTheme' value="target.value"}}>
                     <option></option>
                     {{#each model.themes as |theme|}}
-                      <option value={{theme.id}}>{{theme.name}}</option>
+                      {{#if (eq model.print.theme.id theme.id)}}
+                        <option value={{theme.id}} selected>{{theme.name}}</option>
+                      {{else}}
+                        <option value={{theme.id}}>{{theme.name}}</option>
+                      {{/if}}
                     {{/each}}
                   </select>
                 </li>
@@ -35,7 +39,7 @@
                 </li>
               </ul>
               <div class="buttons-set">
-                <button {{action 'editPrint' model.print.id}} class="btn-black" type="submit"><span><span>Cargar</span></span></button>
+                <button {{action 'editPrint' model.print.id}} class="btn-black" type="submit"><span><span>Actualizar</span></span></button>
               </div>
             </form>
           </div>
