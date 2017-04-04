@@ -26,10 +26,10 @@
         <tbody>
           {{#each model as |shirt|}}
           <tr>
-            <td>{{shirt.style}}</td>
-            <td>{{shirt.size}}</td>
-            <td>{{shirt.color}}</td>
-            <td>{{shirt.material}}</td>
+            <td>{{shirt.style.name}}</td>
+            <td>{{shirt.size.name}}</td>
+            <td>{{shirt.color.name}}</td>
+            <td>{{shirt.material.name}}</td>
             <td>{{#link-to "shirts.edit" color.id class="btn btn-info"}}Editar{{/link-to}}</td>
             <td><!--<button {{action "deleteShirts" color}} class="btn btn-danger">Eliminar</button>--></td>
           </tr>
