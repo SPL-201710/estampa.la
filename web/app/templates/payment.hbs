@@ -1,0 +1,38 @@
+{{outlet}}
+<div class="bcrumbs">
+  <div class="container">
+    <ul>
+      <li>{{#link-to "index"}}Inicio{{/link-to}}</li>
+      <li>Confirmar Compra</li>
+    </ul>
+  </div>
+</div>
+<div class="clearfix space20"></div>
+
+<div class="account-wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <div id="account-id2">
+          <h4 class="account-title"><span class="fa fa-chevron-right"></span>Confirmación de compra</h4>
+          <div class="account-form create-new-account">
+            <h3 class="block-title">Deseas confirmar la siguiente compra?</h3>
+            {{#each model.content as |cart|}}
+            <ul>
+              <li>
+                <i class="fa fa-edit"></i> Productos: {{cart.cartProducts.length}}
+              </li>
+              <li><i class="fa fa-edit"></i> Subtotal: ${{cart.subtotal}}</li>
+              <li><i class="fa fa-edit"></i> Valor envío: ${{cart.shippingValue}}</li>
+              <li><i class="fa fa-edit"></i> Total: ${{cart.total}}</li>
+            </ul>
+            {{/each}}
+            <div class="buttons-set">
+               <button {{action "addPayment"}} class="btn-black">Conmfirmar Compra</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

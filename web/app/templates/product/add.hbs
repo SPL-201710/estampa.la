@@ -46,7 +46,7 @@
           <label>Selecciona Tu Camiseta</label>
           <select value=shirt class="form-control select_theme" name=shirt onchange={{action 'selectShirt' value="target.value"}}>
             <option></option>
-            {{#each model.shirts as |shirt|}}
+            {{#each model.shirts.content as |shirt|}}
               <option value={{shirt.id}}>{{shirt.style.name}} ( {{shirt.size.name}}, {{shirt.color.name}}, {{shirt.material.name}} )</option>
             {{/each}}
           </select>
