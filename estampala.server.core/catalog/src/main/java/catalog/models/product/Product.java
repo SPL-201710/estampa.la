@@ -19,7 +19,7 @@ import catalog.models.shirt.Shirt;
 
 /**
  * @author akane
- * 
+ *
  */
 
 @Entity
@@ -31,30 +31,35 @@ public class Product {
 	@Column(name = "id", unique = true, nullable = false)
 	@Type(type="pg-uuid")
 	private UUID id;
-	
+
 	@Column(nullable = false)
 	private double totalPrice;
-	
+
+	@Column(nullable = false)
+	@Type(type="pg-uuid")
+	private UUID owner;
+
 	@ManyToOne
 	private Shirt shirt;
-	
-	@OneToMany(cascade=CascadeType.ALL) 	
+
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<PrintInShirt> printsInShirts = new ArrayList<>();
-	
-	@OneToMany(cascade=CascadeType.ALL) 
+
+	@OneToMany(cascade=CascadeType.ALL)
 	private List<TextInShirt> textsInShirts = new ArrayList<>();
 
 	Product(){
 
 	}
 
-	public Product(UUID id, double totalPrice, Shirt shirt, List<PrintInShirt> printsInShirts,	List<TextInShirt> textsInShirts) {
+	public Product(UUID id, double totalPrice, Shirt shirt, UUID owner, List<PrintInShirt> printsInShirts,	List<TextInShirt> textsInShirts) {
 		super();
 		this.id = id;
 		this.totalPrice = totalPrice;
 		this.shirt = shirt;
 		this.printsInShirts = printsInShirts;
 		this.textsInShirts = textsInShirts;
+		this.owner = owner;
 	}
 
 	public UUID getId() {
@@ -95,5 +100,13 @@ public class Product {
 
 	public void setShirt(Shirt shirt) {
 		this.shirt = shirt;
+	}
+
+	public UUID getOwner() {
+		return owner;
+	}
+
+	public void setOwner(UUID owner) {
+		this.owner = owner;
 	}
 }

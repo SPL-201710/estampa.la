@@ -1,5 +1,6 @@
 package shoppingcart.models;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -22,18 +24,32 @@ public class ShoppingCart {
 	@Column(name = "id", unique = true, nullable = false)
 	@Type(type="pg-uuid")
 	private UUID id;
-	
+
+	@NotNull
 	private double subtotal;
-	
+
+	@NotNull
 	private double shippingValue;
-	
+
+	@NotNull
 	private double total;
-	
+
+	@NotNull
+	@Type(type="pg-uuid")
+	private UUID owner;
+
+	@NotNull
+	private Date date;
+
+	@NotNull
+	@Type(type="pg-uuid")
+	private UUID payment;
+
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<SCProduct> cartProducts;
-	
+
 	public ShoppingCart() {
-		
+
 	}
 
 	public UUID getId() {
@@ -66,6 +82,30 @@ public class ShoppingCart {
 
 	public void setTotal(double total) {
 		this.total = total;
+	}
+
+	public UUID getOwner() {
+		return owner;
+	}
+
+	public void setOwner(UUID owner) {
+		this.owner = owner;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public UUID getPayment() {
+		return payment;
+	}
+
+	public void setPayment(UUID payment) {
+		this.payment = payment;
 	}
 
 	public List<SCProduct> getCartProducts() {

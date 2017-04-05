@@ -19,15 +19,16 @@ public class SCProduct {
 	@Column(name = "id", unique = true, nullable = false)
 	@Type(type="pg-uuid")
 	private UUID id;
-	
+
 	private int quantity;
-	
+
 	private double subtotal;
-	
+
+	@Type(type="pg-uuid")
 	private UUID product;
-	
+
 	public SCProduct() {
-		
+
 	}
 
 	public UUID getId() {
@@ -60,5 +61,5 @@ public class SCProduct {
 
 	public void setProduct(UUID product) {
 		this.product = product;
-	}	
+	}
 }

@@ -12,22 +12,25 @@ import java.util.UUID;
 
 /**
  * @author akane
- * 
+ *
  */
 
 @Entity
 public class ShirtColor {
-	
+
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
 	@Column(name = "id", unique = true, nullable = true)
 	@Type(type="pg-uuid")
 	private UUID id;
-	
+
+	@Column(nullable = false)
+	private byte[] image;
+
 	@Column(nullable = false)
 	private String hexadecimalValue;
-	
+
 	@Column(nullable = false)
 	private String name;
 
@@ -35,10 +38,11 @@ public class ShirtColor {
 	ShirtColor(){
 
 	}
-	
-	public ShirtColor(UUID id, String hexadecimalValue, String name) {
+
+	public ShirtColor(UUID id, byte[] image, String hexadecimalValue, String name) {
 		super();
 		this.id = id;
+		this.image = image;
 		this.hexadecimalValue = hexadecimalValue;
 		this.name = name;
 	}
@@ -49,6 +53,14 @@ public class ShirtColor {
 
 	public void setId(UUID id) {
 		this.id = id;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 	public String getHexadecimalValue() {
@@ -65,5 +77,5 @@ public class ShirtColor {
 
 	public void setName(String name) {
 		this.name = name;
-	}	
+	}
 }

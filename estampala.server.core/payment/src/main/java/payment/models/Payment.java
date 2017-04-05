@@ -30,27 +30,27 @@ public class Payment {
 	private Date date;
 
 	@Column(nullable = false)
-	private double value;
+	private double total;
 
 	@Column(nullable = false)
 	@Type(type="pg-uuid")
-	private UUID user_id;
+	private UUID owner;
 
 	@Column(nullable = false)
 	@Type(type="pg-uuid")
-	private UUID product;
+	private UUID shoppingcart;
 
 	Payment(){
 
 	}
 
-	public Payment(UUID id, Date date, double value, UUID user_id, UUID product) {
+	public Payment(UUID id, Date date, double total, UUID owner, UUID shoppingcart) {
 		super();
 		this.id = id;
 		this.date = date;
-		this.value = value;
-		this.user_id = user_id;
-		this.product = product;
+		this.total = total;
+		this.owner = owner;
+		this.shoppingcart = shoppingcart;
 	}
 
 	public UUID getId() {
@@ -65,22 +65,22 @@ public class Payment {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public UUID getUser_id() {
-		return user_id;
+	public UUID getOwner() {
+		return owner;
 	}
-	public void setUser_id(UUID user_id) {
-		this.user_id = user_id;
+	public void setOwner(UUID owner) {
+		this.owner = owner;
 	}
-	public double getValue() {
-		return value;
+	public double getTotal() {
+		return total;
 	}
-	public void setValue(double value) {
-		this.value = value;
+	public void setTotal(double total) {
+		this.total = total;
 	}
-	public UUID getProduct() {
-		return product;
+	public UUID getShoppingcart() {
+		return shoppingcart;
 	}
-	public void setProduct(UUID product) {
-		this.product = product;
+	public void setShoppingcart(UUID shoppingcart) {
+		this.shoppingcart = shoppingcart;
 	}
 }

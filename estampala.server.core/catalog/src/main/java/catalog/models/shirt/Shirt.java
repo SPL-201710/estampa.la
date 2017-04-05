@@ -57,7 +57,7 @@ public class Shirt {
 
 	public void setId(UUID id) {
 		this.id = id;
-	}
+	}	
 
 	public ShirtStyle getStyle() {
 		return style;

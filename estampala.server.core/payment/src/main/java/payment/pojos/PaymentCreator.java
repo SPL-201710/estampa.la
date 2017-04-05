@@ -9,9 +9,9 @@ public class PaymentCreator {
 
 	private UUID payment;
 	private Date date;
-	private UUID user_id;
-	private UUID product;
-	private double value;
+	private UUID owner;
+	private UUID shoppingcart;
+	private double total;
 	private PaymentMethodPSE pse_method;
 
 	public UUID getPayment() {
@@ -26,28 +26,28 @@ public class PaymentCreator {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public UUID getUser_id() {
-		return user_id;
+	public UUID getOwner() {
+		return owner;
 	}
-	public void setUser_id(UUID user_id) {
-		this.user_id = user_id;
+	public void setOwner(UUID owner) {
+		this.owner = owner;
 	}
-	public UUID getProduct() {
-		return product;
+	public UUID getShoppingcart() {
+		return shoppingcart;
 	}
-	public void setProduct(UUID product) {
-		this.product = product;
+	public void setShoppingcart(UUID shoppingcart) {
+		this.shoppingcart = shoppingcart;
 	}
-	public double getValue() {
-		return value;
+	public double getTotal() {
+		return total;
 	}
-	public void setValue(double value) {
-		this.value = value;
+	public void setTotal(double total) {
+		this.total = total;
 	}
 	public PaymentMethodPSE getPse_method() {
 		return pse_method;
 	}
 	public void setPse_method(PaymentMethodPSE pse_method) {
 		this.pse_method = pse_method;
-	}	
+	}
 }

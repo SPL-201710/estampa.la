@@ -29,148 +29,148 @@ import catalog.pojos.ProductTextsInShirt;
 import commons.exceptions.EstampalaException;
 
 /**
- * 
+ *
  * @author akane
  *
  */
 @Service
 public class ProductService {
-	
+
 	@Autowired
 	private ProductRepository repository;
-	
+
 	@Autowired
 	private ShirtService shirtService;
-	
+
 	@Autowired
 	private PrintService printService;
-	
+
 	@Autowired
 	private ShirtPrintPositionService shirtPrintPositionService;
-	
+
 	@Autowired
 	private PrintFontsService printFontsService;
-		
+
 	public ProductService() {
-		
+
 	}
-	
+
 	public Product find(UUID id) {
 		return repository.findOne(id);
 	}
-	
+
 	public Page<Product> findAll(int page, int pageSize) {
 		PageRequest pageRequest = new PageRequest(page - 1, pageSize);
 		return repository.findAll(pageRequest);
 	}
-	
+
 	public Product save(ProductCreator item) throws EstampalaException {
 		if (item != null){
-			
+
 			List<PrintInShirt> printsInShirts = new ArrayList<>();
 			List<TextInShirt> textsInShirts = new ArrayList<>();
-						
+
 			Shirt shirt = null;
 			if (item.getShirt() != null){
 				shirt = shirtService.find(item.getShirt());
 				if (shirt == null){
 					throw new ShirtNotFoundException();
 				}
-				
-				printsInShirts.add(createPrintInShirt(item.getPrintsInShirts()));						
-				textsInShirts.add(createTextInShirt(item.getTextsInShirts()));
-			}						
 
-			Product product = new Product(UUID.randomUUID(), item.getTotalPrice(), shirt, printsInShirts, textsInShirts);
+				printsInShirts.add(createPrintInShirt(item.getPrintsInShirts()));
+				textsInShirts.add(createTextInShirt(item.getTextsInShirts()));
+			}
+
+			Product product = new Product(UUID.randomUUID(), item.getTotalPrice(), shirt, item.getOwner(), printsInShirts, textsInShirts);
 			return repository.save(product);
 		}
 		return null;
 	}
-	
+
 	public Product update(ProductCreator item) throws EstampalaException {
 		if (item != null){
-			
+
 			List<PrintInShirt> printsInShirts = new ArrayList<>();
 			List<TextInShirt> textsInShirts = new ArrayList<>();
-			
+
 			Shirt shirt = null;
 			if (item.getShirt() != null){
 				shirt = shirtService.find(item.getShirt());
 				if (shirt == null){
 					throw new ShirtNotFoundException();
 				}
-				
-				printsInShirts.add(createPrintInShirt(item.getPrintsInShirts()));						
-				textsInShirts.add(createTextInShirt(item.getTextsInShirts()));
-			}			
 
-			Product product = new Product(item.getProduct(), item.getTotalPrice(), shirt, printsInShirts, textsInShirts);
+				printsInShirts.add(createPrintInShirt(item.getPrintsInShirts()));
+				textsInShirts.add(createTextInShirt(item.getTextsInShirts()));
+			}
+
+			Product product = new Product(item.getProduct(), item.getTotalPrice(), shirt, item.getOwner(), printsInShirts, textsInShirts);
 			return repository.save(product);
 		}
 		return null;
 	}
 
-	
+
 	public void delete(UUID id){
 		if(id != null){
 			repository.delete(id);
 		}
 	}
-	
+
 	public boolean exists(UUID id){
 		if(id != null){
 			return repository.exists(id);
 		}
-		
+
 		return false;
 	}
-	
+
 	private PrintInShirt createPrintInShirt(List<ProductPrintsInShirt> printsInShirts)  throws EstampalaException{
 		PrintInShirt printInShirt = null;
-		
+
 		if (printsInShirts != null){
 			for(ProductPrintsInShirt proPrintInShirt : printsInShirts){
 				Print print = printService.find(proPrintInShirt.getPrint());
 				if (print == null){
 					throw new PrintNotFoundException();
 				}
-				
+
 				ShirtPrintPosition shirtPrintPosition = shirtPrintPositionService.find(proPrintInShirt.getShirtPrintPosition());
 				if (shirtPrintPosition == null){
 					throw new ShirtPrintPositionNotFoundException();
 				}
-				
+
 				printInShirt = new PrintInShirt(UUID.randomUUID(), print, shirtPrintPosition);
 			}
 		}
-		
+
 		return printInShirt;
 	}
-	
+
 	private TextInShirt createTextInShirt(List<ProductTextsInShirt> textsInShirts)  throws EstampalaException{
 		TextInShirt textInShirt = null;
-		
+
 		if (textsInShirts != null){
-			for(ProductTextsInShirt proTextInShirt : textsInShirts){				
+			for(ProductTextsInShirt proTextInShirt : textsInShirts){
 				ShirtPrintPosition shirtPrintPosition = shirtPrintPositionService.find(proTextInShirt.getShirtPrintPosition());
 				if (shirtPrintPosition == null){
 					throw new ShirtPrintPositionNotFoundException();
 				}
-				
+
 				ProductPrintText p = proTextInShirt.getPrintText();
 				if (p != null){
 					PrintFont printFont = printFontsService.find(p.getFont());
 					if (printFont == null){
 						throw new PrintFontNotFoundException();
-					}					
-					
+					}
+
 					PrintText printText = new PrintText(UUID.randomUUID(), printFont, p.getMessage(), p.getSize());
-					
+
 					textInShirt = new TextInShirt(UUID.randomUUID(), printText, shirtPrintPosition);
 				}
 			}
 		}
-		
+
 		return textInShirt;
 	}
 }

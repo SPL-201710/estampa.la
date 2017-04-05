@@ -7,8 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import catalog.exceptions.ProductNotFoundException;
-import catalog.models.product.Product;
 import commons.exceptions.EstampalaException;
 import commons.util.EstampalaTools;
 import payment.models.Payment;
@@ -27,10 +25,10 @@ public class PaymentService {
 
 	@Autowired
 	private PaymentRepository paymentRepository;
-	
+
 	@Autowired
 	private PaymentMethodPSERepository pseRepository;
-	
+
 	public PaymentService() {
 
 	}
@@ -45,23 +43,23 @@ public class PaymentService {
 	}
 
 	public Payment save(PaymentCreator item) throws EstampalaException {
-		if (item != null) {			
-			Payment payment = new Payment(UUID.randomUUID(), item.getDate(), item.getValue(), item.getUser_id(), item.getProduct());
+		if (item != null) {
+			Payment payment = new Payment(UUID.randomUUID(), item.getDate(), item.getTotal(), item.getOwner(), item.getShoppingcart());
 			payment = paymentRepository.save(payment);
-			
+
 			PaymentMethodPSE pse = item.getPse_method();
 			pse.setPayment(payment);
-			
+
 			pseRepository.save(pse);
-			
+
 			return paymentRepository.save(payment);
 		}
 		return null;
 	}
 
 	public Payment update(PaymentCreator item) throws EstampalaException {
-		if (item != null) {						
-			Payment payment = new Payment(item.getPayment(), item.getDate(), item.getValue(), item.getUser_id(), item.getProduct());
+		if (item != null) {
+			Payment payment = new Payment(item.getPayment(), item.getDate(), item.getTotal(), item.getOwner(), item.getShoppingcart());
 			return paymentRepository.save(payment);
 		}
 		return null;

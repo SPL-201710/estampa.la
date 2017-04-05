@@ -13,47 +13,46 @@ import org.hibernate.annotations.Type;
 
 @Entity
 public class PaymentMethodPSE {
-	
+
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
 	@Column(name = "id", unique = true, nullable = false)
 	@Type(type="pg-uuid")
 	private UUID id;
-	
+
 	@Column(nullable = true)
 	private String firtsName;
-		
+
 	@Column(nullable = true)
 	private String lastName;
-	
+
 	@Column(nullable = true)
 	private String phone;
-		
+
 	@Column(nullable = false)
 	private String email;
-		
+
 	@Column(nullable = false)
 	private String bank;
-	
+
 	@Column(nullable = false)
 	private String bankCode;
-	
+
 	@Column(nullable = false)
-	private String reference;	
-	
+	private String reference;
+
 	@Column(nullable = false)
 	private String identificationType;
-	
+
 	@Column(nullable = false)
 	private String identification;
-	
-	@OneToOne	
-	private Payment payment;
-	
-	
+
+	@OneToOne
+	private Payment payment;	
+
 	public PaymentMethodPSE (){
-		
+
 	}
 
 	public PaymentMethodPSE(UUID id, String firtsName, String lastName, String phone, String email, String bank,
@@ -158,5 +157,5 @@ public class PaymentMethodPSE {
 
 	public void setIdentification(String identification) {
 		this.identification = identification;
-	}	
+	}
 }

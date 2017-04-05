@@ -4,14 +4,15 @@ import java.util.List;
 import java.util.UUID;
 
 public class ProductCreator {
-	
+
 	private UUID product;
-	private double totalPrice;	
+	private double totalPrice;
 	private UUID shirt;
+  private UUID owner;
 	private List<ProductPrintsInShirt> printsInShirts;
 	private List<ProductTextsInShirt> textsInShirts;
-	
-	
+
+
 	public UUID getProduct() {
 		return product;
 	}
@@ -41,5 +42,11 @@ public class ProductCreator {
 	}
 	public void setTextsInShirts(List<ProductTextsInShirt> textsInShirts) {
 		this.textsInShirts = textsInShirts;
-	}		
+	}
+	public UUID getOwner() {
+		return owner;
+	}
+	public void setOwner(UUID owner) {
+		this.owner = owner;
+	}
 }
