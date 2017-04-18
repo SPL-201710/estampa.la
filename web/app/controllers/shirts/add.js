@@ -27,12 +27,12 @@ export default Ember.Controller.extend({
     },
     addShirt: function(){
       this.store.adapterFor('application').set('host', 'http://catalog.peoplerunning.co');
-      let newShirt = this.get('store').createRecord('shirtcreator', {
+      let newShirt = this.get('store').createRecord('shirt', {
         shirtStyle: this.get('style'),
         shirtSize: this.get('size'),
       	shirtColor: this.get('color'),
       	shirtMaterial: this.get('material')
-      });      
+      });
 
       var self = this;
 

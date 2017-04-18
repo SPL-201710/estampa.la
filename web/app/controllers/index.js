@@ -8,6 +8,8 @@ export default Ember.Controller.extend({
     this.set('rating', "");
     this.set('result', []);
     localStorage.setItem("printsSelected", null);
+    localStorage.setItem("products", null);
+    localStorage.setItem("cart", null);
   },
   owner: "",
   theme: "",
@@ -42,7 +44,7 @@ export default Ember.Controller.extend({
     selectPrint(print) {
       var printsSelected = JSON.parse(localStorage.getItem("printsSelected"));
 
-      if(printsSelected == null){
+      if(printsSelected === null){
         printsSelected = [];
         printsSelected.push(print);
         Ember.$("#print-"+print.id).addClass("product-item-selected");
@@ -50,14 +52,16 @@ export default Ember.Controller.extend({
       else{
         var exist = false;
         printsSelected.forEach(function(data){
-          if(data.id==print.id){
+          if(data.id===print.id){
             exist=true;
           }
         });
 
-        if(exist==true){
+        if(exist===true){
           printsSelected = printsSelected.filter(function(item) {
-            if(item.id!==print.id) return item;
+            if(item.id!==print.id){
+              return item;
+            }
           });
           Ember.$("#print-"+print.id).removeClass("product-item-selected");
         }

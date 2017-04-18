@@ -614,6 +614,14 @@ h5.heading2 span {
     height: 100px;
 }
 
+.item-thumb img{
+  display: block;
+  height: 100%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+
 .product-overlay {
     position: absolute;
     bottom: 10px;

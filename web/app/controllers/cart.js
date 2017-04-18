@@ -12,8 +12,8 @@ export default Ember.Controller.extend({
   total: 0,
   cartProducts: [],
   actions: {
-    calculate: function(params){
-      var products = this.get('model.content');
+    calculate: function(){
+      var products = JSON.parse(localStorage.getItem("products"));
       var products_array = [];
       var subtotal_calculate = 0;
 
@@ -23,7 +23,7 @@ export default Ember.Controller.extend({
           quantity: parseInt(product_quantity),
           subtotal: data.totalPrice * parseInt(product_quantity),
           product: data.id
-        }
+        };
         subtotal_calculate = subtotal_calculate + newProduct.subtotal;
         products_array.push(newProduct);
       });
@@ -32,25 +32,15 @@ export default Ember.Controller.extend({
       this.set('cartProducts', products_array);
     },
     addCart: function(){
-      this.store.adapterFor('application').set('host', 'http://shopping-cart.peoplerunning.co');
-      let newCart = this.get('store').createRecord('cart', {
+      var cart = {
         subtotal: this.get('subtotal'),
         shippingValue: this.get('shippingValue'),
         total: this.get('total'),
         cartProducts: this.get('cartProducts')
-      });
-
-      var self = this;
-
-      function transitionToIndex () {
-        self.transitionToRoute('payment');
       }
 
-      function failure (reason) {
-        alert(reason);
-      }
-
-      newCart.save().then(transitionToIndex).catch(failure);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      this.transitionToRoute('payment');
     }
   }
 });

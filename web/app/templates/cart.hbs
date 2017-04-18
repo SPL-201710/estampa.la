@@ -24,11 +24,11 @@
     </div>
     <div class="space30"></div>
     <div class="row">
-    {{#each model.content as |product|}}
+    {{#each model as |product|}}
       <div class="col-md-4 col-sm-6">
           <div class="product-info" style="text-align: center;">
             {{#each product.printsInShirts as |printinshirt|}}
-              <!-- <img src="data:image/png;base64, {{printinshirt.print.image}}" class="img-responsive" alt="" style="height:50px;"/> -->
+              <img src="data:image/png;base64, {{printinshirt.print.image}}" class="img-responsive" alt="" style="text-align: center; max-height:100px; margin: 0 auto;"/>
               <h4 class="product-title"><span style="font-weight: bolder;">{{printinshirt.print.name}}</span></h4>
             {{/each}}
             <h4 class="product-title"><span>{{product.shirt.style.name}}</span></h4>
@@ -36,7 +36,7 @@
             <h4 class="product-title"><span>{{product.shirt.color.name}}</span></h4>
             <h4 class="product-title"><span>{{product.shirt.material.name}}</span></h4>
             <div class="clearfix space20"></div>
-            <h5>Cantidad</h5>
+            <h5>Cantidad</h5>            
             <select class="select_rating" onchange={{action 'calculate' value="product.id"}} id="product-{{product.id}}">
               <option value="0">0</option>
               <option value="1">1</option>

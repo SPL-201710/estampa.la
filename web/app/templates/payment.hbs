@@ -17,16 +17,14 @@
           <h4 class="account-title"><span class="fa fa-chevron-right"></span>Confirmación de compra</h4>
           <div class="account-form create-new-account">
             <h3 class="block-title">Deseas confirmar la siguiente compra?</h3>
-            {{#each model.content as |cart|}}
             <ul>
               <li>
-                <i class="fa fa-edit"></i> Productos: {{cart.cartProducts.length}}
+                <i class="fa fa-edit"></i> Productos: {{model.cartProducts.length}}
               </li>
-              <li><i class="fa fa-edit"></i> Subtotal: ${{cart.subtotal}}</li>
-              <li><i class="fa fa-edit"></i> Valor envío: ${{cart.shippingValue}}</li>
-              <li><i class="fa fa-edit"></i> Total: ${{cart.total}}</li>
+              <li><i class="fa fa-edit"></i> Subtotal: ${{model.subtotal}}</li>
+              <li><i class="fa fa-edit"></i> Valor envío: ${{model.shippingValue}}</li>
+              <li><i class="fa fa-edit"></i> Total: ${{model.total}}</li>
             </ul>
-            {{/each}}
             <div class="buttons-set">
                <button {{action "addPayment"}} class="btn-black">Conmfirmar Compra</button>
             </div>

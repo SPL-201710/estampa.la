@@ -32,7 +32,8 @@ export default DS.JSONAPISerializer.extend({
       return this._super(store, primaryModelClass, newPayload, id, requestType);
     }
   },
-  serialize: function(snapshot, options) {    
+  serialize: function(snapshot, options) {
+    console.log(options);
     var json = snapshot.attributes();
     return json;
   },

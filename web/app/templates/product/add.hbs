@@ -47,7 +47,9 @@
           <select value=shirt class="form-control select_theme" name=shirt onchange={{action 'selectShirt' value="target.value"}}>
             <option></option>
             {{#each model.shirts.content as |shirt|}}
-              <option value={{shirt.id}}>{{shirt.style.name}} ( {{shirt.size.name}}, {{shirt.color.name}}, {{shirt.material.name}} )</option>
+              <option value={{shirt.id}}>
+                {{shirt.style.name}} ( {{shirt.size.name}}, {{shirt.color.name}}, {{shirt.material.name}} )
+              </option>
             {{/each}}
           </select>
         </li>
@@ -106,7 +108,7 @@
                       <tr>
                         <td>{{text.printText.message}}</td>
                         <td>{{text.printText.size}}</td>
-                        <td><button {{action "deleteText" text.printText.message}} class="btn btn-danger">Eliminar</button></td>
+                        <td><button {{action "deleteText" text.id}} class="btn btn-danger">Eliminar</button></td>
                       </tr>
                       {{/each}}
                     </tbody>
@@ -119,7 +121,11 @@
       </div>
       <td><button {{action "addProduct"}} class="btn btn-success">Crear Producto</button></td>
     </div>
-    <div class="col-md-6 col-sm-6" style="background-color: #ccc; height: 100%;">
+    <div id="shirt_area" class="col-md-6 col-sm-6" style="margin-top: 15%; height: 100%; padding: 0;">
+      <img id="current_shirt_image" src="" style="width: 100%; position: relative;">
+      {{#each printsSelected as |print|}}
+        <img id="printed-{{print.id}}" src="" style="width: 100px; position: absolute; left: 40%;">
+      {{/each}}
     </div>
   </div>
 </div>
