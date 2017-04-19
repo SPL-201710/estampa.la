@@ -113,7 +113,8 @@ export default Ember.Controller.extend({
           "data": JSON.stringify(newpayment)
         }
         $.ajax(settings).done(function (response) {
-          alert("Pago Exitoso!");
+          alert("Compra realizada");
+          self.transitionToRoute('index');
         });
 
       });
