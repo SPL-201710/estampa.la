@@ -32,7 +32,7 @@ public class Print {
 	private String description;
 
 	@Column(nullable = false)
-	private byte[] image;
+	private String image;
 
 	@Column(nullable = false)
 	private String name;
@@ -60,7 +60,7 @@ public class Print {
 
 	}
 
-	public Print(UUID id, String description, byte[] image, String name, long price, int rating, int popularity, Theme theme, UUID owner, String ownerUsername){
+	public Print(UUID id, String description, String image, String name, long price, int rating, int popularity, Theme theme, UUID owner, String ownerUsername){
 		super();
 		this.id = id;
 		this.description = description;
@@ -90,11 +90,11 @@ public class Print {
 		this.description = description;
 	}
 
-	public byte[] getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(byte[] image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
