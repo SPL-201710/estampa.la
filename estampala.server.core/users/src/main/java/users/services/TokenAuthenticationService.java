@@ -78,6 +78,10 @@ public class TokenAuthenticationService {
 		if(user == null) {
 			throw new UserNotFoundException(username);
 		}
+		
+		if(!user.getActive()) {
+			throw new UserNotActiveException(user.getUsername());
+		}
 
 		UserSession userSession = sessionRepository.findAllByUser(user.getId());
 		if(userSession == null || !userSession.getJWT().equals(jwt)) {
