@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import users.exceptions.InvalidTokenException;
 import users.exceptions.RequiredParameterException;
+import users.exceptions.UserNotActiveException;
 import users.exceptions.UserNotFoundException;
 import users.models.User;
 import users.models.UserAuth;
@@ -45,19 +46,24 @@ public class SecurityService {
 	 * @return
 	 * @throws UserNotFoundException
 	 * @throws CredentialException
+	 * @throws UserNotActiveException 
 	 */
-	public UserSession login(String username, String password) throws UserNotFoundException, CredentialException {
+	public UserSession login(String username, String password) throws UserNotFoundException, CredentialException, UserNotActiveException {
 		String hashPwd = DigestUtils.sha256Hex(password);
 		User user = userRepository.findByUsername(username);
 
 		if(user == null) {
 			throw new UserNotFoundException(username);
 		}
+		
+		if(!user.getUserActive()) {
+			throw new UserNotActiveException(username);
+		}
 
 		UserAuth userAuth = userAuthRepository.findByUser(user.getId());
 		if(userAuth.getPassword().equals(hashPwd)) {
 			UserSession userSession = sessionRepository.findAllByUser(userAuth.getId());
-			if(userSession == null) {				
+			if(userSession == null) {
 				String token = tokenService.generateToken(username);
 				UserSession session = new UserSession();
 				session.setJWT(token);
@@ -71,15 +77,15 @@ public class SecurityService {
 		}
 	}
 
-	public void logout(String jwt) throws InvalidTokenException, UserNotFoundException {
+	public void logout(String jwt) throws InvalidTokenException, UserNotFoundException, UserNotActiveException {
 		tokenService.removeToken(jwt);
 	}
 
-	public UserSession validateToken(String jwt) throws InvalidTokenException, UserNotFoundException {
+	public UserSession validateToken(String jwt) throws InvalidTokenException, UserNotFoundException, UserNotActiveException {
 		return tokenService.validateToken(jwt);
 	}
 	
-	public void changeUserPassword(UUID id, UserAuthData userData) throws RequiredParameterException, UserNotFoundException, CredentialException {
+	public void changeUserPassword(UUID id, UserAuthData userData) throws RequiredParameterException, UserNotFoundException, CredentialException, UserNotActiveException {
 		
 		if(id == null) {
 			throw new RequiredParameterException("user ID");
@@ -98,6 +104,12 @@ public class SecurityService {
 		}
 		
 		UserAuth userAuth = userAuthRepository.findByUser(id);
+		
+		User user = userRepository.findOne(id);
+		
+		if(!user.getUserActive()) {
+			throw new UserNotActiveException(user.getUsername());
+		}
 		
 		String hashPwd = DigestUtils.sha256Hex(userData.getOriginalPwd());
 		

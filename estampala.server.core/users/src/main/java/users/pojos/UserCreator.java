@@ -13,6 +13,7 @@ public class UserCreator {
 	private String email;
 	private String phoneNumber;	
 	private List<UUID> roles;
+	private Boolean userActive;
 	
 	public UUID getUser() {
 		return user;
@@ -61,5 +62,11 @@ public class UserCreator {
 	}
 	public void setRoles(List<UUID> roles) {
 		this.roles = roles;
-	}	
+	}
+	public Boolean getUserActive() {
+		return userActive;
+	}
+	public void setUserActive(Boolean userActive) {
+		this.userActive = userActive;
+	}
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import commons.exceptions.EstampalaException;
 import users.exceptions.RequiredParameterException;
 import users.exceptions.RoleNotFoundException;
+import users.exceptions.UserNotActiveException;
 import users.exceptions.UserNotFoundException;
 import users.models.Role;
 import users.models.RoleRepository;
@@ -103,7 +104,7 @@ public class UserService {
 		if (item != null){
 
 			User user = userRepository.findOne(item.getUser());
-
+			
 			if (item.getRoles() != null){
 				List<Role> roles = new ArrayList<>();
 				for(UUID idRole : item.getRoles()){
@@ -128,6 +129,10 @@ public class UserService {
 
 			if (item.getLastName() != null){
 				user.setLastName(item.getLastName());
+			}
+			
+			if(item.getUserActive() != null){
+				user.setUserActive(item.getUserActive());
 			}
 
 			if (item.getPassword() != null){
@@ -166,27 +171,6 @@ public class UserService {
 	}
 
 	/**
-	 * deletes an user
-	 * @param user
-	 */
-	public void deleteUser(UUID id) throws UserNotFoundException {
-
-		if(!userRepository.exists(id)) {
-			throw new UserNotFoundException(id);
-		}
-
-		UserAuth userAuth = userAuthRepository.findByUser(id);
-		if(userAuth != null)
-			userAuthRepository.delete(userAuth.getId());
-
-		UserSession userSession =	userSessionRepository.findAllByUser(id);
-		if(userSession != null)
-			userSessionRepository.delete(userSession.getId());
-
-		userRepository.delete(id);
-	}
-
-	/**
 	 * returns the user with specified id
 	 * @param id id of user
 	 * @return user
@@ -199,9 +183,16 @@ public class UserService {
 	 * finds user by username
 	 * @param username
 	 * @return
+	 * @throws UserNotActiveException 
 	 */
-	public User findUserByUsername(String username) {
-		return userRepository.findByUsername(username);
+	public User findUserByUsername(String username) throws UserNotActiveException {
+		User user = userRepository.findByUsername(username);
+		
+		if(!user.getUserActive()) {
+			throw new UserNotActiveException(username);
+		}
+		
+		return user;
 	}
 
 	public Page<User> findAll(int page, int pageSize, String order, Specification<User> spec) {
@@ -217,13 +208,5 @@ public class UserService {
 	public Page<User> findAllRole(int page, int pageSize, String role) {
 		PageRequest pageRequest = new PageRequest(page - 1, pageSize);
 		return userRepository.findAllRole(role, pageRequest);
-	}
-
-	/**
-	 * delete the user
-	 * @param id
-	 */
-	public void delete(UUID id) {
-		userRepository.delete(id);
 	}
 }

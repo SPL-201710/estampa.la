@@ -33,6 +33,7 @@ public class User {
 	private String email;
 	private String phoneNumber;
 	private String username;
+	private Boolean userActive;
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Role> roles;
@@ -51,6 +52,7 @@ public class User {
 		this.phoneNumber = phoneNumber;
 		this.roles = roles;
 		this.username = username;
+		this.userActive = true;
 	}
 
 	public UUID getId() {
@@ -101,5 +103,13 @@ public class User {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public Boolean getUserActive() {
+		return userActive;
+	}
+
+	public void setUserActive(Boolean userActive) {
+		this.userActive = userActive;
 	}
 }

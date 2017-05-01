@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import users.exceptions.InvalidTokenException;
+import users.exceptions.UserNotActiveException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import users.models.User;
@@ -47,7 +48,7 @@ public class TokenAuthenticationService {
 	    return JWT;
 	}
 
-	public void removeToken(String jwt) throws UserNotFoundException, InvalidTokenException {
+	public void removeToken(String jwt) throws UserNotFoundException, InvalidTokenException, UserNotActiveException {
 			String username = Jwts.parser()
 					.setSigningKey(SECRET)
 					.parseClaimsJws(jwt.replace(TOKEN_PREFIX, ""))
@@ -66,7 +67,7 @@ public class TokenAuthenticationService {
 			sessionRepository.delete(userSession.getId());
 	}
 
-	public UserSession validateToken(String jwt) throws InvalidTokenException, UserNotFoundException {
+	public UserSession validateToken(String jwt) throws InvalidTokenException, UserNotFoundException, UserNotActiveException {
 		String username = Jwts.parser()
 				.setSigningKey(SECRET)
 				.parseClaimsJws(jwt.replace(TOKEN_PREFIX, ""))
