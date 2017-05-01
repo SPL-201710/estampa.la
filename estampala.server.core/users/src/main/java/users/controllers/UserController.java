@@ -60,6 +60,7 @@ public class UserController extends EstampalaController{
 											@And({	@Spec(path = "username", params={"username"}, spec = Equal.class),
 													@Spec(path = "firstName", params={"firstName"}, spec = Like.class),
 													@Spec(path = "lastName", params={"lastName"}, spec = Equal.class),
+													@Spec(path = "active", params={"active"}, spec = Equal.class),
 													@Spec(path = "email", params={"email"}, spec = Equal.class)}) Specification<User> spec) {
 
 

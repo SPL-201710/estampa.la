@@ -132,7 +132,7 @@ public class UserService {
 			}
 			
 			if(item.getUserActive() != null){
-				user.setUserActive(item.getUserActive());
+				user.setActive(item.getUserActive());
 			}
 
 			if (item.getPassword() != null){
@@ -187,11 +187,7 @@ public class UserService {
 	 */
 	public User findUserByUsername(String username) throws UserNotActiveException {
 		User user = userRepository.findByUsername(username);
-		
-		if(!user.getUserActive()) {
-			throw new UserNotActiveException(username);
-		}
-		
+
 		return user;
 	}
 

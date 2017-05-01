@@ -56,7 +56,7 @@ public class SecurityService {
 			throw new UserNotFoundException(username);
 		}
 		
-		if(!user.getUserActive()) {
+		if(!user.getActive()) {
 			throw new UserNotActiveException(username);
 		}
 
@@ -107,7 +107,7 @@ public class SecurityService {
 		
 		User user = userRepository.findOne(id);
 		
-		if(!user.getUserActive()) {
+		if(!user.getActive()) {
 			throw new UserNotActiveException(user.getUsername());
 		}
 		
