@@ -57,7 +57,7 @@ public class Print {
 	private String ownerUsername;
 	
 	@Column(nullable = true)
-	private Boolean printActive;
+	private Boolean active;
 	
 	public Print() {
 
@@ -75,7 +75,7 @@ public class Print {
 		this.theme = theme;
 		this.owner = owner;
 		this.ownerUsername = ownerUsername;
-		this.printActive= true;
+		this.active= true;
 	}
 
 	public UUID getId() {
@@ -158,11 +158,11 @@ public class Print {
 		this.ownerUsername = ownerUsername;
 	}
 
-	public Boolean getPrintActive() {
-		return printActive;
+	public Boolean getActive() {
+		return active;
 	}
 
-	public void setPrintActive(Boolean printActive) {
-		this.printActive = printActive;
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 }
