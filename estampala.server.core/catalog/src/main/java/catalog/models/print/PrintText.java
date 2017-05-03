@@ -28,23 +28,31 @@ public class PrintText {
 	
 	@ManyToOne
 	private PrintFont font;
-			
+	
+	@ManyToOne
+	private TextStyle textStyle;
+	
 	@Column(nullable = false)
 	private String message;
 	
 	@Column(nullable = false)
 	private int size;
+	
+	@Column(nullable = false)
+	private String hexadecimalColor;
 		
 	PrintText(){
 
 	}
 
-	public PrintText(UUID id, PrintFont font, String message, int size) {
+	public PrintText(UUID id, PrintFont font, String message, int size, TextStyle textStyle, String hexadecimalColor) {
 		super();
 		this.id = id;
 		this.font = font;
 		this.message = message;
 		this.size = size;
+		this.textStyle = textStyle;
+		this.hexadecimalColor = hexadecimalColor;
 	}
 
 	public UUID getId() {
@@ -77,5 +85,21 @@ public class PrintText {
 
 	public void setSize(int size) {
 		this.size = size;
+	}
+
+	public TextStyle getTextStyle() {
+		return textStyle;
+	}
+
+	public void setTextStyle(TextStyle textStyle) {
+		this.textStyle = textStyle;
+	}
+
+	public String getHexadecimalColor() {
+		return hexadecimalColor;
+	}
+
+	public void setHexadecimalColor(String hexadecimalColor) {
+		this.hexadecimalColor = hexadecimalColor;
 	}	
 }

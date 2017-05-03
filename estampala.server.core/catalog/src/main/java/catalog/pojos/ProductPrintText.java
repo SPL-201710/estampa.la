@@ -7,6 +7,8 @@ public class ProductPrintText {
 	private UUID font;
 	private String message;
 	private int size;
+	private UUID textStyle;
+	private String hexadecimalColor;
 	
 	public UUID getFont() {
 		return font;
@@ -25,5 +27,17 @@ public class ProductPrintText {
 	}
 	public void setSize(int size) {
 		this.size = size;
+	}
+	public UUID getTextStyle() {
+		return textStyle;
+	}
+	public void setTextStyle(UUID textStyle) {
+		this.textStyle = textStyle;
+	}
+	public String getHexadecimalColor() {
+		return hexadecimalColor;
+	}
+	public void setHexadecimalColor(String hexadecimalColor) {
+		this.hexadecimalColor = hexadecimalColor;
 	}	
 }

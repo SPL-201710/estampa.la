@@ -1,4 +1,4 @@
-package catalog.models.shirt;
+package catalog.models.print;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,34 +12,29 @@ import java.util.UUID;
 
 /**
  * @author akane
- *
+ * 
  */
 
 @Entity
-public class ShirtColor {
+public class TextStyle {
 
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
-	@Column(name = "id", unique = true, nullable = true)
+	@Column(name = "id", unique = true, nullable = false)
 	@Type(type="pg-uuid")
 	private UUID id;
 	
 	@Column(nullable = false)
-	private String hexadecimalValue;
-
-	@Column(nullable = false)
 	private String name;
 
-
-	ShirtColor(){
+	TextStyle(){
 
 	}
-
-	public ShirtColor(UUID id, String hexadecimalValue, String name) {
+	
+	public TextStyle(UUID id, String name) {
 		super();
-		this.id = id;		
-		this.hexadecimalValue = hexadecimalValue;
+		this.id = id;
 		this.name = name;
 	}
 
@@ -51,19 +46,11 @@ public class ShirtColor {
 		this.id = id;
 	}
 
-	public String getHexadecimalValue() {
-		return hexadecimalValue;
-	}
-
-	public void setHexadecimalValue(String hexadecimalValue) {
-		this.hexadecimalValue = hexadecimalValue;
-	}
-
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
-	}
+	}	
 }
