@@ -7,8 +7,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import catalog.exceptions.S3ImageUploadException;
 import catalog.models.shirt.ShirtStyle;
 import catalog.models.shirt.ShirtStyleRepository;
+import catalog.pojos.ShirtStyleCreator;
+import catalog.utils.S3Folders;
+import catalog.utils.S3Util;
 
 /**
  * 
@@ -20,6 +24,9 @@ public class ShirtStyleService {
 	
 	@Autowired
 	private ShirtStyleRepository repository;
+	
+	@Autowired
+	private S3Util s3Util;
 	
 	public ShirtStyleService() {
 		
@@ -34,16 +41,24 @@ public class ShirtStyleService {
 		return repository.findAll(pageRequest);
 	}
 	
-	public ShirtStyle save(ShirtStyle item) {
-		if (item != null){
-			return repository.save(item);
+	public ShirtStyle save(ShirtStyleCreator item) throws S3ImageUploadException {
+		if (item != null){			
+			String imageUrl = s3Util.upload(item.getImage(), item.getImageExtension(), S3Folders.SHIRT_STYLES);
+			
+			ShirtStyle shirtStyle = new ShirtStyle(UUID.randomUUID(), item.getName(), imageUrl);
+			
+			return repository.save(shirtStyle);
 		}
 		return null;
 	}	
 	
-	public ShirtStyle update(ShirtStyle item) {
+	public ShirtStyle update(ShirtStyleCreator item) throws S3ImageUploadException {
 		if (item != null){
-			return repository.save(item);
+			String imageUrl = s3Util.upload(item.getImage(), item.getImageExtension(), S3Folders.SHIRT_STYLES);
+			
+			ShirtStyle shirtStyle = new ShirtStyle(item.getId(), item.getName(), imageUrl);
+			
+			return repository.save(shirtStyle);
 		}
 		
 		return null;

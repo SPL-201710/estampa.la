@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import catalog.exceptions.ShirtStyleAlreadyExistsException;
 import catalog.exceptions.ShirtStyleNotFoundException;
 import catalog.models.shirt.ShirtStyle;
+import catalog.pojos.ShirtStyleCreator;
 import catalog.services.ShirtStyleService;
 import commons.controllers.EstampalaController;
+import commons.exceptions.EstampalaException;
 import commons.responses.SuccessResponse;
 
 @RestController
@@ -47,7 +49,7 @@ public class ShirtStyleController extends EstampalaController {
 
 	@CrossOrigin
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ShirtStyle> create(@RequestBody(required=false) ShirtStyle element) throws ShirtStyleAlreadyExistsException {
+	public ResponseEntity<ShirtStyle> create(@RequestBody(required=false) ShirtStyleCreator element) throws EstampalaException {
 		if(service.exists(element.getId())) {
 			throw new ShirtStyleAlreadyExistsException();
 		}
@@ -57,7 +59,7 @@ public class ShirtStyleController extends EstampalaController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.PATCH, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ShirtStyle> updatePatch(@PathVariable UUID id, @RequestBody ShirtStyle element) throws ShirtStyleNotFoundException {
+	public ResponseEntity<ShirtStyle> updatePatch(@PathVariable UUID id, @RequestBody ShirtStyleCreator element) throws EstampalaException {
 		if(!service.exists(id)) {
 			throw new ShirtStyleNotFoundException();
 		}
@@ -68,7 +70,7 @@ public class ShirtStyleController extends EstampalaController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ShirtStyle> update(@PathVariable UUID id, @RequestBody ShirtStyle element) throws ShirtStyleNotFoundException {
+	public ResponseEntity<ShirtStyle> update(@PathVariable UUID id, @RequestBody ShirtStyleCreator element) throws EstampalaException {
 		if(!service.exists(id)) {
 			throw new ShirtStyleNotFoundException();
 		}

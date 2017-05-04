@@ -26,7 +26,7 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 
-import catalog.exceptions.PrintImageUploadException;
+import catalog.exceptions.S3ImageUploadException;
 
 @Service
 public class S3Util {
@@ -40,10 +40,14 @@ public class S3Util {
 	@Value("${cloud.aws.s3.url}")
 	private String s3Url;
 
-	public String upload(byte[] image) throws PrintImageUploadException {
+	public String upload(byte[] image, String extensionFile, S3Folders folder) throws S3ImageUploadException {
 		String imageUrl = s3Url;		
 		try {
-			String fileName = "prints/" + UUID.randomUUID().toString() + ".jpg";
+			if (extensionFile == null || extensionFile.isEmpty()){
+				extensionFile = "png";
+			}
+			
+			String fileName = folder.getFolderName() + "/" + UUID.randomUUID().toString() + "." + extensionFile;
 			imageUrl = imageUrl + fileName;
 			
             InputStream stream = new ByteArrayInputStream(image);
@@ -52,7 +56,7 @@ public class S3Util {
             amazonS3.putObject(bucket, fileName, stream, meta);
             amazonS3.setObjectAcl(bucket, fileName, CannedAccessControlList.PublicRead);
         } catch (Exception ex) {
-            throw new PrintImageUploadException(ex.getMessage());
+            throw new S3ImageUploadException(ex.getMessage());
         }
 		
 		return imageUrl;
