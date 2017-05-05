@@ -1,6 +1,8 @@
 package users.services;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.security.auth.login.CredentialException;
 
@@ -8,6 +10,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import users.exceptions.CredentialsException;
 import users.exceptions.InvalidTokenException;
 import users.exceptions.RequiredParameterException;
 import users.exceptions.UserNotActiveException;
@@ -62,15 +65,16 @@ public class SecurityService {
 
 		UserAuth userAuth = userAuthRepository.findByUser(user.getId());
 		if(userAuth.getPassword().equals(hashPwd)) {
-			UserSession userSession = sessionRepository.findAllByUser(userAuth.getId());
-			if(userSession == null) {
+			List<UserSession> userSessions = sessionRepository.findAllByUser(userAuth.getId());
+			
+			if(userSessions == null || userSessions.isEmpty()) {
 				String token = tokenService.generateToken(username);
 				UserSession session = new UserSession();
 				session.setJWT(token);
 				session.setUser(user);
 				return sessionRepository.save(session);
 			} else {
-				return userSession;
+				return userSessions.get(0);
 			}
 		} else {
 			throw new CredentialException(username);
@@ -85,7 +89,7 @@ public class SecurityService {
 		return tokenService.validateToken(jwt);
 	}
 	
-	public void changeUserPassword(UUID id, UserAuthData userData) throws RequiredParameterException, UserNotFoundException, CredentialException, UserNotActiveException {
+	public void changeUserPassword(UUID id, UserAuthData userData) throws RequiredParameterException, UserNotFoundException, UserNotActiveException, CredentialsException {
 		
 		if(id == null) {
 			throw new RequiredParameterException("user ID");
@@ -120,7 +124,7 @@ public class SecurityService {
 			
 			userAuthRepository.save(userAuth);
 		} else {
-			throw new CredentialException("" + id);
+			throw new CredentialsException("" + id);
 		}
 	}
 }

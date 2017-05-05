@@ -25,6 +25,7 @@ import net.kaczmarzyk.spring.data.jpa.domain.Equal;
 import net.kaczmarzyk.spring.data.jpa.domain.Like;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
+import users.exceptions.CredentialsException;
 import users.exceptions.InvalidTokenException;
 import users.exceptions.RequiredParameterException;
 import users.exceptions.UserAlreadyExistsException;
@@ -137,7 +138,7 @@ public class UserController extends EstampalaController{
 	@CrossOrigin
 	@RequestMapping(value = "/auth/{id}",method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> changePassword(@PathVariable UUID id, @RequestBody UserAuthData authData) 
-			throws CredentialException, UserNotFoundException, InvalidTokenException, RequiredParameterException, UserNotActiveException {
+			throws UserNotFoundException, InvalidTokenException, RequiredParameterException, UserNotActiveException, CredentialsException {
 
 		securityService.changeUserPassword(id, authData);
 		

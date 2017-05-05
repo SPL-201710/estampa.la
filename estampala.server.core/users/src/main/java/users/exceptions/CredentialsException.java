@@ -12,13 +12,13 @@ public class CredentialsException extends EstampalaException{
 	public CredentialsException(String username) {
 
 		if (username == null){
-			username = "unknow";
+			username = "unknown";
 		}
 
 		ErrorResponse error = new ErrorResponse();
 		error.setError("credentials_dont_match");
 		error.setSucess(false);
-		error.setMessage(String.format("The credentials for user {0} don't match", username));
+		error.setMessage("The credentials for the user " + username + " don't match");
 		error.setHttpStatus(HttpStatus.BAD_REQUEST);
 
 		setError(error);
