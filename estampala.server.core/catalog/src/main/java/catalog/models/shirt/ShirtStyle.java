@@ -28,14 +28,18 @@ public class ShirtStyle {
 	@Column(nullable = false)
 	private String name;
 
+	@Column(nullable = false)
+	private String image;
+	
 	ShirtStyle(){
 
 	}
 	
-	public ShirtStyle(UUID id, String name) {
+	public ShirtStyle(UUID id, String name, String image) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.image = image;
 	}
 
 	public UUID getId() {
@@ -52,5 +56,13 @@ public class ShirtStyle {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}	
 }

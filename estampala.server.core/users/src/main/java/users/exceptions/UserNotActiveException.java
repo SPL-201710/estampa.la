@@ -30,7 +30,7 @@ public class UserNotActiveException extends EstampalaException{
 
 	private void createError(String param) {	
 		ErrorResponse error = new ErrorResponse();
-		error.setError("user_not_found");
+		error.setError("user_not_active");
 		error.setSucess(false);
 		error.setMessage(String.format("The user %1 is not active", param));
 		error.setHttpStatus(HttpStatus.UNAUTHORIZED);

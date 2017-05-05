@@ -15,6 +15,7 @@ import catalog.models.print.Print;
 import catalog.models.print.PrintRepository;
 import catalog.models.theme.Theme;
 import catalog.pojos.PrintCreator;
+import catalog.utils.S3Folders;
 import catalog.utils.S3Util;
 import commons.exceptions.EstampalaException;
 
@@ -64,7 +65,7 @@ public class PrintService {
 				throw new ThemeNotFoundException();
 			}
 			
-			String imageUrl = s3Util.upload(item.getImage());			
+			String imageUrl = s3Util.upload(item.getImage(), item.getImageExtension(), S3Folders.PRINTS);			
 			
 			Print print = new Print(UUID.randomUUID(), item.getDescription(), imageUrl, item.getName(), item.getPrice(), item.getRating(), item.getPopularity(), theme, owner, item.getOwnerUsername());
 
@@ -83,7 +84,7 @@ public class PrintService {
 			}
 
 			UUID owner = item.getOwner();			
-			String imageUrl = s3Util.upload(item.getImage());
+			String imageUrl = s3Util.upload(item.getImage(), item.getImageExtension(), S3Folders.PRINTS);
 
 			Print print = find(item.getPrint());
 			print.setDescription(item.getDescription());
