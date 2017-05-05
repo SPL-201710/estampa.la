@@ -13,9 +13,11 @@ import catalog.exceptions.PrintFontNotFoundException;
 import catalog.exceptions.PrintNotFoundException;
 import catalog.exceptions.ShirtNotFoundException;
 import catalog.exceptions.ShirtPrintPositionNotFoundException;
+import catalog.exceptions.TextStyleNotFoundException;
 import catalog.models.print.Print;
 import catalog.models.print.PrintFont;
 import catalog.models.print.PrintText;
+import catalog.models.print.TextStyle;
 import catalog.models.product.PrintInShirt;
 import catalog.models.product.Product;
 import catalog.models.product.ProductRepository;
@@ -51,6 +53,9 @@ public class ProductService {
 	@Autowired
 	private PrintFontsService printFontsService;
 
+	@Autowired
+	private TextStyleService textStyleService;
+	
 	public ProductService() {
 
 	}
@@ -163,8 +168,13 @@ public class ProductService {
 					if (printFont == null){
 						throw new PrintFontNotFoundException();
 					}
+					
+					TextStyle textStyle = textStyleService.find(p.getTextStyle());
+					if (textStyle == null){
+						throw new TextStyleNotFoundException();
+					}
 
-					PrintText printText = new PrintText(UUID.randomUUID(), printFont, p.getMessage(), p.getSize());
+					PrintText printText = new PrintText(UUID.randomUUID(), printFont, p.getMessage(), p.getSize(), textStyle, p.getHexadecimalColor());
 
 					textInShirt = new TextInShirt(UUID.randomUUID(), printText, shirtPrintPosition);
 				}

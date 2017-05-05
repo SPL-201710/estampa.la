@@ -22,7 +22,7 @@ public abstract class EstampalaController {
 			error.setError("unknow_error");
 			error.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 			error.setSucess(false);
-			error.setMessage(exception.getMessage());
+			error.setMessage(exception.getMessage() + " " + exception.getStackTrace());
 		}		
 		
 		return new ResponseEntity<ErrorResponse>(error, error.getHttpStatus());

@@ -44,6 +44,7 @@ public class PrintController extends EstampalaController {
 											@RequestParam(value="popularity", defaultValue="asc", required = false) String popularity,
 											@And({	@Spec(path = "theme.name", params={"theme"}, spec = Like.class),
 													@Spec(path = "ownerUsername", params={"owner"}, spec = Equal.class),
+													@Spec(path = "active", params={"active"}, spec = Equal.class),
 													@Spec(path = "rating", spec = Equal.class)}) Specification<Print> spec) {
 
 

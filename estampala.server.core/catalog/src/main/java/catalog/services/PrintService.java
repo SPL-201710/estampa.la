@@ -15,6 +15,8 @@ import catalog.models.print.Print;
 import catalog.models.print.PrintRepository;
 import catalog.models.theme.Theme;
 import catalog.pojos.PrintCreator;
+import catalog.utils.S3Folders;
+import catalog.utils.S3Util;
 import commons.exceptions.EstampalaException;
 
 /**
@@ -31,6 +33,9 @@ public class PrintService {
 	@Autowired
 	private ThemeService themeService;
 
+	@Autowired
+	private S3Util s3Util;
+	
 	public PrintService() {
 
 	}
@@ -49,7 +54,7 @@ public class PrintService {
 		PageRequest pageRequest = new PageRequest(page - 1, pageSize, direction, "popularity");
 		return repository.findAll(spec, pageRequest);
 	}
-
+	
 	public Print save(PrintCreator item) throws EstampalaException {
 		if (item != null){
 
@@ -59,15 +64,17 @@ public class PrintService {
 			if (theme == null){
 				throw new ThemeNotFoundException();
 			}
-
-			Print print = new Print(UUID.randomUUID(), item.getDescription(), item.getImage(), item.getName(), item.getPrice(), item.getRating(), item.getPopularity(), theme, owner, item.getOwnerUsername());
+			
+			String imageUrl = s3Util.upload(item.getImage(), item.getImageExtension(), S3Folders.PRINTS);			
+			
+			Print print = new Print(UUID.randomUUID(), item.getDescription(), imageUrl, item.getName(), item.getPrice(), item.getRating(), item.getPopularity(), theme, owner, item.getOwnerUsername());
 
 			return repository.save(print);
 		}
 
 		return null;
 	}
-
+	
 	public Print update(PrintCreator item) throws EstampalaException {
 		if (item != null){
 
@@ -76,11 +83,12 @@ public class PrintService {
 				throw new ThemeNotFoundException();
 			}
 
-			UUID owner = item.getOwner();
+			UUID owner = item.getOwner();			
+			String imageUrl = s3Util.upload(item.getImage(), item.getImageExtension(), S3Folders.PRINTS);
 
 			Print print = find(item.getPrint());
 			print.setDescription(item.getDescription());
-			print.setImage(item.getImage());
+			print.setImage(imageUrl);
 			print.setName(item.getName());
 			print.setPrice(item.getPrice());
 			print.setRating(item.getRating());

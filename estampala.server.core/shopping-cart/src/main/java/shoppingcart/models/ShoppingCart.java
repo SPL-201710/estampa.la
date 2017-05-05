@@ -41,10 +41,6 @@ public class ShoppingCart {
 	@NotNull
 	private Date date;
 
-	@NotNull
-	@Type(type="pg-uuid")
-	private UUID payment;
-
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<SCProduct> cartProducts;
 
@@ -98,14 +94,6 @@ public class ShoppingCart {
 
 	public void setDate(Date date) {
 		this.date = date;
-	}
-
-	public UUID getPayment() {
-		return payment;
-	}
-
-	public void setPayment(UUID payment) {
-		this.payment = payment;
 	}
 
 	public List<SCProduct> getCartProducts() {

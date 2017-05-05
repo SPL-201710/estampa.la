@@ -10,6 +10,7 @@ public class PrintCreator {
 
 	private String description;
 	private byte[] image;
+	private String imageExtension;
 	private String name;
 	private long 	price;
 	private int rating;
@@ -95,4 +96,12 @@ public class PrintCreator {
 	public void setOwnerUsername(String ownerUsername) {
 		this.ownerUsername = ownerUsername;
 	}
+
+	public String getImageExtension() {
+		return imageExtension;
+	}
+
+	public void setImageExtension(String imageExtension) {
+		this.imageExtension = imageExtension;
+	}	
 }

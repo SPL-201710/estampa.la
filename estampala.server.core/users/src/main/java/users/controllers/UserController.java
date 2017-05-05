@@ -25,9 +25,11 @@ import net.kaczmarzyk.spring.data.jpa.domain.Equal;
 import net.kaczmarzyk.spring.data.jpa.domain.Like;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
+import users.exceptions.CredentialsException;
 import users.exceptions.InvalidTokenException;
 import users.exceptions.RequiredParameterException;
 import users.exceptions.UserAlreadyExistsException;
+import users.exceptions.UserNotActiveException;
 import users.exceptions.UserNotFoundException;
 import users.models.User;
 import users.models.UserSession;
@@ -59,6 +61,7 @@ public class UserController extends EstampalaController{
 											@And({	@Spec(path = "username", params={"username"}, spec = Equal.class),
 													@Spec(path = "firstName", params={"firstName"}, spec = Like.class),
 													@Spec(path = "lastName", params={"lastName"}, spec = Equal.class),
+													@Spec(path = "active", params={"active"}, spec = Equal.class),
 													@Spec(path = "email", params={"email"}, spec = Equal.class)}) Specification<User> spec) {
 
 
@@ -106,33 +109,15 @@ public class UserController extends EstampalaController{
 	}
 
 	@CrossOrigin
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws UserNotFoundException {
-
-		if(!userService.exists(id)) {
-			throw new UserNotFoundException(id);
-		}
-
-		userService.deleteUser(id);
-
-		SuccessResponse response = new SuccessResponse();
-		response.setHttpStatus(HttpStatus.OK);
-		response.setSuccess(true);
-		response.setMessage("The user was successfully deleted");
-
-		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
-	}
-
-	@CrossOrigin
 	@RequestMapping(value = "/login",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public UserSession login(@RequestBody UserLogin auth) throws CredentialException, UserNotFoundException {
+	public UserSession login(@RequestBody UserLogin auth) throws CredentialException, UserNotFoundException, UserNotActiveException {
 
 		return securityService.login(auth.getUsername(), auth.getPassword());
 	}
 
 	@CrossOrigin
 	@RequestMapping(value = "/logout/",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SuccessResponse> logout(@RequestParam(value="token", required = true) String token) throws InvalidTokenException, UserNotFoundException {
+	public ResponseEntity<SuccessResponse> logout(@RequestParam(value="token", required = true) String token) throws InvalidTokenException, UserNotFoundException, UserNotActiveException {
 
 		securityService.logout(token);
 		SuccessResponse response = new SuccessResponse();
@@ -145,7 +130,7 @@ public class UserController extends EstampalaController{
 
 	@CrossOrigin
 	@RequestMapping(value = "/auth/",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public UserSession validateToken(@RequestParam(value="token", required = true) String token) throws CredentialException, UserNotFoundException, InvalidTokenException {
+	public UserSession validateToken(@RequestParam(value="token", required = true) String token) throws CredentialException, UserNotFoundException, InvalidTokenException, UserNotActiveException {
 
 		return securityService.validateToken(token);
 	}
@@ -153,7 +138,7 @@ public class UserController extends EstampalaController{
 	@CrossOrigin
 	@RequestMapping(value = "/auth/{id}",method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> changePassword(@PathVariable UUID id, @RequestBody UserAuthData authData) 
-			throws CredentialException, UserNotFoundException, InvalidTokenException, RequiredParameterException {
+			throws UserNotFoundException, InvalidTokenException, RequiredParameterException, UserNotActiveException, CredentialsException {
 
 		securityService.changeUserPassword(id, authData);
 		

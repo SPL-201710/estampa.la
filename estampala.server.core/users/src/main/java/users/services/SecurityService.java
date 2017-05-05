@@ -1,6 +1,8 @@
 package users.services;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.security.auth.login.CredentialException;
 
@@ -8,8 +10,10 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import users.exceptions.CredentialsException;
 import users.exceptions.InvalidTokenException;
 import users.exceptions.RequiredParameterException;
+import users.exceptions.UserNotActiveException;
 import users.exceptions.UserNotFoundException;
 import users.models.User;
 import users.models.UserAuth;
@@ -45,41 +49,47 @@ public class SecurityService {
 	 * @return
 	 * @throws UserNotFoundException
 	 * @throws CredentialException
+	 * @throws UserNotActiveException 
 	 */
-	public UserSession login(String username, String password) throws UserNotFoundException, CredentialException {
+	public UserSession login(String username, String password) throws UserNotFoundException, CredentialException, UserNotActiveException {
 		String hashPwd = DigestUtils.sha256Hex(password);
 		User user = userRepository.findByUsername(username);
 
 		if(user == null) {
 			throw new UserNotFoundException(username);
 		}
+		
+		if(!user.getActive()) {
+			throw new UserNotActiveException(username);
+		}
 
 		UserAuth userAuth = userAuthRepository.findByUser(user.getId());
 		if(userAuth.getPassword().equals(hashPwd)) {
-			UserSession userSession = sessionRepository.findAllByUser(userAuth.getId());
-			if(userSession == null) {				
+			List<UserSession> userSessions = sessionRepository.findAllByUser(userAuth.getId());
+			
+			if(userSessions == null || userSessions.isEmpty()) {
 				String token = tokenService.generateToken(username);
 				UserSession session = new UserSession();
 				session.setJWT(token);
 				session.setUser(user);
 				return sessionRepository.save(session);
 			} else {
-				return userSession;
+				return userSessions.get(0);
 			}
 		} else {
 			throw new CredentialException(username);
 		}
 	}
 
-	public void logout(String jwt) throws InvalidTokenException, UserNotFoundException {
+	public void logout(String jwt) throws InvalidTokenException, UserNotFoundException, UserNotActiveException {
 		tokenService.removeToken(jwt);
 	}
 
-	public UserSession validateToken(String jwt) throws InvalidTokenException, UserNotFoundException {
+	public UserSession validateToken(String jwt) throws InvalidTokenException, UserNotFoundException, UserNotActiveException {
 		return tokenService.validateToken(jwt);
 	}
 	
-	public void changeUserPassword(UUID id, UserAuthData userData) throws RequiredParameterException, UserNotFoundException, CredentialException {
+	public void changeUserPassword(UUID id, UserAuthData userData) throws RequiredParameterException, UserNotFoundException, UserNotActiveException, CredentialsException {
 		
 		if(id == null) {
 			throw new RequiredParameterException("user ID");
@@ -99,6 +109,12 @@ public class SecurityService {
 		
 		UserAuth userAuth = userAuthRepository.findByUser(id);
 		
+		User user = userRepository.findOne(id);
+		
+		if(!user.getActive()) {
+			throw new UserNotActiveException(user.getUsername());
+		}
+		
 		String hashPwd = DigestUtils.sha256Hex(userData.getOriginalPwd());
 		
 		if(userAuth.getPassword().equals(hashPwd)) {
@@ -108,7 +124,7 @@ public class SecurityService {
 			
 			userAuthRepository.save(userAuth);
 		} else {
-			throw new CredentialException("" + id);
+			throw new CredentialsException("" + id);
 		}
 	}
 }
