@@ -1,5 +1,6 @@
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/services/SecurityService.java
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/exceptions/RoleAlreadyExistsException.java
+/home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/pojos/UserAuthData.java
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/models/UserSessionRepository.java
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/models/UserAuth.java
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/UsersWebConfig.java
@@ -7,6 +8,7 @@
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/services/UserService.java
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/models/RoleRepository.java
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/services/TokenAuthenticationService.java
+/home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/exceptions/UserNotActiveException.java
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/models/UserAuthRepository.java
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/exceptions/UserNotFoundException.java
 /home/farruza/dev/java-projects/estampa.la/estampala.server.core/users/src/main/java/users/UsersPersistenceJPAConfig.java
