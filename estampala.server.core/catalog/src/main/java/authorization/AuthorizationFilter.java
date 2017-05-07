@@ -1,42 +1,75 @@
 package authorization;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import commons.responses.EstampalaResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
+
+import commons.responses.SuccessResponse;
+import commons.util.Endpoints;
 import commons.util.EstampalaTools;
 
-public class AuthorizationFilter implements Filter {
+public class AuthorizationFilter implements HandlerInterceptor{
 
-	@Override
-	public void  init(FilterConfig config) throws ServletException{
-	 
-	}
-	
-	@Override
-	public void  doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws java.io.IOException, ServletException {
-	
-		HttpServletRequest request = (HttpServletRequest) req;
-		HttpServletResponse response = (HttpServletResponse) res;
-		
-		EstampalaResponse validToken = EstampalaTools.validateToken(request);
-		
-		if(validToken.isSuccess()){
-			chain.doFilter(request,res);
-		}
-		else{			
-			EstampalaTools.sendHttpUnauthorizedResponse(response, validToken.getMessage());
-		}		
-	}
-	
-	@Override
-	public void destroy( ){
-	
-	}		
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        String authorizationHeader = request.getHeader("Authorization");
+        boolean permission = getPermission(authorizationHeader);
+        if(permission) {
+            return permission;
+        }
+        else {            
+            SuccessResponse msg = new SuccessResponse();
+            msg.setHttpStatus(HttpStatus.UNAUTHORIZED);
+            msg.setSuccess(false);
+            msg.setMessage("Access denied");
+    		
+            Gson gson = new Gson();
+            
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.setContentType("application/json");
+            Writer writer = response.getWriter();
+            writer.write(gson.toJson(msg));
+            
+            return false;
+        }        
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+
+    }
+    
+    private boolean getPermission(String authorizationHeader){
+    	return true;
+    	/*
+    	if (authorizationHeader != null && authorizationHeader.isEmpty()){
+    		String[] item = authorizationHeader.trim().split(" ");
+    		
+    		if (item.length == 2 && item[0].equalsIgnoreCase("token")){    			
+    			Map<String, String> parameters = new HashMap<>();
+    			parameters.put("token", item[1]);
+    			
+    			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.IS_TOKEN_VALID.getPath(), null, parameters, SuccessResponse.class);
+    			if (res != null)
+    			return res.isSuccess();
+    		}
+    	}
+    	
+    	return false;*/
+    }
 }
