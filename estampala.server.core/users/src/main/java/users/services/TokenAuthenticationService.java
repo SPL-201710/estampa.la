@@ -30,7 +30,7 @@ public class TokenAuthenticationService {
 	static final String HEADER_STRING = "Authorization";
 
 	@Autowired
-	private UserService userService;
+	private UserServiceSystem userService;
 
 	@Autowired
 	private UserSessionRepository sessionRepository;
@@ -80,47 +80,27 @@ public class TokenAuthenticationService {
 			sessionRepository.delete(userSessions.get(0).getId());
 	}
 
-	public UserSession validateToken(String jwt) throws InvalidTokenException, UserNotFoundException, UserNotActiveException {
-		
-		String username = "";
-		try {
-			username = Jwts.parser()
-				.setSigningKey(SECRET)
-				.parseClaimsJws(jwt.replace(TOKEN_PREFIX, ""))
-				.getBody()
-				.getSubject();
-		} catch (Exception e) {
-			throw new InvalidTokenException();
-		}
-
-		User user = userService.findUserByUsername(username);
-		if(user == null) {
-			throw new UserNotFoundException(username);
-		}
-		
-		if(!user.getActive()) {
-			throw new UserNotActiveException(user.getUsername());
-		}
-
-		List<UserSession> userSessions = sessionRepository.findAllByUser(user.getId());
-		
-		userSessions = userSessions.stream()
-				.filter(x -> x.getJWT().equals(jwt))
-				.collect(Collectors.toList());
-		
-		if(userSessions == null || !userSessions.get(0).getJWT().equals(jwt)) {
-			throw new InvalidTokenException();
-		}
-
+	public Date getExpiration(String jwt){
 		Date date = Jwts.parser()
 				.setSigningKey(SECRET)
 				.parseClaimsJws(jwt.replace(TOKEN_PREFIX, ""))
 				.getBody()
 				.getExpiration();
+		
+		return date;
+	}
+	
+	public boolean validateToken(String token) throws InvalidTokenException, UserNotFoundException, UserNotActiveException {		
+		UserSession userSession = sessionRepository.findByToken(token);		
+		
+		if(userSession == null) {
+			return false;
+		}	
 
-		if(date.compareTo(new Date()) < 0){
-			throw new InvalidTokenException();
+		if(userSession.getExpiration().compareTo(new Date()) < 0){
+			return false;
 		}
-		return userSessions.get(0);
+		
+		return true;
 	}
 }
