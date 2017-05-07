@@ -23,7 +23,7 @@ public class UserNotActiveException extends EstampalaException{
 	public UserNotActiveException(String username) {
 		
 		if (username == null){
-			username = "unknow";
+			username = "unknown";
 		}
 		createError(username);
 	}	

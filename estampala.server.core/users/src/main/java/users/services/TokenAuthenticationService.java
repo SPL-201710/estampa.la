@@ -1,19 +1,20 @@
 package users.services;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import users.exceptions.InvalidTokenException;
-import users.exceptions.UserNotActiveException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import users.exceptions.InvalidTokenException;
+import users.exceptions.UserNotActiveException;
+import users.exceptions.UserNotFoundException;
 import users.models.User;
 import users.models.UserSession;
 import users.models.UserSessionRepository;
-import users.services.UserService;
-import users.exceptions.UserNotFoundException;
 
 /**
  * Servicio de autenticacion
@@ -49,30 +50,48 @@ public class TokenAuthenticationService {
 	}
 
 	public void removeToken(String jwt) throws UserNotFoundException, InvalidTokenException, UserNotActiveException {
-			String username = Jwts.parser()
+		
+			String username = "";
+			try {
+			username = Jwts.parser()
 					.setSigningKey(SECRET)
 					.parseClaimsJws(jwt.replace(TOKEN_PREFIX, ""))
 					.getBody()
 					.getSubject();
+			} catch (Exception e) {
+				throw new InvalidTokenException();
+			}
 
 			User user = userService.findUserByUsername(username);
 			if(user == null) {
 					throw new UserNotFoundException(username);
 			}
 
-			UserSession userSession = sessionRepository.findAllByUser(user.getId());
-			if(userSession == null) {
+			List<UserSession> userSessions = sessionRepository.findAllByUser(user.getId());
+			
+			userSessions = userSessions.stream()
+					.filter(x -> x.getJWT().equals(jwt))
+					.collect(Collectors.toList());
+			
+			if(userSessions == null || userSessions.isEmpty()) {
 					throw new InvalidTokenException();
 			}
-			sessionRepository.delete(userSession.getId());
+
+			sessionRepository.delete(userSessions.get(0).getId());
 	}
 
 	public UserSession validateToken(String jwt) throws InvalidTokenException, UserNotFoundException, UserNotActiveException {
-		String username = Jwts.parser()
+		
+		String username = "";
+		try {
+			username = Jwts.parser()
 				.setSigningKey(SECRET)
 				.parseClaimsJws(jwt.replace(TOKEN_PREFIX, ""))
 				.getBody()
 				.getSubject();
+		} catch (Exception e) {
+			throw new InvalidTokenException();
+		}
 
 		User user = userService.findUserByUsername(username);
 		if(user == null) {
@@ -83,8 +102,13 @@ public class TokenAuthenticationService {
 			throw new UserNotActiveException(user.getUsername());
 		}
 
-		UserSession userSession = sessionRepository.findAllByUser(user.getId());
-		if(userSession == null || !userSession.getJWT().equals(jwt)) {
+		List<UserSession> userSessions = sessionRepository.findAllByUser(user.getId());
+		
+		userSessions = userSessions.stream()
+				.filter(x -> x.getJWT().equals(jwt))
+				.collect(Collectors.toList());
+		
+		if(userSessions == null || !userSessions.get(0).getJWT().equals(jwt)) {
 			throw new InvalidTokenException();
 		}
 
@@ -97,6 +121,6 @@ public class TokenAuthenticationService {
 		if(date.compareTo(new Date()) < 0){
 			throw new InvalidTokenException();
 		}
-		return userSession;
+		return userSessions.get(0);
 	}
 }
