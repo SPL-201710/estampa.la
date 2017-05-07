@@ -4,8 +4,19 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public enum Endpoints {
-	VALIDATE_TOKEN("validate_token"),
-	VALIDATE_TOKEN_FACEBOOK("validate_token_facebook");
+	IS_TOKEN_VALID("validate_token"),
+	VALIDATE_TOKEN_FACEBOOK("validate_token_facebook"),
+	USERS("users-service"),
+	SHIRT_STYLES("shirtStyles-service"),
+	SHIRT_SIZES("shirtSizes-service"),
+	THEMES("themes-service"),
+	SHIRT_MATERIALS("shirtMaterials-service"),
+	SHIRT_COLORS("shirtColors-service"),
+	SHIRTS("shirts-service"),
+	PRINTS("prints-service"),
+	PRINT_FONTS("printFonts-service"),
+	SHIRT_PRINT_POSITIONS("shirtPrintPositions-service"),
+	PRODUCT("products-service");
 	
 	private String key;
 	private Properties properties;
