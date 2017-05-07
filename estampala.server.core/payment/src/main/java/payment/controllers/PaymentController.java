@@ -73,7 +73,7 @@ public class PaymentController extends EstampalaController {
 
 	@CrossOrigin
 	@RequestMapping
-	
+
 	(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws PaymentNotFoundException {
 		if(!service.exists(id)) {

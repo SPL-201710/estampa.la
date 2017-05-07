@@ -18,15 +18,11 @@ public class AWSConfiguration {
 	@Value("${cloud.aws.region}")
 	private String region;
 
-	@Value("${estampala.s3.accesskey}")
-	private String accessKey;
-
-	@Value("${estampala.s3.secretkey}")
- 	private String secretKey;
-
-
-	@Bean
+  @Bean
 	public BasicAWSCredentials basicAWSCredentials() throws S3KeysNotFoundException {
+		String accessKey = System.getenv().get("ESTAMPALA_S3_ACCESSKEY");
+		String secretKey = System.getenv().get("ESTAMPALA_S3_SECRETKEY");
+
 		if (accessKey == null || secretKey == null || accessKey.isEmpty() || secretKey.isEmpty()){
 			throw new S3KeysNotFoundException();
 		}
