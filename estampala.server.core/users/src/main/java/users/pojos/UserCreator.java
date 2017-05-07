@@ -14,6 +14,7 @@ public class UserCreator {
 	private String phoneNumber;	
 	private List<UUID> roles;
 	private Boolean userActive;
+	private String method;
 	
 	public UUID getUser() {
 		return user;
@@ -69,4 +70,10 @@ public class UserCreator {
 	public void setUserActive(Boolean userActive) {
 		this.userActive = userActive;
 	}
+	public String getMethod() {
+		return method;
+	}
+	public void setMethod(String method) {
+		this.method = method;
+	}	
 }

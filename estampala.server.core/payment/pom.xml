@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <project xsi:schemaLocation="/co/edu/uniandes/estampala/resources/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
@@ -58,3 +59,48 @@
         </plugins>
     </build>
 </project>
+=======
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project xsi:schemaLocation="/co/edu/uniandes/estampala/resources/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>estampala.server.core</groupId>
+        <artifactId>estampala.server.core</artifactId>
+        <version>1.0</version>
+    </parent>
+    <artifactId>payment</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>estampala.server.core</groupId>
+            <artifactId>commons</artifactId>
+            <version>${commons.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.8.9</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.10</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <excludes xmlns="" xmlns:ns3="http://maven.apache.org/POM/4.0.0">
+                        <exclude>payment/aspects/giftcard/BuyGiftCard.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+>>>>>>> 21f33fa7c357c18cef638ade210f760f2a631a41

@@ -16,11 +16,11 @@ public class BuyGiftCard {
 
 	@Before("action()")
 	public void beforeAction(JoinPoint joinPoint) {
-		System.out.println("Advice antes de método bar");
+		System.out.println("Advice antes de método bar.");
 	}
 
 	@After("action()")
 	public void afterAction(JoinPoint joinPoint) {
-		System.out.println("Advice después de métdo bar");
+		System.out.println("Advice después de métdo bar.");
 	}
 }

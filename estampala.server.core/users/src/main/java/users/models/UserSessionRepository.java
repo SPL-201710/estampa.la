@@ -10,5 +10,7 @@ public interface UserSessionRepository extends JpaRepository<UserSession, UUID>{
 
 	@Query("select us from UserSession us where us.user.id = ?1")
 	public List<UserSession> findAllByUser(UUID userID);
-
+	
+	@Query("select us from UserSession us where us.token = ?1")
+	public UserSession findByToken(String token);
 }

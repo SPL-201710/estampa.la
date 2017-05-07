@@ -16,6 +16,7 @@ import payment.models.PaymentMethodPSE;
 import payment.models.PaymentMethodPSERepository;
 import payment.models.PaymentRepository;
 import payment.pojos.PaymentCreator;
+import shoppingcart.models.ShoppingCart;
 
 /**
  *
@@ -90,7 +91,7 @@ public class PaymentService {
 			throw new PaymentNotFoundException();
 		}
 		
-		restTemplate.getForEntity("http://localhost:8082/api/v1/carts/" + payment.getShoppingcart(), null);
+		ShoppingCart shoppingCart = restTemplate.getForObject("http://localhost:8082/api/v1/carts/" + payment.getShoppingcart(), ShoppingCart.class);
 	}
 	
 }
