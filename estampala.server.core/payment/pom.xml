@@ -18,6 +18,11 @@
             <artifactId>aspectjrt</artifactId>
             <version>1.8.9</version>
         </dependency>
+        	<dependency>
+    	<groupId>estampala.server.core</groupId>	    
+	    <artifactId>shopping-cart</artifactId>
+	    <version>${shopping-cart.version}</version>
+	</dependency>
     </dependencies>
 
     <build>

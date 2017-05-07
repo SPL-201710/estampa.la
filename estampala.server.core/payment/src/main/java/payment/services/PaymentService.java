@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import commons.exceptions.EstampalaException;
 import commons.util.EstampalaTools;
+import payment.exceptions.PaymentNotFoundException;
 import payment.models.Payment;
 import payment.models.PaymentMethodPSE;
 import payment.models.PaymentMethodPSERepository;
@@ -28,9 +30,11 @@ public class PaymentService {
 
 	@Autowired
 	private PaymentMethodPSERepository pseRepository;
+	
+	private final RestTemplate restTemplate;
 
 	public PaymentService() {
-
+		restTemplate = new RestTemplate();
 	}
 
 	public Payment find(UUID id) {
@@ -77,4 +81,16 @@ public class PaymentService {
 		}
 		return false;
 	}
+	
+	public void getInfoPayment(UUID id) throws PaymentNotFoundException {
+		
+		Payment payment = find(id);
+		
+		if(payment == null) {
+			throw new PaymentNotFoundException();
+		}
+		
+		restTemplate.getForEntity("http://localhost:8082/api/v1/carts/" + payment.getShoppingcart(), null);
+	}
+	
 }
