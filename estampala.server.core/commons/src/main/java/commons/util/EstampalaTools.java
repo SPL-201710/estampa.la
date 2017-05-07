@@ -109,9 +109,63 @@ public class EstampalaTools {
             String content = httpclient.execute(httpGet, responseHandler);
 			
 			Gson gson = new Gson();			
-			
 			return gson.fromJson(content, returnType);
 		
+		} catch (Exception e) {
+			return null;
+	    } finally {
+	    	try{
+		    	if (inputStream != null){
+		    		inputStream.close();
+		    	}
+	    	}catch(Exception e){};
+	    }
+	}
+	
+	public static <T> T invokePostRestServices(Endpoints endpoint, List<String> pathParameters, Map<String, String> parameters, Class<T> returnType){
+		return invokePostRestServices(endpoint.getPath(), pathParameters, parameters, returnType);
+	}
+	
+	public static <T> T invokePostRestServices(String baseUrl, List<String> pathParameters, Map<String, String> parameters, Class<T> returnType){		
+		InputStream inputStream = null;
+		try {						
+			StringBuilder url = new StringBuilder(baseUrl);
+			if (baseUrl.endsWith("/")){
+				url.deleteCharAt(url.length() - 1);				
+			}			
+			
+			if (pathParameters != null){
+				for(String value : pathParameters){
+					url.append("/");
+					url.append(value);					
+				}
+			}
+			
+			HttpClient httpclient = HttpClients.createDefault();
+			HttpPost httpPost = new HttpPost(url.toString());
+			
+			if (parameters != null){
+				List<NameValuePair> params = new ArrayList<NameValuePair>(parameters.size());				
+				for(String key : parameters.keySet()){
+					params.add(new BasicNameValuePair(key, parameters.get(key)));					
+				}
+				
+				httpPost.setEntity(new UrlEncodedFormEntity(params, "utf-8"));
+			}
+			
+			
+			HttpResponse response = httpclient.execute(httpPost);
+			HttpEntity entity = response.getEntity();
+	
+			if (entity != null) {				
+				inputStream = entity.getContent();
+				String content = IOUtils.toString(inputStream,"utf-8");
+				
+				Gson gson = new Gson();
+				return gson.fromJson(content, returnType);				
+			}
+			
+			return null;
 		} catch (Exception e) {
 			return null;
 	    } finally {
@@ -131,7 +185,7 @@ public class EstampalaTools {
 			}
 						
 			HttpClient httpclient = HttpClients.createDefault();
-			HttpPost httppost = new HttpPost(Endpoints.VALIDATE_TOKEN.getPath());
+			HttpPost httppost = new HttpPost(Endpoints.IS_TOKEN_VALID.getPath());
 	
 			List<NameValuePair> params = new ArrayList<NameValuePair>(1);
 			params.add(new BasicNameValuePair("token", token));			
