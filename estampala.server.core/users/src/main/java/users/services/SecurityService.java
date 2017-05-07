@@ -96,31 +96,27 @@ public class SecurityService {
 			parameters.put("access_token", token);
 			
 			FacebookResponse res = EstampalaTools.invokeGetRestServices(Endpoints.VALIDATE_TOKEN_FACEBOOK.getPath(), null, parameters, FacebookResponse.class);
-			if (res != null){				
-				if(res.getData() != null && res.getData().isIs_valid()){
-					
-					User user = userRepository.findByUsername(username);
+			if (res != null && res.getError() == null){					
+				User user = userRepository.findByUsername(username);
 
-					if(user == null) {
-						throw new UserNotFoundException(username);
-					}
-					
-					if(!user.getActive()) {
-						throw new UserNotActiveException(username);
-					}
-
-					
-					String jwToken = tokenService.generateToken(username);						
-					
-					UserSession session = new UserSession();
-					session.setJWT(jwToken);
-					session.setUser(user);
-					session.setToken(token);
-					session.setExpiration(tokenService.getExpiration(jwToken));
-					
-					return sessionRepository.save(session);
+				if(user == null) {
+					throw new UserNotFoundException(username);
 				}
 				
+				if(!user.getActive()) {
+					throw new UserNotActiveException(username);
+				}
+
+				
+				String jwToken = tokenService.generateToken(username);						
+				
+				UserSession session = new UserSession();
+				session.setJWT(jwToken);
+				session.setUser(user);
+				session.setToken(token);
+				session.setExpiration(tokenService.getExpiration(jwToken));
+				
+				return sessionRepository.save(session);				
 			}
 		}
 		

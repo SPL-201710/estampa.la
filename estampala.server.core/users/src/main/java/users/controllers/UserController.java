@@ -136,13 +136,13 @@ public class UserController extends EstampalaController{
 	}
 
 	@CrossOrigin
-	@RequestMapping(value = "/validateToken",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/validatetoken",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> validateToken(@RequestParam(value="token", required = true) String token) throws CredentialsException, UserNotFoundException, InvalidTokenException, UserNotActiveException {
 
 		SuccessResponse response = new SuccessResponse();
 		response.setHttpStatus(HttpStatus.OK);
 		response.setSuccess(securityService.validateToken(token));
-		response.setMessage("The token was successfully deleted");
+		response.setMessage("The token was successfully validate, look for success attribute");
 		
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}
