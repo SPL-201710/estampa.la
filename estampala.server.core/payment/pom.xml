@@ -33,9 +33,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <excludes xmlns="" xmlns:ns3="http://maven.apache.org/POM/4.0.0">
-                        <exclude>payment/aspects/giftcard/BuyGiftCard.java</exclude>
-                    </excludes>
+                    <excludes/>
                 </configuration>
             </plugin>
         </plugins>
