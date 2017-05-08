@@ -165,7 +165,7 @@ public class PrintService {
 			ratePrint.setRate(rate);
 		}
 		else{
-			print.setRating((rating + rate) / (counts + 1));
+			print.setRating((rating + rate) / 2);
 			print.setRatingCounts(counts + 1);
 			ratePrint = new RatePrint(UUID.randomUUID(), UUID.fromString(idUser), idPrint, rate);
 		}		
