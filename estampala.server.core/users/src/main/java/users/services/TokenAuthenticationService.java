@@ -1,8 +1,6 @@
 package users.services;
 
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +10,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import users.exceptions.InvalidTokenException;
 import users.exceptions.UserNotActiveException;
 import users.exceptions.UserNotFoundException;
-import users.models.User;
 import users.models.UserSession;
 import users.models.UserSessionRepository;
 
@@ -28,10 +25,7 @@ public class TokenAuthenticationService {
 	static final String SECRET = "Estampa.la";
 	static final String TOKEN_PREFIX = "Token";
 	static final String HEADER_STRING = "Authorization";
-
-	@Autowired
-	private UserServiceSystem userService;
-
+	
 	@Autowired
 	private UserSessionRepository sessionRepository;
 
@@ -49,35 +43,13 @@ public class TokenAuthenticationService {
 	    return JWT;
 	}
 
-	public void removeToken(String jwt) throws UserNotFoundException, InvalidTokenException, UserNotActiveException {
-		
-			String username = "";
-			try {
-			username = Jwts.parser()
-					.setSigningKey(SECRET)
-					.parseClaimsJws(jwt.replace(TOKEN_PREFIX, ""))
-					.getBody()
-					.getSubject();
-			} catch (Exception e) {
-				throw new InvalidTokenException();
-			}
-
-			User user = userService.findUserByUsername(username);
-			if(user == null) {
-					throw new UserNotFoundException(username);
-			}
-
-			List<UserSession> userSessions = sessionRepository.findAllByUser(user.getId());
-			
-			userSessions = userSessions.stream()
-					.filter(x -> x.getJWT().equals(jwt))
-					.collect(Collectors.toList());
-			
-			if(userSessions == null || userSessions.isEmpty()) {
+	public void removeToken(String token) throws UserNotFoundException, InvalidTokenException, UserNotActiveException {
+			UserSession userSession = sessionRepository.findByToken(token);									
+			if(userSession == null) {
 					throw new InvalidTokenException();
 			}
 
-			sessionRepository.delete(userSessions.get(0).getId());
+			sessionRepository.delete(userSession.getId());
 	}
 
 	public Date getExpiration(String jwt){
