@@ -20,9 +20,10 @@ public class AuthorizationValidator {
 		}
 		
         String authorizationHeader = request.getHeader("Authorization");
-        boolean permission = EstampalaTools.isTokenValid(authorizationHeader);
-        if(permission) {
-            return permission;
+        SuccessResponse permission = EstampalaTools.isTokenValid(authorizationHeader);
+        if(permission != null && permission.isSuccess()) {        	
+        	request.setAttribute("idUser", permission.getMessage());
+            return permission.isSuccess();
         }
         else {            
             SuccessResponse msg = new SuccessResponse();

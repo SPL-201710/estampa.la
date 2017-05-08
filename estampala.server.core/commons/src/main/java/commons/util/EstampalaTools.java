@@ -30,7 +30,7 @@ import commons.responses.SuccessResponse;
 
 public class EstampalaTools {
 	
-	public static boolean isTokenValid(String authorizationHeader){		
+	public static SuccessResponse isTokenValid(String authorizationHeader){		
 		if (authorizationHeader != null && !authorizationHeader.isEmpty()) {
 			String[] item = authorizationHeader.trim().split(" ");
     		
@@ -40,11 +40,11 @@ public class EstampalaTools {
 	    	
     			SuccessResponse res = invokePostRestServices(Endpoints.IS_TOKEN_VALID.getPath(), null, parameters, SuccessResponse.class);
     			if (res != null)
-    				return res.isSuccess();						       		        
+    				return res;						       		        
 			}
 		}
 		
-		return false;
+		return null;
 	}
 	
 	public static void sendHttpUnauthorizedResponse(HttpServletResponse response, String message) throws IOException {

@@ -141,8 +141,14 @@ public class UserController extends EstampalaController{
 
 		SuccessResponse response = new SuccessResponse();
 		response.setHttpStatus(HttpStatus.OK);
-		response.setSuccess(securityService.validateToken(token));
-		response.setMessage("The token was successfully validate, look for success attribute");
+		if(securityService.validateToken(token)){
+			response.setSuccess(true);
+			response.setMessage(securityService.getUserByToken(token).getId().toString());
+		}
+		else{
+			response.setSuccess(false);
+			response.setMessage("The token is invalid");
+		}		
 		
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}

@@ -131,6 +131,10 @@ public class SecurityService {
 		return tokenService.validateToken(token);
 	}
 	
+	public User getUserByToken(String token) throws CredentialsException, InvalidTokenException, UserNotFoundException, UserNotActiveException {
+		return tokenService.getUserByToken(token);
+	}
+	
 	public void changeUserPassword(UUID id, UserAuthData userData) throws RequiredParameterException, UserNotFoundException, UserNotActiveException, CredentialsException {
 		
 		if(id == null) {
