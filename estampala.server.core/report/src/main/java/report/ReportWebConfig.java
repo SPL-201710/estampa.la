@@ -1,4 +1,4 @@
-package users;
+package report;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import net.kaczmarzyk.spring.data.jpa.web.SpecificationArgumentResolver;
 
 @Configuration
 @EnableJpaRepositories
-public class UsersWebConfig extends WebMvcConfigurerAdapter  {
+public class ReportWebConfig extends WebMvcConfigurerAdapter  {
 	
 	@Bean
     AuthorizationFilter getSessionManager() {
@@ -25,7 +25,7 @@ public class UsersWebConfig extends WebMvcConfigurerAdapter  {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(getSessionManager())
         .addPathPatterns("/**")
-        .excludePathPatterns("/users/login", "/users/sociallogin", "/users/logout", "/users/validatetoken");
+        .excludePathPatterns("");
     }
     
 	@Override

@@ -1,5 +1,6 @@
 package users.models;
 
+import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -28,16 +29,24 @@ public class UserSession {
 
 	@Column(nullable = false)
 	private String JWT;
+	
+	@Column(nullable = false)
+	private String token;
+	
+	@Column(nullable = false)
+	private Date expiration;
 
 	public UserSession() {
 
 	}
 
-	public UserSession(UUID id, String jwt, User user) {
+	public UserSession(UUID id, String jwt, User user, String token, Date expiration) {
 		super();
 		this.id = id;
 		this.JWT = jwt;
 		this.user = user;
+		this.token = token;
+		this.expiration = expiration;
 	}
 
 	public UUID getId() {
@@ -63,4 +72,20 @@ public class UserSession {
 	public void setJWT(String jWT) {
 		JWT = jWT;
 	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public Date getExpiration() {
+		return expiration;
+	}
+
+	public void setExpiration(Date expiration) {
+		this.expiration = expiration;
+	}	
 }

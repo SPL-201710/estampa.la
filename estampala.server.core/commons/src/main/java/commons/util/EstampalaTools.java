@@ -3,16 +3,12 @@ package commons.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -25,67 +21,30 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 
 import com.google.gson.Gson;
 
 import commons.responses.ErrorResponse;
-import commons.responses.EstampalaResponse;
 import commons.responses.SuccessResponse;
 
 public class EstampalaTools {
 	
-	public static EstampalaResponse validateToken(HttpServletRequest request){
-		EstampalaResponse response = new ErrorResponse();
-		
-		String authHeader = request.getHeader("Authorization");
-		if (authHeader != null) {
-		      StringTokenizer st = new StringTokenizer(authHeader);
-		      if (st.hasMoreTokens()) {
-		        String type = st.nextToken();
-
-		        if (type.equalsIgnoreCase("Token")) {
-		          try {
-		            String token = st.nextToken();		            
-		            if (EstampalaTools.callValidationTokenService(token))
-		            {
-		            	SuccessResponse success = new SuccessResponse();
-		            	success.setSuccess(true);
-		            	success.setMessage("token is valid");
-		            	success.setHttpStatus(HttpStatus.OK);
-		            	
-		            	response = success;
-		            }		          			            
-		          } catch (Exception e) {
-		        	  ErrorResponse error = new ErrorResponse();
-		        	  error.setSucess(false);
-		        	  error.setError("user_unauthorized");
-		        	  error.setMessage(e.getMessage());
-		        	  
-		        	  response = error;
-		          }
-		        }
-		        else{
-		        	ErrorResponse error = new ErrorResponse();
-		        	error.setSucess(false);
-		        	error.setError("user_unauthorized");
-		        	error.setMessage("The type of authentication sent is not supported, only Token is allowed");
-  
-		        	response = error;		        	
-		        }		        
-		      }
-		      else {
-		        	ErrorResponse error = new ErrorResponse();
-		        	error.setSucess(false);
-		        	error.setError("user_unauthorized");
-		        	error.setMessage("An authentication type must be provided");
-  
-		        	response = error;		    	  
-		      }
+	public static boolean isTokenValid(String authorizationHeader){		
+		if (authorizationHeader != null && !authorizationHeader.isEmpty()) {
+			String[] item = authorizationHeader.trim().split(" ");
+    		
+    		if (item.length == 2 && item[0].equalsIgnoreCase("token")){    			
+    			Map<String, String> parameters = new HashMap<String, String>();
+    			parameters.put("token", item[1]);
+	    	
+    			SuccessResponse res = invokePostRestServices(Endpoints.IS_TOKEN_VALID.getPath(), null, parameters, SuccessResponse.class);
+    			if (res != null)
+    				return res.isSuccess();						       		        
+			}
 		}
 		
-		return response;
+		return false;
 	}
 	
 	public static void sendHttpUnauthorizedResponse(HttpServletResponse response, String message) throws IOException {
@@ -102,21 +61,31 @@ public class EstampalaTools {
 	    response.sendError(401, json);	    
 	}
 	
-	public static <T> T invokeGetRestServices(String baseUrl, UUID id, Map<String, String> parameters, Class<T> returnType){		
+	public static <T> T invokeGetRestServices(Endpoints endpoint, List<String> pathParameters, Map<String, String> queryParams, Class<T> returnType){
+		return invokeGetRestServices(endpoint.getPath(), pathParameters, queryParams, returnType);
+	}
+	
+	public static <T> T invokeGetRestServices(String baseUrl, List<String> pathParameters, Map<String, String> queryParams, Class<T> returnType){		
 		InputStream inputStream = null;
 		try {						
 			StringBuilder url = new StringBuilder(baseUrl);
-			if (!baseUrl.endsWith("/")){
-				url.append("/");				
+			if (baseUrl.endsWith("/")){
+				url.deleteCharAt(url.length() - 1);				
 			}			
-			url.append(id);
 			
-			if (parameters != null){
+			if (pathParameters != null){
+				for(String value : pathParameters){
+					url.append("/");
+					url.append(value);					
+				}
+			}
+			
+			if (queryParams != null){
 				url.append("?");
-				for(String key : parameters.keySet()){
+				for(String key : queryParams.keySet()){
 					url.append(key);
 					url.append("=");
-					url.append(parameters.get(key));
+					url.append(queryParams.get(key));
 					url.append("&");
 				}
 			}
@@ -127,24 +96,17 @@ public class EstampalaTools {
 			ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 
                 @Override
-                public String handleResponse(
-                        final HttpResponse response) throws ClientProtocolException, IOException {
-                    int status = response.getStatusLine().getStatusCode();
-                    if (status >= 200 && status < 300) {
-                        HttpEntity entity = response.getEntity();
-                        return entity != null ? EntityUtils.toString(entity) : null;
-                    } else {
-                        throw new ClientProtocolException("Unexpected response status: " + status);
-                    }
+                public String handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+                                       
+                    HttpEntity entity = response.getEntity();
+                    return entity != null ? EntityUtils.toString(entity) : null;                    
                 }
 
             };
 			
             String content = httpclient.execute(httpGet, responseHandler);
 			
-			Gson gson = new Gson();
-			gson.fromJson(content, returnType);
-			
+			Gson gson = new Gson();			
 			return gson.fromJson(content, returnType);
 		
 		} catch (Exception e) {
@@ -156,36 +118,53 @@ public class EstampalaTools {
 		    	}
 	    	}catch(Exception e){};
 	    }
-		
-		//return null;
 	}
-
-	private static boolean callValidationTokenService(String token){		
-		InputStream inputStream = null;
-		try {
-			if (token == null || token.isEmpty()){
-				return false;
-			}
-						
-			HttpClient httpclient = HttpClients.createDefault();
-			HttpPost httppost = new HttpPost(loadSystemProperties().getProperty("authorization-service"));
 	
-			List<NameValuePair> params = new ArrayList<NameValuePair>(1);
-			params.add(new BasicNameValuePair("token", token));			
-			httppost.setEntity(new UrlEncodedFormEntity(params, "utf-8"));
+	public static <T> T invokePostRestServices(Endpoints endpoint, List<String> pathParameters, Map<String, String> parameters, Class<T> returnType){
+		return invokePostRestServices(endpoint.getPath(), pathParameters, parameters, returnType);
+	}
+	
+	public static <T> T invokePostRestServices(String baseUrl, List<String> pathParameters, Map<String, String> parameters, Class<T> returnType){		
+		InputStream inputStream = null;
+		try {						
+			StringBuilder url = new StringBuilder(baseUrl);
+			if (baseUrl.endsWith("/")){
+				url.deleteCharAt(url.length() - 1);				
+			}			
+			
+			if (pathParameters != null){
+				for(String value : pathParameters){
+					url.append("/");
+					url.append(value);					
+				}
+			}
+			
+			HttpClient httpclient = HttpClients.createDefault();
+			HttpPost httpPost = new HttpPost(url.toString());
+			
+			if (parameters != null){
+				List<NameValuePair> params = new ArrayList<NameValuePair>(parameters.size());				
+				for(String key : parameters.keySet()){
+					params.add(new BasicNameValuePair(key, parameters.get(key)));					
+				}
 				
-			HttpResponse response = httpclient.execute(httppost);
+				httpPost.setEntity(new UrlEncodedFormEntity(params, "utf-8"));
+			}
+			
+			
+			HttpResponse response = httpclient.execute(httpPost);
 			HttpEntity entity = response.getEntity();
 	
 			if (entity != null) {				
-				inputStream = entity.getContent();
-				String content = IOUtils.toString(inputStream,"utf-8"); 
-				JSONObject jsonObj = new JSONObject(content);
-				return jsonObj.getBoolean("isValid");
+				String content = EntityUtils.toString(entity);
+				
+				Gson gson = new Gson();
+				return gson.fromJson(content, returnType);				
 			}
-		
+			
+			return null;
 		} catch (Exception e) {
-			return false;
+			return null;
 	    } finally {
 	    	try{
 		    	if (inputStream != null){
@@ -193,25 +172,5 @@ public class EstampalaTools {
 		    	}
 	    	}catch(Exception e){};
 	    }
-		
-		return false;
-	}
-	
-	public static Properties loadSystemProperties(){
-		Properties properties = new Properties();		
-		try {		
-			InputStream in = EstampalaTools.class.getClass().getResourceAsStream("/config.properties");
-		
-			properties.load(in);
-			in.close();
-		} catch (Exception e) {
-			
-		}	
-		
-		return properties;
-	}	
-	
-	public static String getProperty(String name){		
-		return loadSystemProperties().getProperty(name);		
 	}	
 }

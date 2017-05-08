@@ -1,8 +1,9 @@
 package users.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import javax.security.auth.login.CredentialException;
 
@@ -10,6 +11,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import commons.util.Endpoints;
+import commons.util.EstampalaTools;
 import users.exceptions.CredentialsException;
 import users.exceptions.InvalidTokenException;
 import users.exceptions.RequiredParameterException;
@@ -21,6 +24,7 @@ import users.models.UserAuthRepository;
 import users.models.UserRepository;
 import users.models.UserSession;
 import users.models.UserSessionRepository;
+import users.pojos.FacebookResponse;
 import users.pojos.UserAuthData;
 
 @Service
@@ -51,7 +55,7 @@ public class SecurityService {
 	 * @throws CredentialException
 	 * @throws UserNotActiveException 
 	 */
-	public UserSession login(String username, String password) throws UserNotFoundException, CredentialException, UserNotActiveException {
+	public UserSession login(String username, String password) throws UserNotFoundException, CredentialsException, UserNotActiveException {
 		String hashPwd = DigestUtils.sha256Hex(password);
 		User user = userRepository.findByUsername(username);
 
@@ -64,29 +68,67 @@ public class SecurityService {
 		}
 
 		UserAuth userAuth = userAuthRepository.findByUser(user.getId());
-		if(userAuth.getPassword().equals(hashPwd)) {
+		if(userAuth != null && userAuth.getPassword().equals(hashPwd)) {
 			List<UserSession> userSessions = sessionRepository.findAllByUser(userAuth.getId());
 			
 			if(userSessions == null || userSessions.isEmpty()) {
-				String token = tokenService.generateToken(username);
+				String jwToken = tokenService.generateToken(username);
+				
 				UserSession session = new UserSession();
-				session.setJWT(token);
-				session.setUser(user);
+				session.setJWT(jwToken);
+				session.setUser(user);				
+				session.setToken(jwToken);
+				session.setExpiration(tokenService.getExpiration(jwToken));
+				
 				return sessionRepository.save(session);
 			} else {
 				return userSessions.get(0);
 			}
 		} else {
-			throw new CredentialException(username);
+			throw new CredentialsException(username);
 		}
+	}
+	
+	public UserSession socialLogin(String token, String username, AuthenticationMethods socialNetwork) throws UserNotFoundException, CredentialsException, UserNotActiveException {
+		
+		if (socialNetwork == AuthenticationMethods.FACEBOOK){
+			Map<String, String> parameters = new HashMap<>();
+			parameters.put("access_token", token);
+			
+			FacebookResponse res = EstampalaTools.invokeGetRestServices(Endpoints.VALIDATE_TOKEN_FACEBOOK.getPath(), null, parameters, FacebookResponse.class);
+			if (res != null && res.getError() == null){					
+				User user = userRepository.findByUsername(username);
+
+				if(user == null) {
+					throw new UserNotFoundException(username);
+				}
+				
+				if(!user.getActive()) {
+					throw new UserNotActiveException(username);
+				}
+
+				
+				String jwToken = tokenService.generateToken(username);						
+				
+				UserSession session = new UserSession();
+				session.setJWT(jwToken);
+				session.setUser(user);
+				session.setToken(token);
+				session.setExpiration(tokenService.getExpiration(jwToken));
+				
+				return sessionRepository.save(session);				
+			}
+		}
+		
+		throw new CredentialsException(username);		
 	}
 
 	public void logout(String jwt) throws InvalidTokenException, UserNotFoundException, UserNotActiveException {
 		tokenService.removeToken(jwt);
 	}
 
-	public UserSession validateToken(String jwt) throws InvalidTokenException, UserNotFoundException, UserNotActiveException {
-		return tokenService.validateToken(jwt);
+	public boolean validateToken(String token) throws CredentialsException, InvalidTokenException, UserNotFoundException, UserNotActiveException {
+		return tokenService.validateToken(token);
 	}
 	
 	public void changeUserPassword(UUID id, UserAuthData userData) throws RequiredParameterException, UserNotFoundException, UserNotActiveException, CredentialsException {

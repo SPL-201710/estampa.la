@@ -1,7 +1,5 @@
 package users.pojos;
 
-import java.util.UUID;
-
 /**
  * @author jorge
  *

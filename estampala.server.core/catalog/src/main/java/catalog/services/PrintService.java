@@ -1,5 +1,7 @@
 package catalog.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,10 @@ import catalog.pojos.PrintCreator;
 import catalog.utils.S3Folders;
 import catalog.utils.S3Util;
 import commons.exceptions.EstampalaException;
+import commons.exceptions.OwnerNotFoundException;
+import commons.responses.SuccessResponse;
+import commons.util.Endpoints;
+import commons.util.EstampalaTools;
 
 /**
  *
@@ -59,7 +65,14 @@ public class PrintService {
 		if (item != null){
 
 			UUID owner = item.getOwner();
-
+			List<String> pathParameters = new ArrayList<String>();			
+			pathParameters.add(owner.toString());
+			
+			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
+			if (res == null || !res.isSuccess()){
+				throw new OwnerNotFoundException(owner.toString());
+			}
+			
 			Theme theme = themeService.find(item.getTheme());
 			if (theme == null){
 				throw new ThemeNotFoundException();
@@ -82,10 +95,18 @@ public class PrintService {
 			if (theme == null){
 				throw new ThemeNotFoundException();
 			}
-
-			UUID owner = item.getOwner();			
+						
 			String imageUrl = s3Util.upload(item.getImage(), item.getImageExtension(), S3Folders.PRINTS);
 
+			UUID owner = item.getOwner();
+			List<String> pathParameters = new ArrayList<String>();			
+			pathParameters.add(owner.toString());
+			
+			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
+			if (res == null || !res.isSuccess()){
+				throw new OwnerNotFoundException(owner.toString());
+			}
+			
 			Print print = find(item.getPrint());
 			print.setDescription(item.getDescription());
 			print.setImage(imageUrl);

@@ -19,7 +19,7 @@ public class CredentialsException extends EstampalaException{
 		error.setError("credentials_dont_match");
 		error.setSucess(false);
 		error.setMessage("The credentials for the user " + username + " don't match");
-		error.setHttpStatus(HttpStatus.BAD_REQUEST);
+		error.setHttpStatus(HttpStatus.UNAUTHORIZED);
 
 		setError(error);
 	}

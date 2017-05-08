@@ -2,8 +2,6 @@ package users.controllers;
 
 import java.util.UUID;
 
-import javax.security.auth.login.CredentialException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -36,8 +34,10 @@ import users.models.UserSession;
 import users.pojos.UserAuthData;
 import users.pojos.UserCreator;
 import users.pojos.UserLogin;
+import users.pojos.UserSocialLogin;
+import users.services.AuthenticationMethods;
 import users.services.SecurityService;
-import users.services.UserService;
+import users.services.UserServiceFactory;
 
 /**
  *
@@ -48,7 +48,7 @@ import users.services.UserService;
 public class UserController extends EstampalaController{
 
 	@Autowired
-	private UserService userService;
+	private UserServiceFactory userServiceFactory;
 
 	@Autowired
 	private SecurityService securityService;
@@ -65,7 +65,7 @@ public class UserController extends EstampalaController{
 													@Spec(path = "email", params={"email"}, spec = Equal.class)}) Specification<User> spec) {
 
 
-		return new ResponseEntity<Page<User>>(userService.findAll(page, pageSize, popularity, spec), HttpStatus.OK);
+		return new ResponseEntity<Page<User>>(userServiceFactory.getInstance(AuthenticationMethods.SYSTEM).findAll(page, pageSize, popularity, spec), HttpStatus.OK);
 	}
 	
 	@CrossOrigin
@@ -75,48 +75,55 @@ public class UserController extends EstampalaController{
 											@RequestParam(value="role", defaultValue="USER", required = true) String role) {
 
 
-		return new ResponseEntity<Page<User>>(userService.findAllRole(page, pageSize, role), HttpStatus.OK);
+		return new ResponseEntity<Page<User>>(userServiceFactory.getInstance(AuthenticationMethods.SYSTEM).findAllRole(page, pageSize, role), HttpStatus.OK);
 	}
 
 	@CrossOrigin
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> get(@PathVariable UUID id) throws UserNotFoundException {
-		if(!userService.exists(id)) {
+		if(!userServiceFactory.getInstance(AuthenticationMethods.SYSTEM).exists(id)) {
 			throw new UserNotFoundException(id);
 		}
 
-		return new ResponseEntity<User>(userService.findUserById(id), HttpStatus.OK);
+		return new ResponseEntity<User>(userServiceFactory.getInstance(AuthenticationMethods.SYSTEM).findUserById(id), HttpStatus.OK);
 	}
 
 	@CrossOrigin
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> createUser(@RequestBody UserCreator user) throws EstampalaException {
-		if(userService.exists(user.getUsername())) {
+		if(userServiceFactory.getInstance(user.getMethod()).exists(user.getUsername())) {
 			throw new UserAlreadyExistsException(user.getUsername());
 		}
 
-		return new ResponseEntity<User>(userService.saveUser(user), HttpStatus.OK);
+		return new ResponseEntity<User>(userServiceFactory.getInstance(user.getMethod()).saveUser(user), HttpStatus.OK);
 	}
 
 	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH}, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> updateUser(@PathVariable UUID id, @RequestBody UserCreator user) throws EstampalaException {
-		if(!userService.exists(id)) {
+		if(!userServiceFactory.getInstance(user.getMethod()).exists(id)) {
 			throw new UserNotFoundException(id);
 		}
 		user.setUser(id);
-		return new ResponseEntity<User>(userService.updateUser(user), HttpStatus.OK);
+		return new ResponseEntity<User>(userServiceFactory.getInstance(user.getMethod()).updateUser(user), HttpStatus.OK);
 	}
 
 	@CrossOrigin
 	@RequestMapping(value = "/login",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public UserSession login(@RequestBody UserLogin auth) throws CredentialException, UserNotFoundException, UserNotActiveException {
+	public UserSession login(@RequestBody UserLogin auth) throws CredentialsException, UserNotFoundException, UserNotActiveException {
 
 		return securityService.login(auth.getUsername(), auth.getPassword());
 	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/sociallogin",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public UserSession socialLogin(@RequestBody UserSocialLogin auth) throws CredentialsException, UserNotFoundException, UserNotActiveException {
+
+		return securityService.socialLogin(auth.getToken(), auth.getUsername(), AuthenticationMethods.parse(auth.getMethod()));
+	}
 
 	@CrossOrigin
-	@RequestMapping(value = "/logout/",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/logout",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> logout(@RequestParam(value="token", required = true) String token) throws InvalidTokenException, UserNotFoundException, UserNotActiveException {
 
 		securityService.logout(token);
@@ -129,10 +136,15 @@ public class UserController extends EstampalaController{
 	}
 
 	@CrossOrigin
-	@RequestMapping(value = "/auth/",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public UserSession validateToken(@RequestParam(value="token", required = true) String token) throws CredentialException, UserNotFoundException, InvalidTokenException, UserNotActiveException {
+	@RequestMapping(value = "/validatetoken",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SuccessResponse> validateToken(@RequestParam(value="token", required = true) String token) throws CredentialsException, UserNotFoundException, InvalidTokenException, UserNotActiveException {
 
-		return securityService.validateToken(token);
+		SuccessResponse response = new SuccessResponse();
+		response.setHttpStatus(HttpStatus.OK);
+		response.setSuccess(securityService.validateToken(token));
+		response.setMessage("The token was successfully validate, look for success attribute");
+		
+		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}
 	
 	@CrossOrigin
@@ -149,4 +161,15 @@ public class UserController extends EstampalaController{
 		
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/exist/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SuccessResponse> exist(@PathVariable UUID id) throws EstampalaException {
+		SuccessResponse response = new SuccessResponse();
+		response.setHttpStatus(HttpStatus.OK);
+		response.setSuccess(userServiceFactory.getInstance(AuthenticationMethods.SYSTEM).exists(id));
+		response.setMessage("Look success attribute");
+
+		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
+	}	
 }
