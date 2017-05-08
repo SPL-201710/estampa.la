@@ -6,6 +6,8 @@
 /web/node_modules
 /web/bower_components
 
+/EstampalaDerivador/bin/*
+
 # misc
 /web/.sass-cache
 /web/connect.lock

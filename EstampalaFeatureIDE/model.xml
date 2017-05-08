@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<featureModel>
+		<properties/>
+		<struct>
+			<and abstract="true" mandatory="true" name="Estampala">
+				<and mandatory="true" name="Catalogo">
+					<and mandatory="true" name="Navegar">
+						<feature mandatory="true" name="Tema"/>
+						<feature mandatory="true" name="Autor"/>
+						<feature name="Rating"/>
+						<feature mandatory="true" name="Popularidad"/>
+					</and>
+					<and mandatory="true" name="Estampa">
+						<feature name="Calificar"/>
+						<and mandatory="true" name="Consultar">
+							<feature mandatory="true" name="Info Basica"/>
+							<feature name="Info Detallada"/>
+						</and>
+						<feature mandatory="true" name="Publicar"/>
+						<feature mandatory="true" name="Eliminar"/>
+						<feature name="Compartir Estampa Redes Sociales"/>
+						<feature name="Reclasificar"/>
+					</and>
+					<and mandatory="true" name="Camiseta">
+						<feature mandatory="true" name="Configurar"/>
+						<feature name="Compartir Camiseta Redes Sociales"/>
+					</and>
+					<and mandatory="true" name="Parametros">
+						<feature mandatory="true" name="Temas"/>
+						<feature mandatory="true" name="Tallas"/>
+						<feature mandatory="true" name="Colores"/>
+						<feature mandatory="true" name="Estilos"/>
+						<feature mandatory="true" name="Materiales"/>
+					</and>
+				</and>
+				<and mandatory="true" name="Usuario">
+					<feature mandatory="true" name="Gestionar Roles"/>
+					<feature mandatory="true" name="Registrar"/>
+					<and mandatory="true" name="Editar Perfil">
+						<feature mandatory="true" name="Cambiar Contraseña"/>
+						<feature mandatory="true" name="Cambiar Info Envio"/>
+					</and>
+					<and mandatory="true" name="Autenticacion">
+						<feature mandatory="true" name="Sistema"/>
+						<and name="Redes Sociales">
+							<feature name="Facebook"/>
+							<feature name="Twitter"/>
+						</and>
+					</and>
+				</and>
+				<and mandatory="true" name="Pago">
+					<and mandatory="true" name="Realizar Pago">
+						<feature mandatory="true" name="PSE"/>
+						<feature name="Tarjeta Credito"/>
+						<feature name="Tarjeta Regalo"/>
+					</and>
+					<feature name="Adquirir Tarjeta Regalo"/>
+				</and>
+				<and name="Reporte">
+					<feature name="Consultar Ventas por Usuario"/>
+					<feature name="Consultar Estado Ventas"/>
+					<feature name="Consultar Estampas Rating"/>
+				</and>
+				<and mandatory="true" name="Carrito Compras">
+					<feature mandatory="true" name="Agregar Producto"/>
+					<feature mandatory="true" name="Modificar Contenido"/>
+					<feature mandatory="true" name="Comprar"/>
+					<feature mandatory="true" name="Generar Factura"/>
+				</and>
+			</and>
+		</struct>
+		<constraints>
+			<rule>
+				<imp>
+					<var>Calificar</var>
+					<var>Rating</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<var>Adquirir Tarjeta Regalo</var>
+					<var>Tarjeta Regalo</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<disj>
+						<var>Compartir Camiseta Redes Sociales</var>
+						<var>Compartir Estampa Redes Sociales</var>
+					</disj>
+					<var>Redes Sociales</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<var>Tarjeta Regalo</var>
+					<var>Adquirir Tarjeta Regalo</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<var>Rating</var>
+					<var>Calificar</var>
+				</imp>
+			</rule>
+		</constraints>
+		<calculations Auto="true" Constraints="true" Features="true" Redundant="true" Tautology="true"/>
+		<comments/>
+		<featureOrder userDefined="false"/>
+	</featureModel>
