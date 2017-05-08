@@ -123,7 +123,7 @@ public class UserController extends EstampalaController{
 	}
 
 	@CrossOrigin
-	@RequestMapping(value = "/logout/",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/logout",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> logout(@RequestParam(value="token", required = true) String token) throws InvalidTokenException, UserNotFoundException, UserNotActiveException {
 
 		securityService.logout(token);

@@ -3,13 +3,12 @@ package commons.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -22,27 +21,26 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 
 import com.google.gson.Gson;
 
 import commons.responses.ErrorResponse;
+import commons.responses.SuccessResponse;
 
 public class EstampalaTools {
 	
-	public static boolean validateToken(String authorizationHeader){		
+	public static boolean isTokenValid(String authorizationHeader){		
 		if (authorizationHeader != null && !authorizationHeader.isEmpty()) {
-			StringTokenizer st = new StringTokenizer(authorizationHeader);
-			if (st.hasMoreTokens()) {		    	  		        
-				try {		        	  
-					String type = st.nextToken();
-					String token = st.nextToken();	
-					
-					return callValidationTokenService(type, token);    	  	            
-				} catch (Exception e) {
-					return false;
-				}		       		        
+			String[] item = authorizationHeader.trim().split(" ");
+    		
+    		if (item.length == 2 && item[0].equalsIgnoreCase("token")){    			
+    			Map<String, String> parameters = new HashMap<String, String>();
+    			parameters.put("token", item[1]);
+	    	
+    			SuccessResponse res = invokePostRestServices(Endpoints.IS_TOKEN_VALID.getPath(), null, parameters, SuccessResponse.class);
+    			if (res != null)
+    				return res.isSuccess();						       		        
 			}
 		}
 		
@@ -158,8 +156,7 @@ public class EstampalaTools {
 			HttpEntity entity = response.getEntity();
 	
 			if (entity != null) {				
-				inputStream = entity.getContent();
-				String content = IOUtils.toString(inputStream,"utf-8");
+				String content = EntityUtils.toString(entity);
 				
 				Gson gson = new Gson();
 				return gson.fromJson(content, returnType);				
@@ -175,42 +172,5 @@ public class EstampalaTools {
 		    	}
 	    	}catch(Exception e){};
 	    }
-	}
-
-	private static boolean callValidationTokenService(String type, String token){		
-		InputStream inputStream = null;
-		try {
-			if (token == null || token.isEmpty()){
-				return false;
-			}
-						
-			HttpClient httpclient = HttpClients.createDefault();
-			HttpPost httppost = new HttpPost(Endpoints.IS_TOKEN_VALID.getPath());
-	
-			List<NameValuePair> params = new ArrayList<NameValuePair>(1);
-			params.add(new BasicNameValuePair("token", token));			
-			httppost.setEntity(new UrlEncodedFormEntity(params, "utf-8"));
-				
-			HttpResponse response = httpclient.execute(httppost);
-			HttpEntity entity = response.getEntity();
-	
-			if (entity != null) {				
-				inputStream = entity.getContent();
-				String content = IOUtils.toString(inputStream,"utf-8"); 
-				JSONObject jsonObj = new JSONObject(content);
-				return jsonObj.getBoolean("success");
-			}
-		
-		} catch (Exception e) {
-			return false;
-	    } finally {
-	    	try{
-		    	if (inputStream != null){
-		    		inputStream.close();
-		    	}
-	    	}catch(Exception e){};
-	    }
-		
-		return false;
-	}		
+	}	
 }
