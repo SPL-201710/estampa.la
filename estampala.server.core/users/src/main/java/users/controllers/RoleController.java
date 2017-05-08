@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import commons.controllers.EstampalaController;
+import commons.exceptions.EstampalaException;
 import commons.responses.SuccessResponse;
 import users.exceptions.RoleAlreadyExistsException;
 import users.exceptions.RoleNotFoundException;
@@ -90,6 +91,17 @@ public class RoleController extends EstampalaController {
 		response.setHttpStatus(HttpStatus.OK);
 		response.setSuccess(true);
 		response.setMessage("The role was successfully deleted");
+
+		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/exist/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SuccessResponse> exist(@PathVariable UUID id) throws EstampalaException {
+		SuccessResponse response = new SuccessResponse();
+		response.setHttpStatus(HttpStatus.OK);
+		response.setSuccess(service.exists(id));
+		response.setMessage("Look success attribute");
 
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}

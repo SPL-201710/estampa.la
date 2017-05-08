@@ -1,10 +1,9 @@
-package shoppingcart.exceptions;
+package commons.exceptions;
 
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 
-import commons.exceptions.EstampalaException;
 import commons.responses.ErrorResponse;
 
 public class CartNotFoundException extends EstampalaException {

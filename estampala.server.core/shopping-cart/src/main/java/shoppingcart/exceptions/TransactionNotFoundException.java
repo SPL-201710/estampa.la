@@ -24,7 +24,7 @@ private static final long serialVersionUID = 1L;
 		ErrorResponse error = new ErrorResponse();
 		error.setError("tx_not_found");
 		error.setSucess(false);
-		error.setMessage(String.format("The transaction doesn't exist", param));
+		error.setMessage("The transaction " + param + " doesn't exist");
 		error.setHttpStatus(HttpStatus.NOT_FOUND);
 		
 		setError(error);		
