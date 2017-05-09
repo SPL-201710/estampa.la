@@ -44,6 +44,15 @@ public class PaymentController extends EstampalaController {
 		}
 		return new ResponseEntity<Payment>(service.find(id), HttpStatus.OK);
 	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/info/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> getInfoPayment(@PathVariable UUID id) throws PaymentNotFoundException {
+		if(!service.exists(id)) {
+			throw new PaymentNotFoundException();
+		}
+		return new ResponseEntity<String>(service.getInfoPayment(id), HttpStatus.OK);
+	}
 
 	@CrossOrigin
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)

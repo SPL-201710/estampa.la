@@ -1,14 +1,24 @@
 package payment.services;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
 import commons.exceptions.EstampalaException;
+import commons.util.Endpoints;
 import commons.util.EstampalaTools;
 import payment.exceptions.PaymentNotFoundException;
 import payment.models.Payment;
@@ -16,6 +26,7 @@ import payment.models.PaymentMethodPSE;
 import payment.models.PaymentMethodPSERepository;
 import payment.models.PaymentRepository;
 import payment.pojos.PaymentCreator;
+import shoppingcart.models.SCProduct;
 import shoppingcart.models.ShoppingCart;
 
 /**
@@ -83,15 +94,21 @@ public class PaymentService {
 		return false;
 	}
 	
-	public void getInfoPayment(UUID id) throws PaymentNotFoundException {
+	public String getInfoPayment(UUID id) {
 		
 		Payment payment = find(id);
 		
-		if(payment == null) {
-			throw new PaymentNotFoundException();
-		}
+		List<String> parameters = new ArrayList<>();
+		parameters.add(payment.getShoppingcart().toString());
 		
-		ShoppingCart shoppingCart = restTemplate.getForObject("http://localhost:8082/api/v1/carts/" + payment.getShoppingcart(), ShoppingCart.class);
+		Gson gson = new Gson();
+		
+		JsonObject json = (JsonObject) gson.toJsonTree(payment);
+		json.remove("shoppingcart");
+		
+		JsonObject jsonCart = (JsonObject) gson.toJsonTree(EstampalaTools.invokeGetRestServices(Endpoints.SHOPPINGCART.getPath(), parameters, null, ShoppingCart.class));
+		json.add("shoppingcart", jsonCart);
+		
+		return gson.toJson(json);
 	}
-	
 }

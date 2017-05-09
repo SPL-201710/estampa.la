@@ -16,7 +16,9 @@ public enum Endpoints {
 	PRINTS("prints-service"),
 	PRINT_FONTS("printFonts-service"),
 	SHIRT_PRINT_POSITIONS("shirtPrintPositions-service"),
-	PRODUCT("products-service");
+	PRODUCT("products-service"),
+	PAYMENTS("payments-service"),
+	SHOPPINGCART("shopping-service");
 	
 	private String key;
 	private Properties properties;
