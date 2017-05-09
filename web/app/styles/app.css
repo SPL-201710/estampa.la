@@ -6,3 +6,8 @@
   margin-left: 3px;
   width: 0px;
 }
+
+.header-modal{
+  display: inline-block;
+  vertical-align: middle;
+}
