@@ -3,11 +3,11 @@ import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
   model() {
-    this.store.adapterFor('application').set('host', 'http://catalog.peoplerunning.co');
+    this.store.adapterFor('application').set('host', 'http://catalog.soybackend.com');
     return RSVP.hash({
-      prints: this.get('store').findAll('print'),
-      themes: this.get('store').findAll('theme'),
-      artists: Ember.$.getJSON('http://users.peoplerunning.co/api/v1/users/roles?role=ARTIST')
+      // prints: this.get('store').findAll('print'),
+      themes: Ember.$.getJSON('http://catalog.soybackend.com/api/v1/themes'),
+      artists: Ember.$.getJSON('http://users.soybackend.com/api/v1/users/roles?role=ARTIST')
     });
   }
 });

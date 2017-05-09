@@ -29,8 +29,8 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV.APP.API_HOST= 'http://users.peoplerunning.co';
-    ENV.contentSecurityPolicy = {'connnect-src': "'self' http://users.peoplerunning.co"};
+    ENV.APP.API_HOST= 'http://users.soybackend.com';
+    ENV.contentSecurityPolicy = {'connnect-src': "'self' http://users.soybackend.com"};
   }
 
   if (environment === 'test') {
@@ -45,7 +45,8 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    // ENV.APP.API_HOST= 'http://peoplerunning.com';
+    ENV.APP.API_HOST= 'http://users.soybackend.com';
+    ENV.contentSecurityPolicy = {'connnect-src': "'self' http://users.soybackend.com"};
   }
 
   ENV['ember-simple-auth'] = {
@@ -53,22 +54,22 @@ module.exports = function(environment) {
       "content-type": "application/json",
       "cache-control": "no-cache"
     },
-    authorizer: 'authorizer:jwt',
+    authorizer: 'authorizer:token',
     routeAfterAuthentication: 'index'
   }
 
   ENV['ember-simple-auth-token'] = {
-    serverTokenEndpoint: 'http://users.peoplerunning.co/api/v1/users/login',
+    serverTokenEndpoint: 'http://users.soybackend.com/api/v1/users/login',
     identificationField: 'username',
     passwordField: 'password',
-    tokenPropertyName: 'jwt',
+    tokenPropertyName: 'token',
     refreshTokenPropertyName: 'refresh_token',
     authorizationPrefix: 'Token ',
     authorizationHeaderName: 'Authorization',
     routeAfterAuthentication: 'index',
     headers: {
       "content-type": "application/json",
-      "cache-control": "no-cache"
+      "cache-control": "no-cache",
     }
   };
 

@@ -37,7 +37,7 @@ export default Ember.Controller.extend({
         shippingValue: this.get('shippingValue'),
         total: this.get('total'),
         cartProducts: this.get('cartProducts')
-      }
+      };
 
       localStorage.setItem("cart", JSON.stringify(cart));
       this.transitionToRoute('payment');

@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
     },
     editPrint: function(id){      
       var self = this;
-      this.store.adapterFor('application').set('host', 'http://catalog.peoplerunning.co');
+      this.store.adapterFor('application').set('host', 'http://catalog.soybackend.com');
       this.get('store').findRecord('print', id).then(function(print) {
         print.set('name', self.get('model.print.name'));
         print.set('price', self.get('model.print.price'));

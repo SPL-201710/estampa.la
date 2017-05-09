@@ -3,10 +3,9 @@ import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
   model: function() {
-    this.store.adapterFor('application').set('host', 'http://users.peoplerunning.co');
+    this.store.adapterFor('application').set('host', 'http://users.soybackend.com');
     return RSVP.hash({
-      roles: this.get('store').findAll('role')
-      // print: this.store.createRecord('print')
+      roles: Ember.$.getJSON('http://users.soybackend.com/api/v1/roles/')      
     });
   }
 });

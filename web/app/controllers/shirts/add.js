@@ -26,7 +26,7 @@ export default Ember.Controller.extend({
       this.set('material', value);
     },
     addShirt: function(){
-      this.store.adapterFor('application').set('host', 'http://catalog.peoplerunning.co');
+      this.store.adapterFor('application').set('host', 'http://catalog.soybackend.com');
       let newShirt = this.get('store').createRecord('shirt', {
         shirtStyle: this.get('style'),
         shirtSize: this.get('size'),

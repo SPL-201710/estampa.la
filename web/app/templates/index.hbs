@@ -38,7 +38,7 @@
           <h5>Temas</h5>
           <select class="select_author" onchange={{action 'changeTheme' value="target.value"}}>
             <option></option>
-            {{#each model.themes as |theme|}}
+            {{#each model.themes.content as |theme|}}
             <option value="{{theme.name}}">{{theme.name}}</option>
             {{/each}}
           </select>
@@ -108,7 +108,7 @@
           <div class="col-md-4 col-sm-6">
             <div class="product-item" id="print-{{estampa.id}}" {{action "selectPrint" estampa}}>
               <div class="item-thumb">
-                <img src="data:image/png;base64, {{estampa.image}}" class="img-responsive" alt=""/>
+                <img src="{{estampa.image}}" class="img-responsive" alt=""/>
                 <div class="overlay-rmore fa fa-check quickview"></div>
                 <div class="product-overlay">
                   <!-- <a href="#" class="addcart fa fa-shopping-cart"></a> -->

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import SessionService from 'ember-simple-auth/services/session';
 
 export default Ember.Controller.extend({
   session: Ember.inject.service('session'),
@@ -14,7 +15,10 @@ export default Ember.Controller.extend({
 
       reader.onloadend = function () {
         imageBase64 = reader.result.replace(/^data:image\/[a-z]+;base64,/, "");
-        self.store.adapterFor('application').set('host', 'http://catalog.peoplerunning.co');
+        var imgpath = Ember.$('#image').val();
+        var imgfile = imgpath.substr(imgpath.lastIndexOf('\\')+1);
+        var imgext = imgfile.substr(imgfile.lastIndexOf('.')+1);
+        self.store.adapterFor('application').set('host', 'http://catalog.soybackend.com');
         let newPrint = self.get('store').createRecord('print', {
           name: self.get('name'),
           description: self.get('description'),
@@ -23,8 +27,8 @@ export default Ember.Controller.extend({
           price: parseInt(self.get('price')),
           theme: self.get('theme'),
           image: imageBase64,
+          imageExtension: imgext,
           owner: self.get('session.data.authenticated.user.id'),
-          ownerUsername: self.get('session.data.authenticated.user.username')
         });
 
         function transitionToIndex () {

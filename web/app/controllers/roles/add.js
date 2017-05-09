@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   actions: {
     addRole: function(){
-      this.store.adapterFor('application').set('host', 'http://users.peoplerunning.co');
+      this.store.adapterFor('application').set('host', 'http://users.soybackend.com');
       var self = this;
       let newRole = this.get('store').createRecord('role', {
         name: self.get('name')

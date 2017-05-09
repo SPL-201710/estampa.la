@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   actions: {
     addPrintFont: function(){
-      this.store.adapterFor('application').set('host', 'http://catalog.peoplerunning.co');
+      this.store.adapterFor('application').set('host', 'http://catalog.soybackend.com');
       var self = this;
       let newPrintFont = this.get('store').createRecord('printfont', {
         name: self.get('name')

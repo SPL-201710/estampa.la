@@ -5,7 +5,7 @@ export default Ember.Controller.extend({
   actions: {
     editUser: function(){
       var self = this;
-      this.store.adapterFor('application').set('host', 'http://users.peoplerunning.co');
+      this.store.adapterFor('application').set('host', 'http://users.soybackend.com');
       this.get('store').findRecord('user', this.get('session.data.authenticated.user.id')).then(function(user) {
         user.set('firstName', self.get('model.firstName'));
         user.set('lastName', self.get('model.lastName'));

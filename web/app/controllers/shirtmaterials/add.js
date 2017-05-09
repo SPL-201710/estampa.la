@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   actions: {
     addShirtMaterial: function(){
-      this.store.adapterFor('application').set('host', 'http://catalog.peoplerunning.co');
+      this.store.adapterFor('application').set('host', 'http://catalog.soybackend.com');
       var self = this;
       let newShirtMaterial = this.get('store').createRecord('shirtmaterial', {
         name: self.get('name')

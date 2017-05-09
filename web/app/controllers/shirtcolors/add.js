@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   actions: {
     addShirtColor: function(){
-      this.store.adapterFor('application').set('host', 'http://catalog.peoplerunning.co');
+      this.store.adapterFor('application').set('host', 'http://catalog.soybackend.com');
       var self = this;
       let newShirtColor = this.get('store').createRecord('shirtcolor', {
         name: self.get('name'),

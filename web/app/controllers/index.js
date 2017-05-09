@@ -8,7 +8,6 @@ export default Ember.Controller.extend({
     this.set('rating', "");
     this.set('result', []);
     localStorage.setItem("printsSelected", null);
-    localStorage.setItem("products", null);
     localStorage.setItem("cart", null);
   },
   owner: "",
@@ -20,7 +19,7 @@ export default Ember.Controller.extend({
     this.set('result', []);
     var self = this;
     Ember.$.getJSON(
-      'http://catalog.peoplerunning.co/api/v1/prints/',
+      'http://catalog.soybackend.com/api/v1/prints/',
       {
         owner: this.get('owner'),
         theme: this.get('theme'),
@@ -71,6 +70,6 @@ export default Ember.Controller.extend({
         }
       }
       localStorage.setItem("printsSelected", JSON.stringify(printsSelected));
-    }
+    }    
   }
 });

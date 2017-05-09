@@ -4,7 +4,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
   model(params) {
-    this.store.adapterFor('application').set('host', 'http://catalog.peoplerunning.co');
+    this.store.adapterFor('application').set('host', 'http://catalog.soybackend.com');
     return this.get('store').findRecord('theme', params.theme_id);
   }
 });

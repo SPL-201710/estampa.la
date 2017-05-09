@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
       this.set('roleSelected', value);
     },
     addUser: function(){
-      this.store.adapterFor('application').set('host', 'http://users.peoplerunning.co');
+      this.store.adapterFor('application').set('host', 'http://users.soybackend.com');
 
       var roleArray = [];
       roleArray.push(this.get('roleSelected'));
@@ -36,7 +36,7 @@ export default Ember.Controller.extend({
           "password": user.get('password')
         };
 
-        var authenticator = 'authenticator:jwt';
+        var authenticator = 'authenticator:token';
         var selfold = self;
         self.get('session').authenticate(authenticator, credentials).then(function() {
           selfold.transitionToRoute('index');

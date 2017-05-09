@@ -46,7 +46,7 @@
                 <li class="col-md-6 col-sm-6">
                   <select value=role class="form-control select_theme" name="role" onchange={{action "updateValue" value="target.value"}}>
                     <option value=""></option>
-                    {{#each model.roles as |role|}}
+                    {{#each model.roles.content as |role|}}
                       {{#unless (eq role.name "ADMIN")}}
                         <option value={{role.id}}>{{role.name}}</option>
                       {{/unless}}

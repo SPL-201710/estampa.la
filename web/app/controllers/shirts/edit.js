@@ -30,7 +30,7 @@ export default Ember.Controller.extend({
       console.log(id);
       var self = this;
 
-      this.store.adapterFor('application').set('host', 'http://catalog.peoplerunning.co');
+      this.store.adapterFor('application').set('host', 'http://catalog.soybackend.com');
       this.get('store').findRecord('shirt', id).then(function(shirt) {
         if(self.get('style')===""){
           shirt.set('shirtStyle', self.get('model.shirt.style.id'));

@@ -20,7 +20,7 @@
         <div class="col-md-6 col-sm-6">
           <div class="product-item" id="print-{{print.id}}">
             <div class="item-thumb">
-              <img src="data:image/png;base64, {{print.image}}" class="img-responsive" alt=""/>
+              <img src="{{print.image}}" class="img-responsive" alt=""/>
               <div class="product-overlay">
               </div>
             </div>
@@ -73,10 +73,19 @@
                   </li>
                   <li class="col-md-12 col-sm-12">
                     <label>Fuente</label>
-                    <select value=textPosition class="form-control select_theme" name=textPosition onchange={{action 'selectPrintFont' value="target.value"}}>
+                    <select id="select-font" value=textPosition class="form-control select_theme" name=textPosition onchange={{action 'selectPrintFont' value="target.value"}}>
                       <option></option>
                       {{#each model.printfonts as |printfont|}}
                         <option value={{printfont.id}}>{{printfont.name}}</option>
+                      {{/each}}
+                    </select>
+                  </li>
+                  <li class="col-md-12 col-sm-12">
+                    <label>Estilo</label>
+                    <select id="select-style" value=textStyle class="form-control select_theme" name=textStyle onchange={{action 'selectTextStyle' value="target.value"}}>
+                      <option></option>
+                      {{#each model.textstyles as |textstyle|}}
+                        <option value={{textstyle.id}}>{{textstyle.name}}</option>
                       {{/each}}
                     </select>
                   </li>
@@ -87,6 +96,12 @@
                   <li class="col-md-12 col-sm-12">
                     <label>Tamaño (en número) <em>*</em></label>
                     {{input value=size placeholder="Font Size" required="required" type="text" class="input-text"}}
+                  </li>
+                  <li class="col-md-12 col-sm-12">
+                    <label>Selecciona Tu Color</label>
+                      {{#each model.shirtcolors as |color|}}
+                        <div id="{{color.id}}" {{action 'selectColor' color.id color.hexadecimalValue }} class="shirt-color" style="background-color: {{color.hexadecimalValue}};"></div>
+                      {{/each}}
                   </li>
                 </ul>
                 <div class="buttons-set">
@@ -121,10 +136,10 @@
       </div>
       <td><button {{action "addProduct"}} class="btn btn-success">Crear Producto</button></td>
     </div>
-    <div id="shirt_area" class="col-md-6 col-sm-6" style="margin-top: 15%; height: 100%; padding: 0;">
+    <div id="shirt_area" class="col-md-6 col-sm-6" style="margin-top: 10%; height: 100%; padding: 0;">
       <img id="current_shirt_image" src="" style="width: 100%; position: relative;">
       {{#each printsSelected as |print|}}
-        <img id="printed-{{print.id}}" src="" style="width: 100px; position: absolute; left: 40%;">
+        <img id="printed-{{print.id}}" src="" style="width: 100px; position: absolute; left: 42%;">
       {{/each}}
     </div>
   </div>
