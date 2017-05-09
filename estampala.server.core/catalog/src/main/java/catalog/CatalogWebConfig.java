@@ -25,7 +25,7 @@ public class CatalogWebConfig extends WebMvcConfigurerAdapter  {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(getSessionManager())
         .addPathPatterns("/**")
-        .excludePathPatterns("/resources/**", "/login");
+        .excludePathPatterns("");
     }
     
 	@Override

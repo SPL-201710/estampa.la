@@ -1,13 +1,19 @@
 package commons.controllers;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import commons.exceptions.EstampalaException;
 import commons.responses.ErrorResponse;
+import commons.responses.SuccessResponse;
 
 public abstract class EstampalaController {
+		
+	public abstract ResponseEntity<SuccessResponse> exist(@PathVariable UUID id) throws EstampalaException;
 	
 	@ExceptionHandler({EstampalaException.class, Exception.class})
 	public ResponseEntity<ErrorResponse> exceptionHandler(Exception exception) {

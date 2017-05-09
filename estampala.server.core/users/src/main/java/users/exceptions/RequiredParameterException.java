@@ -13,7 +13,7 @@ public class RequiredParameterException extends EstampalaException{
 		ErrorResponse error = new ErrorResponse();
 		error.setError("required_parameter_not_found");
 		error.setSucess(false);
-		error.setMessage(String.format("The parameter {0} is required", parameter));
+		error.setMessage("The parameter " + parameter + " is required");
 		error.setHttpStatus(HttpStatus.NOT_FOUND);
 		
 		setError(error);

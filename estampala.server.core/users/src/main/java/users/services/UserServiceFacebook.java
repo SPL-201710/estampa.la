@@ -126,7 +126,12 @@ public class UserServiceFacebook implements UserService{
 	 * @return boolean
 	 */
 	public Boolean exists(String username) {
-		return userRepository.findByUsername(username) != null ? true : false;
+		User user = userRepository.findByUsername(username);
+		if (user != null && user.getActive()){
+			return true;
+		}
+		
+		return false;		
 	}
 
 	/**
@@ -135,7 +140,12 @@ public class UserServiceFacebook implements UserService{
 	 * @return
 	 */
 	public boolean exists(UUID id){
-		return userRepository.exists(id);
+		User user = userRepository.findOne(id);
+		if (user != null && user.getActive()){
+			return true;
+		}
+		
+		return false;
 	}
 
 	/**

@@ -123,7 +123,7 @@ public class UserController extends EstampalaController{
 	}
 
 	@CrossOrigin
-	@RequestMapping(value = "/logout/",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/logout",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> logout(@RequestParam(value="token", required = true) String token) throws InvalidTokenException, UserNotFoundException, UserNotActiveException {
 
 		securityService.logout(token);
@@ -141,8 +141,14 @@ public class UserController extends EstampalaController{
 
 		SuccessResponse response = new SuccessResponse();
 		response.setHttpStatus(HttpStatus.OK);
-		response.setSuccess(securityService.validateToken(token));
-		response.setMessage("The token was successfully validate, look for success attribute");
+		if(securityService.validateToken(token)){
+			response.setSuccess(true);
+			response.setMessage(securityService.getUserByToken(token).getId().toString());
+		}
+		else{
+			response.setSuccess(false);
+			response.setMessage("The token is invalid");
+		}		
 		
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}
@@ -161,4 +167,15 @@ public class UserController extends EstampalaController{
 		
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/exist/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SuccessResponse> exist(@PathVariable UUID id) throws EstampalaException {
+		SuccessResponse response = new SuccessResponse();
+		response.setHttpStatus(HttpStatus.OK);
+		response.setSuccess(userServiceFactory.getInstance(AuthenticationMethods.SYSTEM).exists(id));
+		response.setMessage("Look success attribute");
+
+		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
+	}	
 }

@@ -21,6 +21,7 @@ import catalog.exceptions.ShirtColorNotFoundException;
 import catalog.models.shirt.ShirtColor;
 import catalog.services.ShirtColorService;
 import commons.controllers.EstampalaController;
+import commons.exceptions.EstampalaException;
 import commons.responses.SuccessResponse;
 
 @RestController
@@ -90,6 +91,17 @@ public class ShirtColorController extends EstampalaController {
 		response.setHttpStatus(HttpStatus.OK);
 		response.setSuccess(true);
 		response.setMessage("The color was successfully deleted");
+
+		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/exist/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SuccessResponse> exist(@PathVariable UUID id) throws EstampalaException {
+		SuccessResponse response = new SuccessResponse();
+		response.setHttpStatus(HttpStatus.OK);
+		response.setSuccess(service.exists(id));
+		response.setMessage("Look success attribute");
 
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}

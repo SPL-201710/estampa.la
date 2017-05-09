@@ -28,6 +28,10 @@ import payment.models.PaymentRepository;
 import payment.pojos.PaymentCreator;
 import shoppingcart.models.SCProduct;
 import shoppingcart.models.ShoppingCart;
+import commons.exceptions.CartNotFoundException;
+import commons.exceptions.OwnerNotFoundException;
+import commons.responses.SuccessResponse;
+import commons.util.Endpoints;
 
 /**
  *
@@ -60,6 +64,25 @@ public class PaymentService {
 
 	public Payment save(PaymentCreator item) throws EstampalaException {
 		if (item != null) {
+			
+			UUID owner = item.getOwner();
+			List<String> pathParameters = new ArrayList<String>();			
+			pathParameters.add(owner.toString());
+			
+			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
+			if (res == null || !res.isSuccess()){
+				throw new OwnerNotFoundException(owner.toString());
+			}
+			
+			UUID shoppingcart = item.getShoppingcart();
+			pathParameters = new ArrayList<String>();			
+			pathParameters.add(shoppingcart.toString());
+			
+			res = EstampalaTools.invokeGetRestServices(Endpoints.SHOPPING_CAR_EXIST, pathParameters, null, SuccessResponse.class);
+			if (res == null || !res.isSuccess()){
+				throw new CartNotFoundException(shoppingcart);
+			}
+			
 			Payment payment = new Payment(UUID.randomUUID(), item.getDate(), item.getTotal(), item.getOwner(), item.getShoppingcart());
 			payment = paymentRepository.save(payment);
 
@@ -106,7 +129,7 @@ public class PaymentService {
 		JsonObject json = (JsonObject) gson.toJsonTree(payment);
 		json.remove("shoppingcart");
 		
-		JsonObject jsonCart = (JsonObject) gson.toJsonTree(EstampalaTools.invokeGetRestServices(Endpoints.SHOPPINGCART.getPath(), parameters, null, ShoppingCart.class));
+		JsonObject jsonCart = (JsonObject) gson.toJsonTree(EstampalaTools.invokeGetRestServices(Endpoints.SHOPPING_CAR.getPath(), parameters, null, ShoppingCart.class));
 		json.add("shoppingcart", jsonCart);
 		
 		return gson.toJson(json);

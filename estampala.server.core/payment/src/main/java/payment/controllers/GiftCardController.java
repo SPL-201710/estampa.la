@@ -1,6 +1,5 @@
 package payment.controllers;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +84,17 @@ public class GiftCardController extends EstampalaController{
 		response.setHttpStatus(HttpStatus.OK);
 		response.setSuccess(true);
 		response.setMessage("The GiftCard was successfully deleted");
+
+		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/exist/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SuccessResponse> exist(@PathVariable UUID id) throws EstampalaException {
+		SuccessResponse response = new SuccessResponse();
+		response.setHttpStatus(HttpStatus.OK);
+		response.setSuccess(service.exists(id));
+		response.setMessage("Look success attribute");
 
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}

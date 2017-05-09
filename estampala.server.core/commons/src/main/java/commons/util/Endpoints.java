@@ -17,8 +17,23 @@ public enum Endpoints {
 	PRINT_FONTS("printFonts-service"),
 	SHIRT_PRINT_POSITIONS("shirtPrintPositions-service"),
 	PRODUCT("products-service"),
-	PAYMENTS("payments-service"),
-	SHOPPINGCART("shopping-service");
+	USERS_EXIST("users-exist-service"),
+	SHIRT_STYLES_EXIST("shirtStyles-exist-service"),
+	SHIRT_SIZES_EXIST("shirtSizes-exist-service"),
+	THEMES_EXIST("themes-exist-service"),
+	SHIRT_MATERIALS_EXIST("shirtMaterials-exist-service"),
+	SHIRT_COLORS_EXIST("shirtColors-exist-service"),
+	SHIRTS_EXIST("shirts-exist-service"),
+	PRINTS_EXIST("prints-exist-service"),
+	PRINT_FONTS_EXIST("printFonts-exist-service"),
+	SHIRT_PRINT_POSITIONS_EXIST("shirtPrintPositions-exist-service"),
+	PRODUCT_EXIST("products-exist-service"),
+	SHOPPING_CAR("shopping-car-service"),
+	SHOPPING_CAR_EXIST("products-exist-service"),
+	PAYMENT("payment-service"),
+	PAYMENT_EXIT("payment-exist-service"),
+	GIFTCARD("giftcard-service");
+
 	
 	private String key;
 	private Properties properties;

@@ -29,6 +29,10 @@ import catalog.pojos.ProductPrintText;
 import catalog.pojos.ProductPrintsInShirt;
 import catalog.pojos.ProductTextsInShirt;
 import commons.exceptions.EstampalaException;
+import commons.exceptions.OwnerNotFoundException;
+import commons.responses.SuccessResponse;
+import commons.util.Endpoints;
+import commons.util.EstampalaTools;
 
 /**
  *
@@ -75,6 +79,15 @@ public class ProductService {
 			List<PrintInShirt> printsInShirts = new ArrayList<>();
 			List<TextInShirt> textsInShirts = new ArrayList<>();
 
+			UUID owner = item.getOwner();
+			List<String> pathParameters = new ArrayList<String>();			
+			pathParameters.add(owner.toString());
+			
+			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
+			if (res == null || !res.isSuccess()){
+				throw new OwnerNotFoundException(owner.toString());
+			}
+			
 			Shirt shirt = null;
 			if (item.getShirt() != null){
 				shirt = shirtService.find(item.getShirt());
@@ -98,6 +111,15 @@ public class ProductService {
 			List<PrintInShirt> printsInShirts = new ArrayList<>();
 			List<TextInShirt> textsInShirts = new ArrayList<>();
 
+			UUID owner = item.getOwner();
+			List<String> pathParameters = new ArrayList<String>();			
+			pathParameters.add(owner.toString());
+			
+			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
+			if (res == null || !res.isSuccess()){
+				throw new OwnerNotFoundException(owner.toString());
+			}
+			
 			Shirt shirt = null;
 			if (item.getShirt() != null){
 				shirt = shirtService.find(item.getShirt());

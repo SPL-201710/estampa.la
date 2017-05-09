@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import commons.controllers.EstampalaController;
+import commons.exceptions.CartNotFoundException;
+import commons.exceptions.EstampalaException;
+import commons.exceptions.OwnerNotFoundException;
 import commons.responses.SuccessResponse;
-import shoppingcart.exceptions.CartNotFoundException;
 import shoppingcart.models.ShoppingCart;
 import shoppingcart.services.ShoppingCartService;
 
@@ -50,14 +52,14 @@ public class ShoppingCartController extends EstampalaController {
 
 	@CrossOrigin
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ShoppingCart> createShoppingCart(@RequestBody ShoppingCart cart) {
+	public ResponseEntity<ShoppingCart> createShoppingCart(@RequestBody ShoppingCart cart) throws OwnerNotFoundException {
 
 		return new ResponseEntity<ShoppingCart>(cartService.saveShoppingCart(cart), HttpStatus.OK);
 	}
 
 	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ShoppingCart> updateShoppingCart(@PathVariable UUID id, @RequestBody ShoppingCart cart) throws CartNotFoundException {
+	public ResponseEntity<ShoppingCart> updateShoppingCart(@PathVariable UUID id, @RequestBody ShoppingCart cart) throws CartNotFoundException, OwnerNotFoundException {
 		if(!cartService.exists(id)) {
 			throw new CartNotFoundException(id);
 		}
@@ -69,7 +71,7 @@ public class ShoppingCartController extends EstampalaController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/{id}", method = RequestMethod.PATCH, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ShoppingCart> updateShoppingCartPatch(@PathVariable UUID id, @RequestBody ShoppingCart cart) throws CartNotFoundException {
+	public ResponseEntity<ShoppingCart> updateShoppingCartPatch(@PathVariable UUID id, @RequestBody ShoppingCart cart) throws CartNotFoundException, OwnerNotFoundException {
 		if(!cartService.exists(id)) {
 			throw new CartNotFoundException(id);
 		}
@@ -91,6 +93,17 @@ public class ShoppingCartController extends EstampalaController {
 		response.setHttpStatus(HttpStatus.OK);
 		response.setSuccess(true);
 		response.setMessage("The shoppingcart was successfully deleted");
+
+		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/exist/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SuccessResponse> exist(@PathVariable UUID id) throws EstampalaException {
+		SuccessResponse response = new SuccessResponse();
+		response.setHttpStatus(HttpStatus.OK);
+		response.setSuccess(cartService.exists(id));
+		response.setMessage("Look success attribute");
 
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}

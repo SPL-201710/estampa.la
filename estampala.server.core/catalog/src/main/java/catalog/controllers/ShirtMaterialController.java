@@ -20,6 +20,7 @@ import catalog.exceptions.ShirtMaterialNotFoundException;
 import catalog.models.shirt.ShirtMaterial;
 import catalog.services.ShirtMaterialService;
 import commons.controllers.EstampalaController;
+import commons.exceptions.EstampalaException;
 import commons.responses.SuccessResponse;
 
 @RestController
@@ -89,6 +90,17 @@ public class ShirtMaterialController extends EstampalaController {
 		response.setHttpStatus(HttpStatus.OK);
 		response.setSuccess(true);
 		response.setMessage("The material was successfully deleted");
+
+		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/exist/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SuccessResponse> exist(@PathVariable UUID id) throws EstampalaException {
+		SuccessResponse response = new SuccessResponse();
+		response.setHttpStatus(HttpStatus.OK);
+		response.setSuccess(service.exists(id));
+		response.setMessage("Look success attribute");
 
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}
