@@ -15,7 +15,7 @@ public class InvalidTokenException extends EstampalaException {
 		error.setError("invalid_token");
 		error.setSucess(false);
 		error.setMessage("Invalid token");
-		error.setHttpStatus(HttpStatus.BAD_REQUEST);
+		error.setHttpStatus(HttpStatus.UNAUTHORIZED);
 
 		setError(error);
 	}

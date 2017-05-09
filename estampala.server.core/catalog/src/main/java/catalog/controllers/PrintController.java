@@ -2,6 +2,8 @@ package catalog.controllers;
 
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import catalog.exceptions.PrintAlreadyExistsException;
 import catalog.exceptions.PrintNotFoundException;
 import catalog.models.print.Print;
+import catalog.models.print.RatePrint;
 import catalog.pojos.PrintCreator;
 import catalog.services.PrintService;
 import commons.controllers.EstampalaController;
@@ -34,6 +37,9 @@ import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 @RequestMapping("/prints")
 public class PrintController extends EstampalaController {
 
+	@Autowired(required=true)
+	private HttpServletRequest request;
+	
 	@Autowired
 	private PrintService service;
 
@@ -105,6 +111,25 @@ public class PrintController extends EstampalaController {
 		response.setHttpStatus(HttpStatus.OK);
 		response.setSuccess(true);
 		response.setMessage("The print was successfully deleted");
+
+		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/{id}/rate", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<RatePrint> rate(@PathVariable UUID id, @RequestParam(value="rate", required = true) float rate) throws EstampalaException {
+		
+		String idUser = (String)request.getAttribute("idUser");
+		return new ResponseEntity<RatePrint>(service.rate(id, idUser, rate), HttpStatus.OK);
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/exist/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SuccessResponse> exist(@PathVariable UUID id) throws EstampalaException {
+		SuccessResponse response = new SuccessResponse();
+		response.setHttpStatus(HttpStatus.OK);
+		response.setSuccess(service.exists(id));
+		response.setMessage("Look success attribute");
 
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}

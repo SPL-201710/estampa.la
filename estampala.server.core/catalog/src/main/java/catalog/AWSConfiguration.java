@@ -22,10 +22,9 @@ public class AWSConfiguration {
 	private String accessKey;
 
 	@Value("${estampala.s3.secretkey}")
- 	private String secretKey;
+	private String secretKey;
 
-
-	@Bean
+  @Bean
 	public BasicAWSCredentials basicAWSCredentials() throws S3KeysNotFoundException {
 		if (accessKey == null || secretKey == null || accessKey.isEmpty() || secretKey.isEmpty()){
 			throw new S3KeysNotFoundException();

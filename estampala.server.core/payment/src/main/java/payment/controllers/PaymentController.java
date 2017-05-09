@@ -44,6 +44,15 @@ public class PaymentController extends EstampalaController {
 		}
 		return new ResponseEntity<Payment>(service.find(id), HttpStatus.OK);
 	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/info/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> getInfoPayment(@PathVariable UUID id) throws PaymentNotFoundException {
+		if(!service.exists(id)) {
+			throw new PaymentNotFoundException();
+		}
+		return new ResponseEntity<String>(service.getInfoPayment(id), HttpStatus.OK);
+	}
 
 	@CrossOrigin
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
@@ -73,7 +82,7 @@ public class PaymentController extends EstampalaController {
 
 	@CrossOrigin
 	@RequestMapping
-	
+
 	(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws PaymentNotFoundException {
 		if(!service.exists(id)) {
@@ -85,6 +94,17 @@ public class PaymentController extends EstampalaController {
 		response.setHttpStatus(HttpStatus.OK);
 		response.setSuccess(true);
 		response.setMessage("The Payment was successfully deleted");
+
+		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/exist/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SuccessResponse> exist(@PathVariable UUID id) throws EstampalaException {
+		SuccessResponse response = new SuccessResponse();
+		response.setHttpStatus(HttpStatus.OK);
+		response.setSuccess(service.exists(id));
+		response.setMessage("Look success attribute");
 
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}
