@@ -99,7 +99,7 @@ export default Ember.Controller.extend({
           textStyle: this.get("textStyle"),
           message: this.get("message"),
           size: this.get("size"),
-          hexadecimalColor: this.get("color"),
+          hexadecimalColor: this.get("color")
         }
       };
       textsInShirts.push(textInShirt);
@@ -109,7 +109,20 @@ export default Ember.Controller.extend({
       Ember.$.getJSON('http://catalog.soybackend.com/api/v1/shirtprintpositions/' + this.get('textPosition')).then(function(data) {
         Ember.$('#shirt_area').append('<p id=' + textid + ' style="width: 100%; text-align: center; position: absolute;">' + self.get("message") + ' </p>');
         Ember.$('#'+textid).css('top', data.hightInCentimeters + '%');
-        
+        Ember.$('#'+textid).css('color', self.get('color'));
+        Ember.$('#'+textid).css('font-family', Ember.$("#select-font option:selected").html());
+        var style = Ember.$("#select-style option:selected").html();
+        if(style=="NEGRITA"){
+          Ember.$('#'+textid).css('font-weight', 'bolder');
+        }
+        if(style=="CURSIVA"){
+          Ember.$('#'+textid).css('font-style', 'italic');
+        }
+        if(style=="SUBRAYADA"){
+          Ember.$('#'+textid).css('text-decoration', 'underline');
+        }
+
+        Ember.$('#'+textid).css('font-size', Number(self.get('size')));
       });
     },
     deleteText: function(idtext){
@@ -132,15 +145,13 @@ export default Ember.Controller.extend({
       	printsInShirts: this.get('printsInShirts'),
       	textsInShirts: this.get('textsInShirts')
       };
-      var products = localStorage.getItem("products");
-      if(products==="null"){
+      var products = JSON.parse(localStorage.getItem("products"));
+      if(products===null){
         products = [];
-        products.push(product);
       }
-      else{
-        products.push(product);
-      }
+      products.push(product);
       localStorage.setItem("products", JSON.stringify(products));
+      localStorage.setItem("printsSelected", null);
       this.transitionToRoute('cart');
     },
     selectColor(color, value) {

@@ -41,6 +41,17 @@ export default Ember.Controller.extend({
 
       localStorage.setItem("cart", JSON.stringify(cart));
       this.transitionToRoute('payment');
+    },
+    deleteProduct: function(product){
+      var products = JSON.parse(localStorage.getItem("products"));
+      products = products.filter(function(item) {
+        if(item.id!==product){
+          return item;
+        }
+      });
+      localStorage.setItem("products", JSON.stringify(products));
+      Ember.$('#'+product).prev().remove();
+      Ember.$('#'+product).remove();
     }
   }
 });

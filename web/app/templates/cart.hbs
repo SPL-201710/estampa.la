@@ -17,7 +17,7 @@
             <h4>Valor del envío: {{shippingValue}}</h4>
           </div>
           <div class="pull-right">
-            <button {{action "addCart"}}>Realizar Compra</button>
+            <button class="btn-success" {{action "addCart"}}>Realizar Compra</button>
           </div>
         </div>
       </div>
@@ -25,12 +25,35 @@
     <div class="space30"></div>
     <div class="row">
     {{#each model as |product|}}
-      <div class="col-md-4 col-sm-6">
-          <div class="product-info" style="text-align: center;">
+      <div class="col-md-12 col-sm-12">
+        <div class="col-md-4 col-sm-4">
+          <h3 class="text-center">
+            Camiseta Elegida
+          </h3>
+        </div>
+        <div class="col-md-4 col-sm-4">
+          <h3 class="text-center">
+            Estampas Elegidas
+          </h3>
+        </div>
+        <div class="col-md-4 col-sm-4">
+          <h3 class="text-center">
+            Información Adicional
+          </h3>
+        </div>
+      </div>
+      <div id="{{product.id}}" class="col-md-12 col-sm-12">
+        <div class="product-info" style="text-align: center;">
+          <div class="product-image col-md-4" style="padding: 0; background-color: {{product.shirt.color.hexadecimalValue}}">
+            <img src={{product.shirt.style.image}} class="img-responsive">
+          </div>
+          <div class="product-image col-md-4" style="padding: 3% 0;">
             {{#each product.printsInShirts as |printinshirt|}}
               <img src="{{printinshirt.print.image}}" class="img-responsive" alt="" style="text-align: center; max-height:100px; margin: 0 auto;"/>
               <h4 class="product-title"><span style="font-weight: bolder;">{{printinshirt.print.name}}</span></h4>
             {{/each}}
+          </div>
+          <div class="product-image col-md-4" style="padding: 3% 0;">
             <h4 class="product-title"><span>{{product.shirt.style.name}}</span></h4>
             <h4 class="product-title"><span>{{product.shirt.size.name}}</span></h4>
             <h4 class="product-title"><span>{{product.shirt.color.name}}</span></h4>
@@ -50,8 +73,12 @@
               <option value="9">9</option>
               <option value="10">10</option>
             </select>
+            <br/><br/>
+            <button class="btn-info" {{action "editProduct" product.id}}>Editar Producto</button>
+            <button class="btn-danger" {{action "deleteProduct" product.id}}>Eliminar del carrito</button>
           </div>
         </div>
+      </div>
     {{/each}}
     </div>
     <div class="space30"></div>
