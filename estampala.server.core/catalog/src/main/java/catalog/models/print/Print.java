@@ -38,14 +38,17 @@ public class Print {
 	private String name;
 
 	@Column(nullable = true)
-	private int popularity;
+	private long popularity;
 
 	@Column(nullable = false)
 	private long price;
 
 	@Column(nullable = true)
-	private int rating;
+	private float rating;
 
+	@Column(nullable = true)
+	private long ratingCounts;
+	
 	@ManyToOne
 	private Theme theme;
 
@@ -63,7 +66,7 @@ public class Print {
 
 	}
 
-	public Print(UUID id, String description, String image, String name, long price, int rating, int popularity, Theme theme, UUID owner, String ownerUsername){
+	public Print(UUID id, String description, String image, String name, long price, int rating, long popularity, Theme theme, UUID owner, String ownerUsername, long ratingCounts){
 		super();
 		this.id = id;
 		this.description = description;
@@ -76,6 +79,7 @@ public class Print {
 		this.owner = owner;
 		this.ownerUsername = ownerUsername;
 		this.active= true;
+		this.ratingCounts = ratingCounts;
 	}
 
 	public UUID getId() {
@@ -110,11 +114,11 @@ public class Print {
 		this.name = name;
 	}
 
-	public int getPopularity() {
+	public long getPopularity() {
 		return popularity;
 	}
 
-	public void setPopularity(int popularity) {
+	public void setPopularity(long popularity) {
 		this.popularity = popularity;
 	}
 
@@ -126,11 +130,11 @@ public class Print {
 		this.price = price;
 	}
 
-	public int getRating() {
+	public float getRating() {
 		return rating;
 	}
 
-	public void setRating(int rating) {
+	public void setRating(float rating) {
 		this.rating = rating;
 	}
 
@@ -165,4 +169,12 @@ public class Print {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
+
+	public long getRatingCounts() {
+		return ratingCounts;
+	}
+
+	public void setRatingCounts(long ratingCounts) {
+		this.ratingCounts = ratingCounts;
+	}	
 }

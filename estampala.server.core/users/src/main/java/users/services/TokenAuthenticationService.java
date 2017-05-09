@@ -10,6 +10,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import users.exceptions.InvalidTokenException;
 import users.exceptions.UserNotActiveException;
 import users.exceptions.UserNotFoundException;
+import users.models.User;
 import users.models.UserSession;
 import users.models.UserSessionRepository;
 
@@ -74,5 +75,15 @@ public class TokenAuthenticationService {
 		}
 		
 		return true;
+	}
+	
+	public User getUserByToken(String token) throws InvalidTokenException, UserNotFoundException, UserNotActiveException {		
+		UserSession userSession = sessionRepository.findByToken(token);		
+		
+		if(userSession == null) {
+			return null;
+		}
+		
+		return userSession.getUser();
 	}
 }
