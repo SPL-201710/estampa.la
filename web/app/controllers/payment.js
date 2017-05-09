@@ -4,19 +4,19 @@ export default Ember.Controller.extend({
   session: Ember.inject.service('session'),
   actions: {
     modalPayment: function(){
-      Ember.$("#modalpse").modal();
+      $("#modalpse").modal();
     },
     addPayment: function(){
-      Ember.$("#modalpse").modal('toggle');
-      Ember.$("#modalpayment").modal();
+      $("#modalpse").modal('toggle');
+      $("#modalpayment").modal();
       (function myLoop (i) {
         var value = (11-i)*10;
          setTimeout(function () {
-           Ember.$("#barra-pago").css("width", value + "%");
-           Ember.$("#barra-pago").attr("aria-valuenow", value + "%");
-           Ember.$("#barra-pago").html(value + "%");
+           $("#barra-pago").css("width", value + "%");
+           $("#barra-pago").attr("aria-valuenow", value + "%");
+           $("#barra-pago").html(value + "%");
            if (--i) myLoop(i);
-           else Ember.$("#modalpayment").modal('toggle');
+           else $("#modalpayment").modal('toggle');
          }, 200)
       })(10);
 
