@@ -15,23 +15,21 @@ import net.kaczmarzyk.spring.data.jpa.web.SpecificationArgumentResolver;
 @Configuration
 @EnableJpaRepositories
 public class UsersWebConfig extends WebMvcConfigurerAdapter  {
-	
-	@Bean
+
+		@Bean
     AuthorizationFilter getSessionManager() {
-         return new AuthorizationFilter();
+        return new AuthorizationFilter();
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(getSessionManager())
         .addPathPatterns("/**")
-        .excludePathPatterns("/users/login", "/users/sociallogin", "/users/logout", "/users/validatetoken");
+        .excludePathPatterns("/users", "/users/login", "/users/sociallogin", "/users/logout", "/users/validatetoken");
     }
-    
-	@Override
+
+	  @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new SpecificationArgumentResolver());
     }
 }
-
-
