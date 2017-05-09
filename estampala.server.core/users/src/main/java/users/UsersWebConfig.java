@@ -25,7 +25,7 @@ public class UsersWebConfig extends WebMvcConfigurerAdapter  {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(getSessionManager())
         .addPathPatterns("/**")
-        .excludePathPatterns("/roles", "/users", "/users/login", "/users/sociallogin", "/users/logout", "/users/validatetoken");
+        .excludePathPatterns("/users", "/users/login", "/users/sociallogin", "/users/logout", "/users/validatetoken");
     }
 
 	  @Override

@@ -72,9 +72,33 @@ public class DiverterService {
 	public void execute() {
 		
 		this.readFeatureConfig();
-		this.generateWebClientConfig();
+		this.generateConfigFiles();
+		this.configModules();
 		this.configAspectsWithMaven();
 		
+		
+		try {
+			// COMPILAR BACKEND APP
+			String cmd = "mvn -f " + estampala_source_code_path + System.getProperty("file.separator") + "estampala.server.core" + " clean install";
+			RunCommand.run(cmd);
+			String msg = "Se realiza compilación de Backend APP (clean & install).";
+	        Logger.getLogger(DiverterService.class.getName()).log(Level.INFO, msg);
+	        
+	        // 	CONSTRUIR BACKEND APP
+	        cmd = "mvn -f " + estampala_source_code_path + System.getProperty("file.separator") + "estampala.server.core" + " package";
+			RunCommand.run(cmd);
+			msg = "Se construye Backend APP (package).";
+	        Logger.getLogger(DiverterService.class.getName()).log(Level.INFO, msg);
+	        
+	        // CONSTRUIR FRONTEND APP
+//	        String cmd = "ember build --input-path=" + estampala_source_code_path + System.getProperty("file.separator") + "web" + " --environment=production";
+//			System.out.println(cmd);
+//	        RunCommand.run(cmd);
+//			String msg = "Se construye Frontend APP (ember build).";
+//	        Logger.getLogger(DiverterService.class.getName()).log(Level.INFO, msg);	        
+		} catch (IOException e) {
+			Logger.getLogger(SecurityProcessor.class.getName()).log(Level.SEVERE, null, e);
+		}		
 	}
 	
 	// LEER CONFIGURACION DEL PRODUCTO
@@ -86,7 +110,7 @@ public class DiverterService {
 	}
 	
 	// GENERAR ARCHIVO DE CONFIGURACION DE CLIENTE WEB (EMBERJS)
-	private void generateWebClientConfig() {		
+	private void generateConfigFiles() {		
         List<Module> modules = new LinkedList<Module>();
 		modules.add(new Module("catalog"));
 		modules.add(new Module("payment"));
@@ -94,9 +118,13 @@ public class DiverterService {
 		modules.add(new Module("users"));
 		
 		String path_prop = estampala_source_code_path + System.getProperty("file.separator") + "estampala.server.core" + System.getProperty("file.separator");
-		path_prop += "%s" + System.getProperty("file.separator") +  "src" + System.getProperty("file.separator") + "main" + System.getProperty("file.separator");
+		path_prop += "commons" + System.getProperty("file.separator") +  "src" + System.getProperty("file.separator") + "main" + System.getProperty("file.separator");
 		path_prop += "resources" + System.getProperty("file.separator") + "features.properties";
         
+		// Properties File for Backend App
+		Map<String, Boolean> features = new HashMap<String, Boolean>();
+		features.put("security", true);
+		
 		for (Module module : modules) {
 			
 			// Catalog Module 
@@ -106,17 +134,13 @@ public class DiverterService {
 				module.addFeature("calificar", this.features.containsKey("Calificar"));
 				module.addFeature("info_detallada", this.features.containsKey("Info Detallada"));
 				module.addFeature("compartir_estampa", this.features.containsKey("Compartir Estampa Redes Sociales"));
-				module.addFeature("compartir_camiseta", this.features.containsKey("Compartir Camiseta Redes Sociales"));
+				module.addFeature("compartir_camiseta", this.features.containsKey("Compartir Camiseta Redes Sociales"));				
 				
-				// Properties File for Backend App
-				Map<String, Boolean> features = new HashMap<String, Boolean>();
 				features.put("rating", this.features.containsKey("Rating"));
 				features.put("calificar", this.features.containsKey("Calificar"));
 				features.put("info_detallada", this.features.containsKey("Info Detallada"));
 				features.put("compartir_estampa", this.features.containsKey("Compartir Estampa Redes Sociales"));
 				features.put("compartir_camiseta", this.features.containsKey("Compartir Camiseta Redes Sociales"));
-				
-				this.generatePropertiesFile(String.format(path_prop, "catalog"), features);
 			}	
 			
 			// Payment Module
@@ -126,13 +150,9 @@ public class DiverterService {
 				module.addFeature("tarjeta_credito", this.features.containsKey("Tarjeta Credito"));
 				module.addFeature("tarjeta_regalo", this.features.containsKey("Tarjeta Regalo"));
 				
-				// Properties File for Backend App
-				Map<String, Boolean> features = new HashMap<String, Boolean>();
 				features.put("adquirir_tarjeta_regalo", this.features.containsKey("Adquirir Tarjeta Regalo"));
 				features.put("tarjeta_credito", this.features.containsKey("Tarjeta Credito"));
 				features.put("tarjeta_regalo", this.features.containsKey("Tarjeta Regalo"));
-				
-				this.generatePropertiesFile(String.format(path_prop, "payment"), features);
 			}
 			
 			// Report Module
@@ -142,13 +162,9 @@ public class DiverterService {
 				module.addFeature("estado_ventas", this.features.containsKey("Consultar Estado Ventas"));
 				module.addFeature("estampas_rating", this.features.containsKey("Consultar Estampas Rating"));
 				
-				// Properties File for Backend App
-				Map<String, Boolean> features = new HashMap<String, Boolean>();
 				features.put("ventas_usuario", this.features.containsKey("Consultar Ventas por Usuario"));
 				features.put("estado_ventas", this.features.containsKey("Consultar Estado Ventas"));
 				features.put("estampas_rating", this.features.containsKey("Consultar Estampas Rating"));
-				
-				this.generatePropertiesFile(String.format(path_prop, "report"), features);
 			}
 			
 			// Users Module
@@ -157,13 +173,11 @@ public class DiverterService {
 				module.addFeature("auth_facebook", this.features.containsKey("Facebook"));
 				module.addFeature("auth_twitter", this.features.containsKey("Twitter"));
 				
-				// Properties File for Backend App
-				Map<String, Boolean> features = new HashMap<String, Boolean>();
 				features.put("auth_facebook", this.features.containsKey("Facebook"));
 				features.put("auth_twitter", this.features.containsKey("Twitter"));
-				
-				this.generatePropertiesFile(String.format(path_prop, "users"), features);
 			}
+			
+			this.generatePropertiesFile(path_prop, features);
 		}
 		
 		// Generar archivo JSON
@@ -179,6 +193,41 @@ public class DiverterService {
         Logger.getLogger(DiverterService.class.getName()).log(Level.INFO, msg);
 	}
 	
+	// CONFIGURAR MODULOS
+	private void configModules() {
+		String path_pom = estampala_source_code_path + System.getProperty("file.separator") + "estampala.server.core";
+		path_pom += System.getProperty("file.separator") +  "pom.xml";
+		
+		// Leer POM: Estampala        
+		Model pom = this.readPOM(path_pom);
+		
+		String msg = "Archivo POM general cargado: " + path_pom;
+        Logger.getLogger(DiverterService.class.getName()).log(Level.INFO, msg);
+        
+        // Modificar POM
+		List<String> list = pom.getModules().getModule();
+		int index = -1;
+		for (int i=0; i<list.size(); i++) {
+			if( list.get(i).equals("report") ) {
+				index = i;
+			}
+		}
+		
+		if( index != -1 && !this.features.containsKey("Consultar Ventas por Usuario") && !this.features.containsKey("Consultar Estado Ventas") && !this.features.containsKey("Consultar Estampas Rating")) {
+			list.remove(index);
+		} 
+		else {
+			if(index == -1) {
+				pom.getModules().getModule().add("report");
+			}
+		}
+		
+		// Guardar POM: Estampala
+		this.writePOM(pom, path_pom);
+		msg = "Archivo POM general actualizado: " + path_pom;
+        Logger.getLogger(DiverterService.class.getName()).log(Level.INFO, msg);
+	}
+	
 	// CONFIGURAR ASPECTOS
 	private void configAspectsWithMaven() {
 		String path_pom = estampala_source_code_path + System.getProperty("file.separator") + "estampala.server.core" + System.getProperty("file.separator");
@@ -187,6 +236,7 @@ public class DiverterService {
 		// Leer POM: Gift Card - Payment Module
         path_pom = String.format(path_pom, "payment");
 		Model pom = this.readPOM(path_pom);
+		
 		String msg = "Archivo POM del Módulo Payment cargado: " + path_pom;
         Logger.getLogger(DiverterService.class.getName()).log(Level.INFO, msg);
 		
