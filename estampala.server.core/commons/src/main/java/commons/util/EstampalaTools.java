@@ -99,7 +99,7 @@ public class EstampalaTools {
 			
 			HttpClient httpclient = HttpClients.createDefault();
 			HttpGet httpGet = new HttpGet(url.toString());
-						
+				
 			ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 
                 @Override
@@ -112,7 +112,7 @@ public class EstampalaTools {
             };
 			
             String content = httpclient.execute(httpGet, responseHandler);
-			
+			/*
 			GsonBuilder builder = new GsonBuilder(); 
             
             builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() { 
@@ -122,7 +122,8 @@ public class EstampalaTools {
             	});
             
             Gson gson = builder.create();
-			
+			*/
+            Gson gson = new Gson();
 			return gson.fromJson(content, returnType);
 		
 		} catch (Exception e) {
