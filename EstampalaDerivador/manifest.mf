@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: co.edu.uniandes.estampala.Run
+Class-Path: lib/aspectjrt.jar lib/gson-2.2.4.jar lib/spoon-core-1.5-jar-with-dependencies.jar
+
