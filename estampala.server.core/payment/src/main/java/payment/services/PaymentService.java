@@ -2,6 +2,7 @@ package payment.services;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,11 +14,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import commons.exceptions.EstampalaException;
+import commons.util.DateTypeAdapter;
 import commons.util.Endpoints;
 import commons.util.EstampalaTools;
 import payment.exceptions.PaymentNotFoundException;
@@ -124,7 +127,9 @@ public class PaymentService {
 		List<String> parameters = new ArrayList<>();
 		parameters.add(payment.getShoppingcart().toString());
 		
-		Gson gson = new Gson();
+		GsonBuilder builder = new GsonBuilder(); 
+        builder.registerTypeAdapter(Date.class, new DateTypeAdapter());
+        Gson gson = builder.create();
 		
 		JsonObject json = (JsonObject) gson.toJsonTree(payment);
 		json.remove("shoppingcart");
