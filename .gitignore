@@ -36,3 +36,5 @@ estampala.server.core/commons/.classpath
 estampala.server.core/payment/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
 estampala.server.core/shopping-cart/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
 estampala.server.core/users/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+
+.DS_Store
