@@ -71,16 +71,16 @@ public class PaymentService {
 			List<String> pathParameters = new ArrayList<String>();
 			pathParameters.add(owner.toString());
 
-			// SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
-			// if (res == null || !res.isSuccess()){
-			// 	throw new OwnerNotFoundException(owner.toString());
-			// }
+			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
+			if (res == null || !res.isSuccess()){
+				throw new OwnerNotFoundException(owner.toString());
+			}
 
 			UUID shoppingcart = item.getShoppingcart();
 			pathParameters = new ArrayList<String>();
 			pathParameters.add(shoppingcart.toString());
 
-			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.SHOPPING_CAR_EXIST, pathParameters, null, SuccessResponse.class);
+			res = EstampalaTools.invokeGetRestServices(Endpoints.SHOPPING_CAR_EXIST, pathParameters, null, SuccessResponse.class);
 			if (res == null || !res.isSuccess()){
 				throw new CartNotFoundException(shoppingcart);
 			}
