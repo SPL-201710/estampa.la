@@ -14,7 +14,7 @@ export default Ember.Controller.extend({
   theme: "",
   rating: "",
   result: [],
-
+  ratePrint: "",
   filteredPrints: Ember.computed('owner', 'theme', 'rating', function() {
     this.set('result', []);
     var self = this;
@@ -39,6 +39,10 @@ export default Ember.Controller.extend({
     },
     changeRating(rating) {
       this.set('rating', rating);
+    },
+    showRatePrint(print){
+      console.log(print);
+      this.set('ratePrint', print);
     },
     selectPrint(print) {
       var printsSelected = JSON.parse(localStorage.getItem("printsSelected"));
@@ -70,6 +74,21 @@ export default Ember.Controller.extend({
         }
       }
       localStorage.setItem("printsSelected", JSON.stringify(printsSelected));
-    }
+    },
+    showDetail(print){
+      Ember.$("#print-detail-name").html(print.name);
+      Ember.$("#print-detail-description").html(print.description);
+      Ember.$("#print-detail-price").html(print.price);
+      Ember.$("#print-detail-rating").html(print.rating);
+      Ember.$("#print-detail-theme").html(print.theme.name);
+      Ember.$("#print-detail-artist").html(print.ownerUsername);
+      Ember.$("#print-detail-ratingCounts").html(print.ratingCounts);
+      try{
+          Ember.$("#detailModal").modal({backdrop: 'static'});
+      }
+      catch(err){
+        $("#detailModal").modal({backdrop: 'static'});
+      }
+    },
   }
 });

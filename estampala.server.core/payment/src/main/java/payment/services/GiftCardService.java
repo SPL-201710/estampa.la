@@ -1,5 +1,6 @@
 package payment.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,6 +10,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import commons.exceptions.EstampalaException;
+import commons.exceptions.OwnerNotFoundException;
+import commons.responses.SuccessResponse;
+import commons.util.Endpoints;
+import commons.util.EstampalaTools;
 import payment.exceptions.GiftCardNotEnoughBalance;
 import payment.exceptions.GiftCardNotFoundException;
 import payment.exceptions.RequiredParameterException;
@@ -98,6 +103,23 @@ public class GiftCardService {
 		if(id != null){
 			giftCardRepository.delete(id);
 		}
+	}
+	
+	public List<GiftCard> findByReceiver(UUID userId) throws OwnerNotFoundException, RequiredParameterException {
+		
+		if(userId == null) {
+			throw new RequiredParameterException("userId");
+		}
+		
+		List<String> pathParameters = new ArrayList<String>();
+		pathParameters.add(userId.toString());
+		
+		SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
+		if (res == null || !res.isSuccess()){
+			throw new OwnerNotFoundException(userId.toString());
+		}
+		
+		return giftCardRepository.findByReceiver(userId);
 	}
 	
 	public double payGiftCard(UUID id, double price) throws GiftCardNotFoundException, GiftCardNotEnoughBalance {

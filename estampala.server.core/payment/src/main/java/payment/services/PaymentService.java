@@ -24,6 +24,7 @@ import commons.util.DateTypeAdapter;
 import commons.util.Endpoints;
 import commons.util.EstampalaTools;
 import payment.exceptions.PaymentNotFoundException;
+import payment.exceptions.TooManyPaymentMethodsException;
 import payment.models.Payment;
 import payment.models.PaymentMethodPSE;
 import payment.models.PaymentMethodPSERepository;
@@ -70,10 +71,10 @@ public class PaymentService {
 			List<String> pathParameters = new ArrayList<String>();
 			pathParameters.add(owner.toString());
 
-			// SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
-			// if (res == null || !res.isSuccess()){
-			// 	throw new OwnerNotFoundException(owner.toString());
-			// }
+			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
+			if (res == null || !res.isSuccess()){
+				throw new OwnerNotFoundException(owner.toString());
+			}
 
 			// UUID shoppingcart = item.getShoppingcart();
 			// pathParameters = new ArrayList<String>();
@@ -136,5 +137,12 @@ public class PaymentService {
 		json.add("shoppingcart", jsonCart);
 
 		return gson.toJson(json);
+	}
+	
+	public void createPaymentMethods(PaymentCreator creator) throws TooManyPaymentMethodsException {
+		
+		if(creator.getPse_method() != null && creator.getCreditcard_method() != null && creator.getGiftcard_method() != null) {
+			throw new TooManyPaymentMethodsException();
+		}
 	}
 }

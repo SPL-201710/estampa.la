@@ -108,13 +108,15 @@
         <div class="row">
           {{#each result as |estampa|}}
           <div class="col-md-4 col-sm-6">
-            <div class="product-item" id="print-{{estampa.id}}" {{action "selectPrint" estampa}}>
+            <div class="product-item" id="print-{{estampa.id}}" >
               <div class="item-thumb">
                 <img src="{{estampa.image}}" class="img-responsive" alt=""/>
-                <div class="overlay-rmore fa fa-check quickview"></div>
+                <div class="overlay-rmore fa fa-check quickview" {{action "selectPrint" estampa}}></div>
                 <div class="product-overlay">
-                  <!-- <a href="#" class="addcart fa fa-shopping-cart"></a> -->
-                  <!-- <a href="#" class="likeitem fa fa-heart-o"></a> -->
+                  {{#if (feature "info_detallada")}}
+                  <a href="#" class="addcart fa fa-search" {{action 'showDetail' estampa}}></a>
+                  {{/if}}
+                  <a href="#" class="likeitem fa fa-star"></a>
                 </div>
               </div>
               <div class="product-info">
@@ -154,3 +156,84 @@
     });
   });
 </script>
+
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Detalle de estampa</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-4">
+              <h4>Nombre:</h4>
+            </div>
+            <div class="col-md-8">
+              <h5 id="print-detail-name">
+              </h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <h4>Descripcion:</h4>
+            </div>
+            <div class="col-md-8">
+              <h5 id="print-detail-description">
+              </h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <h4>Precio:</h4>
+            </div>
+            <div class="col-md-8">
+              <h5 id="print-detail-price">
+              </h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <h4>Calificación:</h4>
+            </div>
+            <div class="col-md-8">
+              <h5 id="print-detail-rating">
+              </h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <h4>Calificaciones</h4>
+            </div>
+            <div class="col-md-8">
+              <h5 id="print-detail-ratingCounts">
+              </h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <h4>Tema:</h4>
+            </div>
+            <div class="col-md-8">
+              <h5 id="print-detail-theme">
+              </h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <h4>Artista:</h4>
+            </div>
+            <div class="col-md-8">
+              <h5 id="print-detail-artist">
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
