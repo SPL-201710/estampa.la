@@ -71,7 +71,7 @@ module.exports = function(environment) {
       "content-type": "application/json",
       "cache-control": "no-cache",
     }
-  };
+  };  
 
   return ENV;
 };
