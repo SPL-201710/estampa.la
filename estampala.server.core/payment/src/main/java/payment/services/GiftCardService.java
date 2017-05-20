@@ -28,12 +28,12 @@ public class GiftCardService {
 
 	@Autowired
 	private GiftCardRepository giftCardRepository;
-	
+
 	@Autowired
 	private GiftCardMethodPSERepository pseRepository;
 
 	public GiftCardService() {
-		
+
 	}
 
 	public GiftCard find(UUID id) {
@@ -47,19 +47,19 @@ public class GiftCardService {
 
 	public GiftCard save(GiftCardCreator creator) throws EstampalaException {
 		if (creator != null) {
-			
+
 			if(creator.getBuyer() == null) {
 				throw new RequiredParameterException("buyer");
 			}
-			
+
 			if(creator.getReceiver() == null) {
 				throw new RequiredParameterException("receiver");
 			}
-			
+
 			if(creator.getInitialBalance() == null) {
 				throw new RequiredParameterException("initialBalance");
 			}
-			
+
 			GiftCard giftCard = new GiftCard(UUID.randomUUID(), creator.getBuyer(), creator.getReceiver(), creator.getInitialBalance());
 			giftCard = giftCardRepository.save(giftCard);
 
@@ -67,7 +67,7 @@ public class GiftCardService {
 			pse.setGiftCard(giftCard);
 
 			pseRepository.save(pse);
-			
+
 			return giftCardRepository.save(giftCard);
 		}
 		return null;
@@ -75,25 +75,25 @@ public class GiftCardService {
 
 	public GiftCard update(GiftCardCreator creator) throws EstampalaException {
 		if (creator != null) {
-			
+
 			GiftCard giftCard = find(creator.getGiftCard());
-			
+
 			if(creator.getInitialBalance() != null) {
 				giftCard.setInitialBalance(creator.getInitialBalance());
 			}
-			
+
 			if(creator.getBuyer() != null) {
 				giftCard.setBuyer(creator.getBuyer());
 			}
-			
+
 			if(creator.getReceiver() != null) {
 				giftCard.setReceiver(creator.getReceiver());
 			}
-			
+
 			if(creator.getActive() != null) {
 				giftCard.setActive(creator.getActive());
 			}
-			
+
 			return giftCardRepository.save(giftCard);
 		}
 		return null;
@@ -104,43 +104,43 @@ public class GiftCardService {
 			giftCardRepository.delete(id);
 		}
 	}
-	
+
 	public List<GiftCard> findByReceiver(UUID userId) throws OwnerNotFoundException, RequiredParameterException {
-		
+
 		if(userId == null) {
 			throw new RequiredParameterException("userId");
 		}
-		
-		List<String> pathParameters = new ArrayList<String>();
-		pathParameters.add(userId.toString());
-		
-		SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
-		if (res == null || !res.isSuccess()){
-			throw new OwnerNotFoundException(userId.toString());
-		}
-		
+
+		// List<String> pathParameters = new ArrayList<String>();
+		// pathParameters.add(userId.toString());
+		// 
+		// SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
+		// if (res == null || !res.isSuccess()){
+		// 	throw new OwnerNotFoundException(userId.toString());
+		// }
+
 		return giftCardRepository.findByReceiver(userId);
 	}
-	
+
 	public double payGiftCard(UUID id, double price) throws GiftCardNotFoundException, GiftCardNotEnoughBalance {
-		
+
 		double newBalance = 0;
-		
+
 		if(!exists(id)) {
 			throw new GiftCardNotFoundException();
-		} 
-		
+		}
+
 		GiftCard giftCard = giftCardRepository.findOne(id);
-		
+
 		if(giftCard.getBalance() < price) {
 			throw new GiftCardNotEnoughBalance();
 		}
-		
-		newBalance = giftCard.getBalance() - price; 
+
+		newBalance = giftCard.getBalance() - price;
 		giftCard.setBalance(newBalance);
-		
+
 		giftCardRepository.save(giftCard);
-		
+
 		return newBalance;
 	}
 

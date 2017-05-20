@@ -182,7 +182,7 @@
           <label for="usr">Tarjetas:</label>
           <select class="form-control" id="gift_card">
             <option value=""></option>
-            {{#each model.giftcards.content as |giftcard|}}
+            {{#each model.giftcards as |giftcard|}}
             <option value="{{giftcard.id}}">{{giftcard.balance}}</option>
             {{/each}}
           </select>
