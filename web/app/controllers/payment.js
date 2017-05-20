@@ -13,18 +13,6 @@ export default Ember.Controller.extend({
       }
     },
     addPayment: function(){
-      Ember.$("#modalpse").modal('toggle');
-      Ember.$("#modalpayment").modal({backdrop: 'static'});
-      (function myLoop (i) {
-        var value = (11-i)*10;
-         setTimeout(function () {
-           Ember.$("#barra-pago").css("width", value + "%");
-           Ember.$("#barra-pago").attr("aria-valuenow", value + "%");
-           Ember.$("#barra-pago").html(value + "%");
-           if (--i) myLoop(i);
-           else Ember.$("#modalpayment").modal('toggle');
-         }, 200)
-      })(10);
 
       var cartProductsg = [];
       var products = JSON.parse(localStorage.getItem("products"));
@@ -86,7 +74,7 @@ export default Ember.Controller.extend({
           "shippingValue" : cart.shippingValue,
           "total" : cart.total,
           "date" : "2017-04-18",
-          "owner" : this.get('session.data.authenticated.user.id'),          
+          "owner" : this.get('session.data.authenticated.user.id'),
           "cartProducts": cartProductsg
       };
 
@@ -104,7 +92,7 @@ export default Ember.Controller.extend({
       };
 
       Ember.$.ajax(settings).done(function (response) {
-
+        debugger;
         var methodSelected = Ember.$('input[name=payment]:checked').val();
         var d = new Date();
         var datestring = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
@@ -116,15 +104,15 @@ export default Ember.Controller.extend({
             "shoppingcart": response.id,
             "total": response.total,
             "pse_method": {
-              "firtsName": "Jose",
-            	"lastName": "Alvarez",
-            	"phone": "5585",
-            	"email": "jose@estampa.la",
-            	"bank": "Bancolombia",
+              "firtsName": Ember.$("#pse_firstname").val(),
+            	"lastName": Ember.$("#pse_firstname").val(),
+            	"phone": Ember.$("#pse_phone").val(),
+            	"email": Ember.$("#pse_email").val(),
+            	"bank": Ember.$("#bank option:selected").val(),
             	"bankCode": "BC",
             	"reference": "6549874659",
-            	"identificationType": "CC",
-            	"identification": "987798"
+            	"identificationType": Ember.$("#identification_type option:selected").val(),
+            	"identification": Ember.$("#pse_identifition").val()
             }
           };
         };
@@ -143,11 +131,26 @@ export default Ember.Controller.extend({
         };
         Ember.$.ajax(settings).done(function (response) {
           console.log(response);
-          alert("Compra realizada");
-          self.transitionToRoute('index');
+          Ember.$("#modalpse").modal('toggle');
+          Ember.$("#modalpayment").modal({backdrop: 'static'});
+          (function myLoop (i) {
+            var value = (11-i)*10;
+             setTimeout(function () {
+               Ember.$("#barra-pago").css("width", value + "%");
+               Ember.$("#barra-pago").attr("aria-valuenow", value + "%");
+               Ember.$("#barra-pago").html(value + "%");
+               if (--i) myLoop(i);
+               else{
+                 Ember.$("#modalpayment").modal('toggle');
+                 alert("Compra realizada");
+                 self.transitionToRoute('index');
+               }
+             }, 200)
+          })(10);
         });
 
       });
+
     }
   }
 });
