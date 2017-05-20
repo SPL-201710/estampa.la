@@ -60,6 +60,9 @@
             <div class="buttons-set">
                {{#link-to 'users.add' tagName='button' class="btn-black"}}Crear Cuenta{{/link-to}}
                 <!-- <button  type="submit"><span>Crear Cuenta</span></button> -->
+                {{#if (feature "auth_facebook")}}
+                  Facebook Login
+                {{/if}}
             </div>
           </div>
         </div>
