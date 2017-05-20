@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   session: Ember.inject.service('session'),
   theme: "",
+  
   actions: {
     selectTheme: function(selectedTheme){
       this.set('theme', selectedTheme);

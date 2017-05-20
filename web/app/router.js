@@ -19,6 +19,10 @@ Router.map(function() {
   this.route('shirtstyles.add', {path: '/estilos/crear'});
   this.route('shirtstyles.edit', { path: '/estilos/editar/:shirtstyle_id' });
 
+  this.route('textstyles.list', {path: '/estilostexto/'});
+  this.route('textstyles.add', {path: '/estilostexto/crear'});
+  this.route('textstyles.edit', { path: '/estilostexto/editar/:textstyle_id' });
+
   this.route('shirtsizes.list', {path: '/tallas/'});
   this.route('shirtsizes.add', {path: '/tallas/crear'});
   this.route('shirtsizes.edit', {path: '/tallas/editar/:shirtsize_id'});

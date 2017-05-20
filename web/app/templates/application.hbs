@@ -66,7 +66,8 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-left">
                             <li class="dropdown">
-                                <a href="{}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Inicio</a>
+                                {{#link-to "index"}}Inicio{{/link-to}}
+                                <!--<a href="{}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Inicio</a>-->
                             </li>
                             {{#if session.isAuthenticated}}
                               {{#if (eq (role session.data.authenticated.user) "ADMIN")}}
@@ -79,6 +80,7 @@
                                   <li>{{#link-to "shirtsizes.list"}}Tallas{{/link-to}}</li>
                                   <li>{{#link-to "shirtcolors.list"}}Colores{{/link-to}}</li>
                                   <li>{{#link-to "printfonts.list"}}Tipos de Letra{{/link-to}}</li>
+                                  <li>{{#link-to "textstyles.list"}}Estilos de Texto{{/link-to}}</li>
                                   <li>{{#link-to "shirtprintpositions.list"}}Posiciones para Estampas{{/link-to}}</li>
                                   <li>{{#link-to "shirts.list"}}Camisetas{{/link-to}}</li>
                                   <li>{{#link-to "roles.list"}}Roles{{/link-to}}</li>
