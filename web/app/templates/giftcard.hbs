@@ -1,0 +1,141 @@
+{{outlet}}
+<!-- BREADCRUMBS -->
+<div class="bcrumbs">
+  <div class="container">
+    <ul>
+      <li>{{#link-to "index"}}Inicio{{/link-to}}</li>
+      <li>Adquirir Tarjeta de Regalo</li>
+    </ul>
+  </div>
+</div>
+
+<div class="clearfix space20"></div>
+
+<div class="clearfix space20"></div>
+<div class="account-wrap">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <!-- HTML -->
+        <div id="account-id">
+          <div class="account-form">
+            <form {{action 'addPrint' on="submit"}}>
+              <ul class="form-list row">
+                <li class="col-md-6 col-sm-6">
+                  <label>Valor <em>*</em></label>
+                  {{input value=price id="price" placeholder="Valor de la tarjeta" required="required" type="text" class="input-text"}}
+                </li>
+                <li class="col-md-6 col-sm-6">
+                  <label>Usuario <em>*</em></label>
+                  <select value=receiver class="form-control select_receiver" name=receiver id="receiver">
+                    <option></option>
+                    {{#each model.users.content as |user|}}
+                      <option value={{user.id}}>{{user.firstName}} {{user.lastName}}</option>
+                    {{/each}}
+                  </select>
+                </li>
+              </ul>
+              <div class="buttons-set">
+                <button {{action "modalPayment"}} class="btn-black">Confirmar Compra</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modalpse" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" data-backdrop="static">&times;</button>
+        <h4 class="modal-title header-modal">Pago con PSE</h4>
+        <img src="/images/logo-pse.png" style="width: 100px;" class="header-modal">
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="usr">Primer Nombre <em>*</em></label>
+          <input type="text" class="form-control" id="pse_firstname">
+        </div>
+        <div class="form-group">
+          <label for="usr">Apellidos <em>*</em></label>
+          <input type="text" class="form-control" id="pse_lastname">
+        </div>
+        <div class="form-group">
+          <label for="usr">Teléfono <em>*</em></label>
+          <input type="text" class="form-control" id="pse_phone">
+        </div>
+        <div class="form-group">
+          <label for="usr">Email <em>*</em></label>
+          <input type="text" class="form-control" id="pse_email">
+        </div>
+        <div class="form-group">
+          <label for="usr">Banco <em>*</em></label>
+          <select id="bank" class="form-control">
+            <option value=""></option>
+            <option value="Bancolombia">Bancolombia</option>
+            <option value="Colpatria">Colpatria</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="usr">Tipo Identificación:</label>
+          <select id="identification_type" class="form-control">
+            <option value=""></option>
+            <option value="cedula">Cédula</option>
+            <option value="Pasaporte">Pasaporte</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="usr">Identificación:</label>
+          <input type="text" class="form-control" id="pse_identifition">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" {{action "addGiftCard"}}>Pagar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modalpayment" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title header-modal">Enviando Pago...</h4>
+      </div>
+      <div class="modal-body">
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped active" id="barra-pago" role="progressbar"
+          aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+            0%
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modalpayment" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title header-modal">Enviando Pago...</h4>
+      </div>
+      <div class="modal-body">
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped active" id="barra-pago" role="progressbar"
+          aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+            0%
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

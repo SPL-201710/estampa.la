@@ -21,6 +21,10 @@
                   <div class="tbr-inner">
                     {{#if session.isAuthenticated}}
                       {{#link-to 'users.edit'}}Mi Cuenta{{/link-to}}
+
+                      {{#if (feature "tarjeta_regalo")}}
+                        {{#link-to 'giftcard'}}Adquirir Tarjeta de Regalo{{/link-to}}
+                      {{/if}}
                       <a {{action 'invalidateSession'}}>Logout</a>
                     {{else}}
                       {{#link-to "users.login"}}Login{{/link-to}}

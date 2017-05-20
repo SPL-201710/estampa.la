@@ -70,6 +70,6 @@ export default Ember.Controller.extend({
         }
       }
       localStorage.setItem("printsSelected", JSON.stringify(printsSelected));
-    }    
+    }
   }
 });

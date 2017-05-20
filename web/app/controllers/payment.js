@@ -11,6 +11,9 @@ export default Ember.Controller.extend({
       if(methodSelected=='credito'){
         Ember.$("#modalcredito").modal({backdrop: 'static'});
       }
+      if(methodSelected=='regalo'){
+        Ember.$("#modalregalo").modal({backdrop: 'static'});
+      }
     },
     addPayment: function(){
 
@@ -91,8 +94,7 @@ export default Ember.Controller.extend({
         "data": JSON.stringify(newCart)
       };
 
-      Ember.$.ajax(settings).done(function (response) {
-        debugger;
+      Ember.$.ajax(settings).done(function (response) {        
         var methodSelected = Ember.$('input[name=payment]:checked').val();
         var d = new Date();
         var datestring = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
@@ -105,7 +107,7 @@ export default Ember.Controller.extend({
             "total": response.total,
             "pse_method": {
               "firtsName": Ember.$("#pse_firstname").val(),
-            	"lastName": Ember.$("#pse_firstname").val(),
+            	"lastName": Ember.$("#pse_lastname").val(),
             	"phone": Ember.$("#pse_phone").val(),
             	"email": Ember.$("#pse_email").val(),
             	"bank": Ember.$("#bank option:selected").val(),
@@ -116,6 +118,36 @@ export default Ember.Controller.extend({
             }
           };
         };
+
+        if(methodSelected=='credito'){
+          var newpayment = {
+            "date" : datestring,
+            "owner" : self.get('session.data.authenticated.user.id'),
+            "shoppingcart": response.id,
+            "total": response.total,
+            "credit_method": {
+              "firtsName": Ember.$("#credit_firstname").val(),
+            	"lastName": Ember.$("#credit_lastname").val(),
+            	"email": Ember.$("#credit_email").val(),
+            	"bank": Ember.$("#credit_bank option:selected").val(),
+            	"identificationType": Ember.$("#credit_identification_type option:selected").val(),
+            	"identification": Ember.$("#credit_identification").val(),
+              "type": Ember.$("#credit_card_type option:selected").val(),
+              "number": Ember.$("#credit_number").val(),
+              "cvc": Ember.$("#credit_cvc").val()
+            }
+          };
+        }
+
+        if(methodSelected=='regalo'){
+          var newpayment = {
+            "date" : datestring,
+            "owner" : self.get('session.data.authenticated.user.id'),
+            "shoppingcart": response.id,
+            "total": response.total,
+            "giftcard": Ember.$("#gift_card option:selected").val()
+          };
+        }
 
         var settings = {
           "async": false,

@@ -42,16 +42,18 @@
             <option value="{{theme.name}}">{{theme.name}}</option>
             {{/each}}
           </select>
-          <div class="clearfix space20"></div>
-          <h5>Calificación</h5>
-          <select class="select_rating" onchange={{action 'changeRating' value="target.value"}}>
-            <option></option>
-            <option value="5">5 - Alta</option>
-            <option value="4">4 - Buena</option>
-            <option value="3">3 - Normal</option>
-            <option value="2">2 - Regular</option>
-            <option value="1">1 - Mala</option>
-          </select>
+          {{#if (feature "rating")}}
+            <div class="clearfix space20"></div>
+            <h5>Calificación</h5>
+            <select class="select_rating" onchange={{action 'changeRating' value="target.value"}}>
+              <option></option>
+              <option value="5">5 - Alta</option>
+              <option value="4">4 - Buena</option>
+              <option value="3">3 - Normal</option>
+              <option value="2">2 - Regular</option>
+              <option value="1">1 - Mala</option>
+            </select>
+          {{/if}}
           <div class="clearfix space20"></div>
         </div>
       </aside>
