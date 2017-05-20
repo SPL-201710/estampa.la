@@ -41,13 +41,13 @@ public class PrintService {
 
 	@Autowired
 	private RatePrintRepository rateRepository;
-	
+
 	@Autowired
 	private ThemeService themeService;
 
 	@Autowired
 	private S3Util s3Util;
-	
+
 	public PrintService() {
 
 	}
@@ -66,26 +66,26 @@ public class PrintService {
 		PageRequest pageRequest = new PageRequest(page - 1, pageSize, direction, "popularity");
 		return repository.findAll(spec, pageRequest);
 	}
-	
+
 	public Print save(PrintCreator item) throws EstampalaException {
 		if (item != null){
 
 			UUID owner = item.getOwner();
-			List<String> pathParameters = new ArrayList<String>();			
+			List<String> pathParameters = new ArrayList<String>();
 			pathParameters.add(owner.toString());
-			
+
 			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
 			if (res == null || !res.isSuccess()){
 				throw new OwnerNotFoundException(owner.toString());
 			}
-			
+
 			Theme theme = themeService.find(item.getTheme());
 			if (theme == null){
 				throw new ThemeNotFoundException();
 			}
-			
-			String imageUrl = s3Util.upload(item.getImage(), item.getImageExtension(), S3Folders.PRINTS);			
-			
+
+			String imageUrl = s3Util.upload(item.getImage(), item.getImageExtension(), S3Folders.PRINTS);
+
 			Print print = new Print(UUID.randomUUID(), item.getDescription(), imageUrl, item.getName(), item.getPrice(), 0, 0, theme, owner, item.getOwnerUsername(), 0l);
 
 			return repository.save(print);
@@ -93,7 +93,7 @@ public class PrintService {
 
 		return null;
 	}
-	
+
 	public Print update(PrintCreator item) throws EstampalaException {
 		if (item != null){
 
@@ -101,18 +101,18 @@ public class PrintService {
 			if (theme == null){
 				throw new ThemeNotFoundException();
 			}
-						
+
 			String imageUrl = s3Util.upload(item.getImage(), item.getImageExtension(), S3Folders.PRINTS);
 
 			UUID owner = item.getOwner();
-			List<String> pathParameters = new ArrayList<String>();			
+			List<String> pathParameters = new ArrayList<String>();
 			pathParameters.add(owner.toString());
-			
+
 			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
 			if (res == null || !res.isSuccess()){
 				throw new OwnerNotFoundException(owner.toString());
 			}
-			
+
 			Print print = find(item.getPrint());
 			print.setDescription(item.getDescription());
 			print.setImage(imageUrl);
@@ -134,28 +134,28 @@ public class PrintService {
 			repository.delete(id);
 		}
 	}
-	
-	public RatePrint rate(UUID idPrint, String idUser, float rate) throws EstampalaException{		
+
+	public RatePrint rate(UUID idPrint, String idUser, float rate) throws EstampalaException{
 		if (rate < 0f){
 			rate = 0f;
 		}
-		
+
 		if (rate > 10f){
 			rate = 10f;
 		}
-		
+
 		if (idUser == null || idUser.isEmpty()){
 			throw new OwnerNotFoundException(idUser);
 		}
-		
+
 		Print print = repository.findOne(idPrint);
 		if (print == null){
 			throw new PrintNotFoundException();
 		}
-		
+
 		float rating = print.getRating();
 		long counts = print.getRatingCounts();
-		
+
 		List<RatePrint> ratePrints = rateRepository.findByIdUserAndIdPrint(UUID.fromString(idUser), idPrint);
 		RatePrint ratePrint = null;
 		if (ratePrints != null && !ratePrints.isEmpty()){
@@ -168,10 +168,10 @@ public class PrintService {
 			print.setRating(((rating * counts) + rate) / (counts + 1));
 			print.setRatingCounts(counts + 1);
 			ratePrint = new RatePrint(UUID.randomUUID(), UUID.fromString(idUser), idPrint, rate);
-		}		
-		
+		}
+
 		repository.save(print);
-		
+
 		return rateRepository.save(ratePrint);
 	}
 
