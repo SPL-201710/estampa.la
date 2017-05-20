@@ -6,6 +6,8 @@ export default Ember.Controller.extend({
     this.set('subtotal', 0);
     this.set('total', 0);
     this.set('cartProducts', []);
+
+    this.send("calculate");
   },
   subtotal: 0,
   shippingValue: 5000,
@@ -19,6 +21,8 @@ export default Ember.Controller.extend({
 
       products.forEach(function (data) {
         var product_quantity = Ember.$("#product-" + data.id + " option:selected").val();
+        if(product_quantity == undefined)
+          product_quantity = 1;
         var newProduct = {
           quantity: parseInt(product_quantity),
           subtotal: data.totalPrice * parseInt(product_quantity),
@@ -52,6 +56,8 @@ export default Ember.Controller.extend({
       localStorage.setItem("products", JSON.stringify(products));
       Ember.$('#'+product).prev().remove();
       Ember.$('#'+product).remove();
+
+      this.send("calculate");
     }
   }
 });

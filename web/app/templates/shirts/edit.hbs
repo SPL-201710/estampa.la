@@ -26,7 +26,6 @@
                     <label>Talla <em>*</em></label>
                     <select value=size class="form-control select_theme" name="size" onchange={{action "updateSize" value="target.value"}}>
                       {{#each model.sizes as |size|}}
-                        <option value={{size.id}}>{{size.name}}</option>
                         {{#if (eq model.shirt.size.id size.id)}}
                           <option value={{size.id}} selected>{{size.name}}</option>
                         {{else}}

@@ -9,5 +9,6 @@ export default DS.Model.extend({
   rating: DS.attr('number'),
   theme: DS.attr('string'),
   owner: DS.attr('string'),
+  ownerUsername: DS.attr('string'),
   imageExtension: DS.attr('string')
 });

@@ -41,26 +41,26 @@ public class AuthorizationValidator {
 			}
 		}
 
-        String authorizationHeader = request.getHeader("Authorization");
-        SuccessResponse permission = EstampalaTools.isTokenValid(authorizationHeader);
-        if(permission != null && permission.isSuccess()) {
-        	request.setAttribute("idUser", permission.getMessage());
-            return permission.isSuccess();
-        }
-        else {
-            SuccessResponse msg = new SuccessResponse();
-            msg.setHttpStatus(HttpStatus.UNAUTHORIZED);
-            msg.setSuccess(false);
-            msg.setMessage("Access denied");
-
-            Gson gson = new Gson();
-
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            response.setContentType("application/json");
-            Writer writer = response.getWriter();
-            writer.write(gson.toJson(msg));
-
-            return false;
-        }
+    String authorizationHeader = request.getHeader("Authorization");
+    SuccessResponse permission = EstampalaTools.isTokenValid(authorizationHeader);
+    if(permission != null && permission.isSuccess()) {
+    	request.setAttribute("idUser", permission.getMessage());
+        return permission.isSuccess();
     }
+    else {
+        SuccessResponse msg = new SuccessResponse();
+        msg.setHttpStatus(HttpStatus.UNAUTHORIZED);
+        msg.setSuccess(false);
+        msg.setMessage("Access denied");
+
+        Gson gson = new Gson();
+
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setContentType("application/json");
+        Writer writer = response.getWriter();
+        writer.write(gson.toJson(msg));
+
+        return false;
+    }
+  }
 }

@@ -6,7 +6,7 @@ export default Ember.Controller.extend({
     selectTheme: function(selectedTheme){
       this.set('theme', selectedTheme);
     },
-    editPrint: function(id){      
+    editPrint: function(id){
       var self = this;
       this.store.adapterFor('application').set('host', 'http://catalog.soybackend.com');
       this.get('store').findRecord('print', id).then(function(print) {
@@ -19,6 +19,7 @@ export default Ember.Controller.extend({
           print.set('theme', self.get('theme'));
         }
         print.set('description', self.get('model.print.description'));
+        print.set('image', null);
         print.save();
         self.transitionToRoute('prints.list');
       });

@@ -61,7 +61,8 @@ export default Ember.Controller.extend({
         }
 
         shirt.save();
-        self.transitionToRoute('shirts.list');
+        //self.transitionToRoute('shirts.list');
+        window.location.href = '/camisetas/';
       });
     }
   }

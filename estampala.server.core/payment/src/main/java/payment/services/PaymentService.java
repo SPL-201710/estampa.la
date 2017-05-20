@@ -29,8 +29,6 @@ import payment.models.PaymentMethodPSE;
 import payment.models.PaymentMethodPSERepository;
 import payment.models.PaymentRepository;
 import payment.pojos.PaymentCreator;
-import shoppingcart.models.SCProduct;
-import shoppingcart.models.ShoppingCart;
 import commons.exceptions.CartNotFoundException;
 import commons.exceptions.OwnerNotFoundException;
 import commons.responses.SuccessResponse;
@@ -49,7 +47,7 @@ public class PaymentService {
 
 	@Autowired
 	private PaymentMethodPSERepository pseRepository;
-	
+
 	private final RestTemplate restTemplate;
 
 	public PaymentService() {
@@ -67,25 +65,25 @@ public class PaymentService {
 
 	public Payment save(PaymentCreator item) throws EstampalaException {
 		if (item != null) {
-			
+
 			UUID owner = item.getOwner();
-			List<String> pathParameters = new ArrayList<String>();			
+			List<String> pathParameters = new ArrayList<String>();
 			pathParameters.add(owner.toString());
-			
-			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
-			if (res == null || !res.isSuccess()){
-				throw new OwnerNotFoundException(owner.toString());
-			}
-			
+
+			// SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
+			// if (res == null || !res.isSuccess()){
+			// 	throw new OwnerNotFoundException(owner.toString());
+			// }
+
 			UUID shoppingcart = item.getShoppingcart();
-			pathParameters = new ArrayList<String>();			
+			pathParameters = new ArrayList<String>();
 			pathParameters.add(shoppingcart.toString());
-			
-			res = EstampalaTools.invokeGetRestServices(Endpoints.SHOPPING_CAR_EXIST, pathParameters, null, SuccessResponse.class);
+
+			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.SHOPPING_CAR_EXIST, pathParameters, null, SuccessResponse.class);
 			if (res == null || !res.isSuccess()){
 				throw new CartNotFoundException(shoppingcart);
 			}
-			
+
 			Payment payment = new Payment(UUID.randomUUID(), item.getDate(), item.getTotal(), item.getOwner(), item.getShoppingcart());
 			payment = paymentRepository.save(payment);
 
@@ -119,24 +117,24 @@ public class PaymentService {
 		}
 		return false;
 	}
-	
+
 	public String getInfoPayment(UUID id) {
-		
+
 		Payment payment = find(id);
-		
+
 		List<String> parameters = new ArrayList<>();
 		parameters.add(payment.getShoppingcart().toString());
-		
-		GsonBuilder builder = new GsonBuilder(); 
+
+		GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Date.class, new DateTypeAdapter());
         Gson gson = builder.create();
-		
+
 		JsonObject json = (JsonObject) gson.toJsonTree(payment);
 		json.remove("shoppingcart");
-		
-		JsonObject jsonCart = (JsonObject) gson.toJsonTree(EstampalaTools.invokeGetRestServices(Endpoints.SHOPPING_CAR.getPath(), parameters, null, ShoppingCart.class));
+
+		JsonObject jsonCart = (JsonObject) gson.toJsonTree(EstampalaTools.invokeGetRestServices(Endpoints.SHOPPING_CAR.getPath(), parameters, null, SuccessResponse.class));
 		json.add("shoppingcart", jsonCart);
-		
+
 		return gson.toJson(json);
 	}
 }

@@ -152,7 +152,8 @@ export default Ember.Controller.extend({
       products.push(product);
       localStorage.setItem("products", JSON.stringify(products));
       localStorage.setItem("printsSelected", null);
-      this.transitionToRoute('cart');
+      //this.transitionToRoute('cart');
+      window.location.href = '/cart/';
     },
     selectColor(color, value) {
       this.set('colorSelected', color);
