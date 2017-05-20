@@ -74,10 +74,10 @@ public class PrintService {
 			List<String> pathParameters = new ArrayList<String>();
 			pathParameters.add(owner.toString());
 
-			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
-			if (res == null || !res.isSuccess()){
-				throw new OwnerNotFoundException(owner.toString());
-			}
+			// SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
+			// if (res == null || !res.isSuccess()){
+			// 	throw new OwnerNotFoundException(owner.toString());
+			// }
 
 			Theme theme = themeService.find(item.getTheme());
 			if (theme == null){
@@ -102,26 +102,26 @@ public class PrintService {
 				throw new ThemeNotFoundException();
 			}
 
-			String imageUrl = s3Util.upload(item.getImage(), item.getImageExtension(), S3Folders.PRINTS);
+			// String imageUrl = s3Util.upload(item.getImage(), item.getImageExtension(), S3Folders.PRINTS);
+			//
+			// UUID owner = item.getOwner();
+			// List<String> pathParameters = new ArrayList<String>();
+			// pathParameters.add(owner.toString());
 
-			UUID owner = item.getOwner();
-			List<String> pathParameters = new ArrayList<String>();
-			pathParameters.add(owner.toString());
-
-			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
-			if (res == null || !res.isSuccess()){
-				throw new OwnerNotFoundException(owner.toString());
-			}
+			// SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
+			// if (res == null || !res.isSuccess()){
+			// 	throw new OwnerNotFoundException(owner.toString());
+			// }
 
 			Print print = find(item.getPrint());
 			print.setDescription(item.getDescription());
-			print.setImage(imageUrl);
+			// print.setImage(imageUrl);
 			print.setName(item.getName());
 			print.setPrice(item.getPrice());
 			print.setRating(item.getRating());
 			print.setPopularity(item.getPopularity());
 			print.setTheme(theme);
-			print.setOwner(owner);
+			// print.setOwner(owner);
 
 			return repository.save(print);
 		}

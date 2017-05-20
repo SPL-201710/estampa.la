@@ -10,7 +10,7 @@
             <form {{action 'editPrint' model.print.id on="submit"}}>
               <ul class="form-list row">
                 <li class="col-md-12 col-sm-12" style="text-align: center; margin: 0 auto;">
-                  <img src="data:image/png;base64, {{model.print.image}}" alt="{{model.print.name}}"/>
+                  <img src="{{model.print.image}}" alt="{{model.print.name}}"/>
                 </li>
                 <li class="col-md-6 col-sm-6">
                   <label>Nombre <em>*</em></label>

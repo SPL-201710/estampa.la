@@ -59,7 +59,7 @@ public class ProductService {
 
 	@Autowired
 	private TextStyleService textStyleService;
-	
+
 	public ProductService() {
 
 	}
@@ -80,14 +80,14 @@ public class ProductService {
 			List<TextInShirt> textsInShirts = new ArrayList<>();
 
 			UUID owner = item.getOwner();
-			List<String> pathParameters = new ArrayList<String>();			
+			List<String> pathParameters = new ArrayList<String>();
 			pathParameters.add(owner.toString());
-			
-			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
-			if (res == null || !res.isSuccess()){
-				throw new OwnerNotFoundException(owner.toString());
-			}
-			
+
+			// SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
+			// if (res == null || !res.isSuccess()){
+			// 	throw new OwnerNotFoundException(owner.toString());
+			// }
+
 			Shirt shirt = null;
 			if (item.getShirt() != null){
 				shirt = shirtService.find(item.getShirt());
@@ -112,14 +112,14 @@ public class ProductService {
 			List<TextInShirt> textsInShirts = new ArrayList<>();
 
 			UUID owner = item.getOwner();
-			List<String> pathParameters = new ArrayList<String>();			
+			List<String> pathParameters = new ArrayList<String>();
 			pathParameters.add(owner.toString());
-			
+
 			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
 			if (res == null || !res.isSuccess()){
 				throw new OwnerNotFoundException(owner.toString());
 			}
-			
+
 			Shirt shirt = null;
 			if (item.getShirt() != null){
 				shirt = shirtService.find(item.getShirt());
@@ -190,7 +190,7 @@ public class ProductService {
 					if (printFont == null){
 						throw new PrintFontNotFoundException();
 					}
-					
+
 					TextStyle textStyle = textStyleService.find(p.getTextStyle());
 					if (textStyle == null){
 						throw new TextStyleNotFoundException();

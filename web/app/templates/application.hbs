@@ -53,13 +53,11 @@
 
                     <!-- Cart & Search -->
                     {{#if session.isAuthenticated}}
-                      {{#if (eq (role session.data.authenticated.user) "USER")}}
                       <div class="header-xtra pull-right">
                           <div class="topcart">
                             {{#link-to "cart"}}<span><i class="fa fa-shopping-cart"></i></span>{{/link-to}}
                           </div>
                       </div>
-                      {{/if}}
                     {{/if}}
 
                     <!-- Navmenu -->

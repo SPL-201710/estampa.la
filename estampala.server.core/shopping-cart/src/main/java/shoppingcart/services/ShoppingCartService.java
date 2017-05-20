@@ -40,16 +40,16 @@ public class ShoppingCartService {
 
 	public ShoppingCart saveShoppingCart(ShoppingCart cart) throws OwnerNotFoundException {
 		if(cart != null) {
-			
+
 			UUID owner = cart.getOwner();
-			List<String> pathParameters = new ArrayList<String>();			
+			List<String> pathParameters = new ArrayList<String>();
 			pathParameters.add(owner.toString());
-			
-			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
-			if (res == null || !res.isSuccess()){
-				throw new OwnerNotFoundException(owner.toString());
-			}
-			
+
+			// SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
+			// if (res == null || !res.isSuccess()){
+			// 	throw new OwnerNotFoundException(owner.toString());
+			// }
+
 			return cartRepository.save(cart);
 		}
 		return null;
