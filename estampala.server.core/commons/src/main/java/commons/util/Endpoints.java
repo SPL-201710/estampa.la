@@ -29,7 +29,7 @@ public enum Endpoints {
 	SHIRT_PRINT_POSITIONS_EXIST("shirtPrintPositions-exist-service"),
 	PRODUCT_EXIST("products-exist-service"),
 	SHOPPING_CAR("shopping-car-service"),
-	SHOPPING_CAR_EXIST("products-exist-service"),
+	SHOPPING_CAR_EXIST("shopping-car-exist-service"),
 	PAYMENT("payment-service"),
 	PAYMENT_EXIT("payment-exist-service"),
 	GIFTCARD("giftcard-service");
