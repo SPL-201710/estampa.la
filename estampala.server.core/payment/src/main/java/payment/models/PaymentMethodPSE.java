@@ -4,23 +4,10 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 @Entity
-public class PaymentMethodPSE {
-
-	@Id
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	@GeneratedValue(generator = "uuid")
-	@Column(name = "id", unique = true, nullable = false)
-	@Type(type="pg-uuid")
-	private UUID id;
-
+public class PaymentMethodPSE extends PaymentMethod{
+	
 	@Column(nullable = true)
 	private String firtsName;
 
@@ -47,10 +34,7 @@ public class PaymentMethodPSE {
 
 	@Column(nullable = false)
 	private String identification;
-
-	@OneToOne
-	private Payment payment;	
-
+	
 	public PaymentMethodPSE (){
 
 	}
@@ -68,15 +52,6 @@ public class PaymentMethodPSE {
 		this.reference = reference;
 		this.identificationType = identificationType;
 		this.identification = identification;
-		this.payment = payment;
-	}
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
 	}
 
 	public String getFirtsName() {
@@ -133,14 +108,6 @@ public class PaymentMethodPSE {
 
 	public void setReference(String reference) {
 		this.reference = reference;
-	}
-
-	public Payment getPayment() {
-		return payment;
-	}
-
-	public void setPayment(Payment payment) {
-		this.payment = payment;
 	}
 
 	public String getIdentificationType() {
