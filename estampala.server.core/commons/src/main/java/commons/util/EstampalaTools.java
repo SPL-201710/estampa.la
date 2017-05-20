@@ -36,57 +36,57 @@ import commons.responses.ErrorResponse;
 import commons.responses.SuccessResponse;
 
 public class EstampalaTools {
-	
-	public static SuccessResponse isTokenValid(String authorizationHeader){		
+
+	public static SuccessResponse isTokenValid(String authorizationHeader){
 		if (authorizationHeader != null && !authorizationHeader.isEmpty()) {
 			String[] item = authorizationHeader.trim().split(" ");
-    		
-    		if (item.length == 2 && item[0].equalsIgnoreCase("token")){    			
+
+    		if (item.length == 2 && item[0].equalsIgnoreCase("token")){
     			Map<String, String> parameters = new HashMap<String, String>();
     			parameters.put("token", item[1]);
-	    	
+
     			SuccessResponse res = invokePostRestServices(Endpoints.IS_TOKEN_VALID.getPath(), null, parameters, SuccessResponse.class);
     			if (res != null)
-    				return res;						       		        
+    				return res;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	public static void sendHttpUnauthorizedResponse(HttpServletResponse response, String message) throws IOException {
 	    ErrorResponse res = new ErrorResponse();
 	    res.setError("user_unauthorized");
 	    res.setMessage(message);
 	    res.setHttpStatus(HttpStatus.UNAUTHORIZED);
 	    res.setSucess(false);
-		
+
 	    Gson gson = new Gson();
 	    String json = gson.toJson(res);
-	    
-		response.setHeader("WWW-Authenticate", "Token realm=\"estampala\"");
-	    response.sendError(401, json);	    
+
+			response.setHeader("WWW-Authenticate", "Token realm=\"estampala\"");
+	    response.sendError(401, json);
 	}
-	
+
 	public static <T> T invokeGetRestServices(Endpoints endpoint, List<String> pathParameters, Map<String, String> queryParams, Class<T> returnType){
 		return invokeGetRestServices(endpoint.getPath(), pathParameters, queryParams, returnType);
 	}
-	
-	public static <T> T invokeGetRestServices(String baseUrl, List<String> pathParameters, Map<String, String> queryParams, Class<T> returnType){		
+
+	public static <T> T invokeGetRestServices(String baseUrl, List<String> pathParameters, Map<String, String> queryParams, Class<T> returnType){
 		InputStream inputStream = null;
-		try {						
+		try {
 			StringBuilder url = new StringBuilder(baseUrl);
 			if (baseUrl.endsWith("/")){
-				url.deleteCharAt(url.length() - 1);				
-			}			
-			
+				url.deleteCharAt(url.length() - 1);
+			}
+
 			if (pathParameters != null){
 				for(String value : pathParameters){
 					url.append("/");
-					url.append(value);					
+					url.append(value);
 				}
 			}
-			
+
 			if (queryParams != null){
 				url.append("?");
 				for(String key : queryParams.keySet()){
@@ -96,28 +96,28 @@ public class EstampalaTools {
 					url.append("&");
 				}
 			}
-			
+
 			HttpClient httpclient = HttpClients.createDefault();
 			HttpGet httpGet = new HttpGet(url.toString());
-				
+
 			ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 
                 @Override
                 public String handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
-                                       
+
                     HttpEntity entity = response.getEntity();
-                    return entity != null ? EntityUtils.toString(entity) : null;                    
+                    return entity != null ? EntityUtils.toString(entity) : null;
                 }
 
             };
-			
+
             String content = httpclient.execute(httpGet, responseHandler);
-			
-			GsonBuilder builder = new GsonBuilder(); 
+
+			GsonBuilder builder = new GsonBuilder();
             builder.registerTypeAdapter(Date.class, new DateTypeAdapter());
             Gson gson = builder.create();
 			return gson.fromJson(content, returnType);
-		
+
 		} catch (Exception e) {
 			return null;
 	    } finally {
@@ -128,49 +128,49 @@ public class EstampalaTools {
 	    	}catch(Exception e){};
 	    }
 	}
-	
+
 	public static <T> T invokePostRestServices(Endpoints endpoint, List<String> pathParameters, Map<String, String> parameters, Class<T> returnType){
 		return invokePostRestServices(endpoint.getPath(), pathParameters, parameters, returnType);
 	}
-	
-	public static <T> T invokePostRestServices(String baseUrl, List<String> pathParameters, Map<String, String> parameters, Class<T> returnType){		
+
+	public static <T> T invokePostRestServices(String baseUrl, List<String> pathParameters, Map<String, String> parameters, Class<T> returnType){
 		InputStream inputStream = null;
-		try {						
+		try {
 			StringBuilder url = new StringBuilder(baseUrl);
 			if (baseUrl.endsWith("/")){
-				url.deleteCharAt(url.length() - 1);				
-			}			
-			
+				url.deleteCharAt(url.length() - 1);
+			}
+
 			if (pathParameters != null){
 				for(String value : pathParameters){
 					url.append("/");
-					url.append(value);					
+					url.append(value);
 				}
 			}
-			
+
 			HttpClient httpclient = HttpClients.createDefault();
 			HttpPost httpPost = new HttpPost(url.toString());
-			
+
 			if (parameters != null){
-				List<NameValuePair> params = new ArrayList<NameValuePair>(parameters.size());				
+				List<NameValuePair> params = new ArrayList<NameValuePair>(parameters.size());
 				for(String key : parameters.keySet()){
-					params.add(new BasicNameValuePair(key, parameters.get(key)));					
+					params.add(new BasicNameValuePair(key, parameters.get(key)));
 				}
-				
+
 				httpPost.setEntity(new UrlEncodedFormEntity(params, "utf-8"));
 			}
-			
-			
+
+
 			HttpResponse response = httpclient.execute(httpPost);
 			HttpEntity entity = response.getEntity();
-	
-			if (entity != null) {				
+
+			if (entity != null) {
 				String content = EntityUtils.toString(entity);
-				
+
 				Gson gson = new Gson();
-				return gson.fromJson(content, returnType);				
+				return gson.fromJson(content, returnType);
 			}
-			
+
 			return null;
 		} catch (Exception e) {
 			return null;
@@ -181,5 +181,5 @@ public class EstampalaTools {
 		    	}
 	    	}catch(Exception e){};
 	    }
-	}	
+	}
 }

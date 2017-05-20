@@ -18,43 +18,26 @@
             <artifactId>aspectjrt</artifactId>
             <version>1.8.9</version>
         </dependency>
-        	<dependency>
-    	<groupId>estampala.server.core</groupId>	    
-	    <artifactId>shopping-cart</artifactId>
-	    <version>${shopping-cart.version}</version>
-	</dependency>
     </dependencies>
-
     <build>
         <plugins>
-            <!--
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
                 <version>1.10</version>
-                <configuration>
-                    <aspectLibraries>
-                        <aspectLibrary>
-                            <groupId>estampala.server.core</groupId>
-                            <artifactId>commons</artifactId>
-                        </aspectLibrary>
-                    </aspectLibraries>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <complianceLevel>1.8</complianceLevel>
-                </configuration>
                 <executions>
-                <execution>
-                    <goals>
-                        <goal>test-compile</goal>
-                     </goals>
-                     <configuration>
-                         <showWeaveInfo>true</showWeaveInfo>
-                     </configuration>
-                 </execution>
-             </executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <excludes xmlns="" xmlns:ns3="http://maven.apache.org/POM/4.0.0">
+                        <exclude>payment/aspects/giftcard/BuyGiftCard.java</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
-          -->
         </plugins>
     </build>
 </project>

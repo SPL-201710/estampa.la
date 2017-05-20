@@ -31,7 +31,7 @@
             <td>{{shirt.color.name}}</td>
             <td>{{shirt.material.name}}</td>
             <td>{{#link-to "shirts.edit" shirt.id class="btn btn-info"}}Editar{{/link-to}}</td>
-            <td><button {{action "deleteShirt" shirt}} class="btn btn-danger">Eliminar</button></td>
+            <td><button {{action "deleteShirt" shirt.id}} class="btn btn-danger">Eliminar</button></td>
           </tr>
           {{/each}}
         </tbody>

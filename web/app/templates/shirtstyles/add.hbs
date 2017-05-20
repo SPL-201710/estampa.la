@@ -14,6 +14,11 @@
                     <label>Nombre <em>*</em></label>
                     {{input value=name placeholder="Nombre del estilo" required="required" type="text" class="input-text"}}
                   </li>
+                  <li class="col-md-6 col-sm-6">
+                    <label>Imagen <em>*</em></label>
+                    {{input id="image" value=image type="file" class="form-control-file" name=image aria-describedby="fileHelp"}}
+                    <small class="form-text text-muted">Carga una imagen del estilo.</small>
+                  </li>
                 </ul>
                 <div class="buttons-set">
                   <button {{action 'addShirtStyle'}} class="btn-black" type="submit"><span><span>Crear</span></span></button>

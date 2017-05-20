@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   session: Ember.inject.service('session'),
   theme: "",
+
   actions: {
     selectTheme: function(selectedTheme){
       this.set('theme', selectedTheme);
@@ -28,6 +29,7 @@ export default Ember.Controller.extend({
           image: imageBase64,
           imageExtension: imgext,
           owner: self.get('session.data.authenticated.user.id'),
+          ownerUsername: self.get('session.data.authenticated.user.username'),
         });
 
         function transitionToIndex () {
