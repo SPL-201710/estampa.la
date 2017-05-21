@@ -14,7 +14,7 @@ import commons.exceptions.OwnerNotFoundException;
 import commons.responses.SuccessResponse;
 import commons.util.Endpoints;
 import commons.util.EstampalaTools;
-import payment.exceptions.GiftCardNotEnoughBalance;
+import payment.exceptions.GiftCardNotEnoughBalanceException;
 import payment.exceptions.GiftCardNotFoundException;
 import payment.exceptions.RequiredParameterException;
 import payment.models.GiftCard;
@@ -122,7 +122,7 @@ public class GiftCardService {
 		return giftCardRepository.findByReceiver(userId);
 	}
 	
-	public double payGiftCard(UUID id, double price) throws GiftCardNotFoundException, GiftCardNotEnoughBalance {
+	public double payGiftCard(UUID id, double price) throws GiftCardNotFoundException, GiftCardNotEnoughBalanceException {
 		
 		double newBalance = 0;
 		
@@ -133,7 +133,7 @@ public class GiftCardService {
 		GiftCard giftCard = giftCardRepository.findOne(id);
 		
 		if(giftCard.getBalance() < price) {
-			throw new GiftCardNotEnoughBalance();
+			throw new GiftCardNotEnoughBalanceException();
 		}
 		
 		newBalance = giftCard.getBalance() - price; 

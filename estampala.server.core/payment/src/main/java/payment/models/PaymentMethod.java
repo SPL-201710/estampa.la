@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -25,11 +25,8 @@ public class PaymentMethod {
 	@Type(type="pg-uuid")
 	protected UUID id;
 	
-	@ManyToOne
+	@OneToOne
 	private Payment payment;
-	
-	@Column(nullable = false)
-	private Double total;
 
 	public UUID getId() {
 		return id;
@@ -45,13 +42,5 @@ public class PaymentMethod {
 
 	public void setPayment(Payment payment) {
 		this.payment = payment;
-	}
-
-	public Double getTotal() {
-		return total;
-	}
-
-	public void setValue(Double value) {
-		this.total = value;
 	}
 }

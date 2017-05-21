@@ -5,11 +5,11 @@ import org.springframework.http.HttpStatus;
 import commons.exceptions.EstampalaException;
 import commons.responses.ErrorResponse;
 
-public class GiftCardNotEnoughBalance extends EstampalaException{
+public class GiftCardNotEnoughBalanceException extends EstampalaException{
 	
 	private static final long serialVersionUID = 1L;
 
-	public GiftCardNotEnoughBalance() {
+	public GiftCardNotEnoughBalanceException() {
 		
 		ErrorResponse error = new ErrorResponse();
 		error.setError("not_enough_credit");

@@ -1,6 +1,5 @@
 package payment.services;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,32 +8,33 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
+import commons.exceptions.CartNotFoundException;
 import commons.exceptions.EstampalaException;
+import commons.exceptions.OwnerNotFoundException;
+import commons.responses.SuccessResponse;
 import commons.util.DateTypeAdapter;
 import commons.util.Endpoints;
 import commons.util.EstampalaTools;
-import payment.exceptions.PaymentNotFoundException;
+import payment.exceptions.GiftCardNotEnoughBalanceException;
+import payment.exceptions.GiftCardNotFoundException;
 import payment.exceptions.TooManyPaymentMethodsException;
+import payment.models.GiftCard;
 import payment.models.Payment;
 import payment.models.PaymentMethodCreditCard;
+import payment.models.PaymentMethodCreditCardRepository;
+import payment.models.PaymentMethodGiftCard;
+import payment.models.PaymentMethodGiftCardRepository;
 import payment.models.PaymentMethodPSE;
-import payment.models.PaymentMethodRepository;
+import payment.models.PaymentMethodPSERepository;
 import payment.models.PaymentRepository;
 import payment.pojos.PaymentCreator;
-import commons.exceptions.CartNotFoundException;
-import commons.exceptions.OwnerNotFoundException;
-import commons.responses.SuccessResponse;
-import commons.util.Endpoints;
 
 /**
  *
@@ -46,9 +46,18 @@ public class PaymentService {
 
 	@Autowired
 	private PaymentRepository paymentRepository;
+	
+	@Autowired
+	private GiftCardService giftCardService;
 
 	@Autowired
-	private PaymentMethodRepository pseRepository;
+	private PaymentMethodPSERepository pseRepository;
+	
+	@Autowired
+	private PaymentMethodCreditCardRepository cardRepository;
+	
+	@Autowired
+	private PaymentMethodGiftCardRepository giftRepository;
 
 	private final RestTemplate restTemplate;
 
@@ -77,22 +86,19 @@ public class PaymentService {
 				throw new OwnerNotFoundException(owner.toString());
 			}
 
-			// UUID shoppingcart = item.getShoppingcart();
-			// pathParameters = new ArrayList<String>();
-			// pathParameters.add(shoppingcart.toString());
-			//
-			// SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.SHOPPING_CAR_EXIST, pathParameters, null, SuccessResponse.class);
-			// if (res == null || !res.isSuccess()){
-			// 	throw new CartNotFoundException(shoppingcart);
-			// }
+			 UUID shoppingcart = item.getShoppingcart();
+			 pathParameters = new ArrayList<String>();
+			 pathParameters.add(shoppingcart.toString());
+			
+			 res = EstampalaTools.invokeGetRestServices(Endpoints.SHOPPING_CAR_EXIST, pathParameters, null, SuccessResponse.class);
+			 if (res == null || !res.isSuccess()){
+			 	throw new CartNotFoundException(shoppingcart);
+			 }
 
 			Payment payment = new Payment(UUID.randomUUID(), item.getDate(), item.getTotal(), item.getOwner(), item.getShoppingcart());
 			payment = paymentRepository.save(payment);
 
-			PaymentMethodPSE pse = item.getPse_method();
-			pse.setPayment(payment);
-
-			pseRepository.save(pse);
+			createPaymentMethods(payment, item);
 
 			return paymentRepository.save(payment);
 		}
@@ -140,27 +146,32 @@ public class PaymentService {
 		return gson.toJson(json);
 	}
 	
-	public void createPaymentMethods(Payment payment, PaymentCreator creator) throws TooManyPaymentMethodsException {
-		
-		if(creator.getPse_method() != null && creator.getCreditcard_method() != null && creator.getGiftcard() != null) {
-			throw new TooManyPaymentMethodsException();
-		}
-		
-		double total = 0;
+	public void createPaymentMethods(Payment payment, PaymentCreator creator) throws TooManyPaymentMethodsException, GiftCardNotFoundException, GiftCardNotEnoughBalanceException {
 		
 		if(creator.getPse_method() != null) {
 			PaymentMethodPSE pseMethod = creator.getPse_method();
 			pseMethod.setPayment(payment);
-			total+= pseMethod.getTotal();
+			pseRepository.save(pseMethod);
 		}
 		
-		if(creator.getCreditcard_method() != null) {
-			PaymentMethodCreditCard creditCardMethod = creator.getCreditcard_method();
+		else if(creator.getCredit_method() != null) {
+			PaymentMethodCreditCard creditCardMethod = creator.getCredit_method();
 			creditCardMethod.setPayment(payment);
+			cardRepository.save(creditCardMethod);
 		}
 		
-		if(creator.getGiftcard() != null) {
+		else if(creator.getGiftcard() != null) {
+			if(!giftCardService.exists(creator.getGiftcard())) {
+				throw new GiftCardNotFoundException();
+			}
 			
+			GiftCard card = giftCardService.find(creator.getGiftcard());
+			
+			giftCardService.payGiftCard(card.getId(), creator.getTotal());
+			PaymentMethodGiftCard payMethodCard = new PaymentMethodGiftCard();
+			payMethodCard.setGiftCard(card);
+			payMethodCard.setPayment(payment);
+			giftRepository.save(payMethodCard);
 		}
 	}
 }
