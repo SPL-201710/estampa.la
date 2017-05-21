@@ -2,6 +2,7 @@ package report.services;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.UUID;
 
 import javax.sql.DataSource;
 
@@ -25,24 +26,17 @@ public class ReportService {
 	@Autowired
 	DataSource dataSource;
 	
-	public Page<SalesReportByArtist> salesReportByArtist(int page, int pageSize, Specification<Print> spec) {
+	public Page<SalesReportByArtist> salesReportByArtist(UUID idArtist, int page, int pageSize) {
 		
 		Connection connection;
 		try {
-			connection = dataSource.getConnection();				
-			JasperReportBuilder report = DynamicReports.report();
 			
-			report
-			  .columns(
-			      Columns.column("Customer Id", "id", DataTypes.integerType()),
-			      Columns.column("First Name", "first_name", DataTypes.stringType()),
-			      Columns.column("Last Name", "last_name", DataTypes.stringType()),
-			      Columns.column("Date", "date", DataTypes.dateType()))
-			  .title(//title of the report
-			      Components.text("SimpleReportExample")
-				  .setHorizontalAlignment(HorizontalAlignment.CENTER))
-				  .pageFooter(Components.pageXofY())//show page number on the page footer
-				  .setDataSource("SELECT id, first_name, last_name, date FROM customers", connection);
+			/*String query = "select COF_NAME, SUP_ID, PRICE, " +
+	                   "SALES, TOTAL " +
+	                   "from " + dbName + ".COFFEES";*/
+			
+			connection = dataSource.getConnection();				
+			
 	
 		}catch (SQLException e) {
 		}

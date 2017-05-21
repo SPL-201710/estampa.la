@@ -1,5 +1,7 @@
 package report.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +35,25 @@ public class ReportController extends EstampalaController {
 	@Autowired
 	private ReportService service;
 
-	@RequestMapping(value = "/salesByArtist/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Page<SalesReportByArtist>> salesReportByArtist(@PathVariable UUID id, @RequestParam(value="page", defaultValue="1", required = false) int page, 
-											@RequestParam(value="page_size", defaultValue="10", required = false) int pageSize,											
-											@And({	@Spec(path = "date", spec = Like.class), 
-													@Spec(path = "theme", spec = Like.class),
-													@Spec(path = "print", spec = Like.class)}) Specification<Print> spec) {
-		
+	@RequestMapping(value = "/salesbyartist/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<SalesReportByArtist>> salesReportByArtist(@PathVariable UUID id) {
 				
-		return new ResponseEntity<Page<SalesReportByArtist>>(service.salesReportByArtist(page, pageSize, spec), HttpStatus.OK);
+		List<SalesReportByArtist> list = new ArrayList<>();
+		
+		for(int i = 0; i < 30; i++){
+			SalesReportByArtist s = new SalesReportByArtist();
+			s.setPrintId(UUID.randomUUID());
+			s.setPrintImage("https://s3.amazonaws.com/estampala/prints/02e6e127-7066-4aae-86a9-050561f7fa56.jpg");
+			s.setPrintName("myprint_" + i);
+			s.setQuantitySold(i+1);
+			s.setTotalSold((i+1) * 3);
+			
+			list.add(s);
+		}		
+		
+		return new ResponseEntity<List<SalesReportByArtist>>(list, HttpStatus.OK);
+		
+		//return new ResponseEntity<Page<SalesReportByArtist>>(service.salesReportByArtist(page, pageSize), HttpStatus.OK);
 	}	
 	
 	@CrossOrigin
