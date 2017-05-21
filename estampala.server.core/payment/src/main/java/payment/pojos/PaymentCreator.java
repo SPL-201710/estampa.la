@@ -16,7 +16,7 @@ public class PaymentCreator {
 	private double total;
 	private PaymentMethodPSE pse_method;
 	private UUID giftcard;
-	private PaymentMethodCreditCard creditcard_method;
+	private PaymentMethodCreditCard credit_method;
 
 	public UUID getPayment() {
 		return payment;
@@ -61,10 +61,10 @@ public class PaymentCreator {
 	public void setGiftcard(UUID giftcard) {
 		this.giftcard = giftcard;
 	}
-	public PaymentMethodCreditCard getCreditcard_method() {
-		return creditcard_method;
+	public PaymentMethodCreditCard getCredit_method() {
+		return credit_method;
 	}
-	public void setCreditcard_method(PaymentMethodCreditCard creditcard_method) {
-		this.creditcard_method = creditcard_method;
-	}	
+	public void setCredit_method(PaymentMethodCreditCard credit_method) {
+		this.credit_method = credit_method;
+	}
 }

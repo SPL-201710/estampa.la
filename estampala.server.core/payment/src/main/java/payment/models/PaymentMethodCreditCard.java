@@ -22,28 +22,65 @@ public class PaymentMethodCreditCard extends PaymentMethod{
 	private String bank;
 
 	@Column(nullable = false)
-	private String bankCode;
-
-	@Column(nullable = false)
-	private String reference;
-
-	@Column(nullable = false)
 	private String identificationType;
 
 	@Column(nullable = false)
 	private String identification;
 	
 	@Column(nullable = false)
-	private String cardNumber;
+	private String number;
 	
 	@Column(nullable = false)
 	private String cvc;
 	
-	public String getCardNumber() {
-		return cardNumber;
+	public String getFirtsName() {
+		return firtsName;
 	}
-	public void setCardNumber(String cardNumber) {
-		this.cardNumber = cardNumber;
+	public void setFirtsName(String firtsName) {
+		this.firtsName = firtsName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getBank() {
+		return bank;
+	}
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+	public String getIdentificationType() {
+		return identificationType;
+	}
+	public void setIdentificationType(String identificationType) {
+		this.identificationType = identificationType;
+	}
+	public String getIdentification() {
+		return identification;
+	}
+	public void setIdentification(String identification) {
+		this.identification = identification;
+	}
+	
+	public String getNumber() {
+		return number;
+	}
+	public void setNumber(String number) {
+		this.number = number;
 	}
 	public String getCvc() {
 		return cvc;

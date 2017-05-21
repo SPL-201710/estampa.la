@@ -20,5 +20,4 @@ public class PaymentMethodGiftCard extends PaymentMethod{
 	public void setGiftCard(GiftCard giftCard) {
 		this.giftCard = giftCard;
 	}
-
 }

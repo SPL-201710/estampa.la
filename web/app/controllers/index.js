@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+  session: Ember.inject.service('session'),
   init: function() {
     this._super();
     this.set('author', "");
@@ -90,5 +91,49 @@ export default Ember.Controller.extend({
         $("#detailModal").modal({backdrop: 'static'});
       }
     },
+    ratePrint(print){
+      $("#currentRate").rateYo({
+        ratedFill: "#3299ff",
+        readOnly: true,
+        starWidth: "40px"
+      });
+      var self = this;
+      Ember.$.getJSON('http://catalog.soybackend.com/api/v1/prints/' + print.id, function(data){
+        $("#currentRate").rateYo("rating", data.rating);
+        $("#rateStars").rateYo("rating", 0);
+        try{
+            Ember.$("#rateModal").modal({backdrop: 'static'});
+        }
+        catch(err){
+          $("#rateModal").modal({backdrop: 'static'});
+        }
+        self.set('ratePrint', print.id);
+      });
+
+    },
+    saveRate(){
+      var $rateYo = $("#rateStars").rateYo();
+      var rating = $rateYo.rateYo("rating");
+
+      var rate = {
+        rate: rating,
+        userId: this.get('session.data.authenticated.user.id')
+      }
+
+      var settings = {
+        "url": "http://catalog.soybackend.com/api/v1/prints/" + this.get('ratePrint') + "/rate",
+        "method": "POST",
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-cache"
+        },
+        "data": JSON.stringify(rate)
+      }
+
+      Ember.$.ajax(settings).done(function (response) {
+        Ember.$("#rateModal").modal('toggle');
+        alert("Calificación Guardada");
+      });
+    }
   }
 });
