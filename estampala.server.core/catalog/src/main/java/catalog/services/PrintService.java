@@ -20,6 +20,7 @@ import catalog.models.print.RatePrint;
 import catalog.models.print.RatePrintRepository;
 import catalog.models.theme.Theme;
 import catalog.pojos.PrintCreator;
+import catalog.pojos.PrintRate;
 import catalog.utils.S3Folders;
 import catalog.utils.S3Util;
 import commons.exceptions.EstampalaException;
@@ -135,7 +136,11 @@ public class PrintService {
 		}
 	}
 
-	public RatePrint rate(UUID idPrint, String idUser, float rate) throws EstampalaException{
+	public RatePrint rate(UUID idPrint, PrintRate printRate) throws EstampalaException{
+		
+		float rate = printRate.getRate();
+		String idUser = printRate.getUserId();
+		
 		if (rate < 0f){
 			rate = 0f;
 		}

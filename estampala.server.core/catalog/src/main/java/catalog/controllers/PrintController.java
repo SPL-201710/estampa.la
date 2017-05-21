@@ -10,19 +10,20 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import catalog.exceptions.PrintAlreadyExistsException;
 import catalog.exceptions.PrintNotFoundException;
 import catalog.models.print.Print;
 import catalog.models.print.RatePrint;
 import catalog.pojos.PrintCreator;
+import catalog.pojos.PrintRate;
 import catalog.services.PrintService;
 import commons.controllers.EstampalaController;
 import commons.exceptions.EstampalaException;
@@ -117,10 +118,10 @@ public class PrintController extends EstampalaController {
 	
 	@CrossOrigin
 	@RequestMapping(value = "/{id}/rate", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<RatePrint> rate(@PathVariable UUID id, @RequestParam(value="rate", required = true) float rate) throws EstampalaException {
+	public ResponseEntity<RatePrint> rate(@PathVariable UUID id, @RequestBody PrintRate rate) throws EstampalaException {
 		
-		String idUser = (String)request.getAttribute("idUser");
-		return new ResponseEntity<RatePrint>(service.rate(id, idUser, rate), HttpStatus.OK);
+//		String idUser = (String)request.getAttribute("idUser");
+		return new ResponseEntity<RatePrint>(service.rate(id, rate), HttpStatus.OK);
 	}
 	
 	@CrossOrigin
