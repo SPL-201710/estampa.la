@@ -28,7 +28,8 @@ public class PaymentMethod {
 	@ManyToOne
 	private Payment payment;
 	
-	private double value;
+	@Column(nullable = false)
+	private Double total;
 
 	public UUID getId() {
 		return id;
@@ -46,11 +47,11 @@ public class PaymentMethod {
 		this.payment = payment;
 	}
 
-	public double getValue() {
-		return value;
+	public Double getTotal() {
+		return total;
 	}
 
-	public void setValue(double value) {
-		this.value = value;
+	public void setValue(Double value) {
+		this.total = value;
 	}
 }

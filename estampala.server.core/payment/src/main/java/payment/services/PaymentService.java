@@ -26,8 +26,9 @@ import commons.util.EstampalaTools;
 import payment.exceptions.PaymentNotFoundException;
 import payment.exceptions.TooManyPaymentMethodsException;
 import payment.models.Payment;
+import payment.models.PaymentMethodCreditCard;
 import payment.models.PaymentMethodPSE;
-import payment.models.PaymentMethodPSERepository;
+import payment.models.PaymentMethodRepository;
 import payment.models.PaymentRepository;
 import payment.pojos.PaymentCreator;
 import commons.exceptions.CartNotFoundException;
@@ -47,7 +48,7 @@ public class PaymentService {
 	private PaymentRepository paymentRepository;
 
 	@Autowired
-	private PaymentMethodPSERepository pseRepository;
+	private PaymentMethodRepository pseRepository;
 
 	private final RestTemplate restTemplate;
 
@@ -139,10 +140,27 @@ public class PaymentService {
 		return gson.toJson(json);
 	}
 	
-	public void createPaymentMethods(PaymentCreator creator) throws TooManyPaymentMethodsException {
+	public void createPaymentMethods(Payment payment, PaymentCreator creator) throws TooManyPaymentMethodsException {
 		
-		if(creator.getPse_method() != null && creator.getCreditcard_method() != null && creator.getGiftcard_method() != null) {
+		if(creator.getPse_method() != null && creator.getCreditcard_method() != null && creator.getGiftcard() != null) {
 			throw new TooManyPaymentMethodsException();
+		}
+		
+		double total = 0;
+		
+		if(creator.getPse_method() != null) {
+			PaymentMethodPSE pseMethod = creator.getPse_method();
+			pseMethod.setPayment(payment);
+			total+= pseMethod.getTotal();
+		}
+		
+		if(creator.getCreditcard_method() != null) {
+			PaymentMethodCreditCard creditCardMethod = creator.getCreditcard_method();
+			creditCardMethod.setPayment(payment);
+		}
+		
+		if(creator.getGiftcard() != null) {
+			
 		}
 	}
 }
