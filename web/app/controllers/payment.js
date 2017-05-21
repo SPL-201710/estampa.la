@@ -6,13 +6,28 @@ export default Ember.Controller.extend({
     modalPayment: function(){
       var methodSelected = Ember.$('input[name=payment]:checked').val();
       if(methodSelected=='pse'){
-        Ember.$("#modalpse").modal({backdrop: 'static'});
+        try{
+            Ember.$("#modalpse").modal({backdrop: 'static'});
+        }
+        catch(err){
+          $("#modalpse").modal({backdrop: 'static'});
+        }
       }
       if(methodSelected=='credito'){
-        Ember.$("#modalcredito").modal({backdrop: 'static'});
+        try{
+            Ember.$("#modalcredito").modal({backdrop: 'static'});
+        }
+        catch(err){
+          $("#modalcredito").modal({backdrop: 'static'});
+        }
       }
       if(methodSelected=='regalo'){
-        Ember.$("#modalregalo").modal({backdrop: 'static'});
+        try{
+            Ember.$("#modalregalo").modal({backdrop: 'static'});
+        }
+        catch(err){
+          $("#modalregalo").modal({backdrop: 'static'});
+        }
       }
     },
     addPayment: function(){
@@ -94,7 +109,7 @@ export default Ember.Controller.extend({
         "data": JSON.stringify(newCart)
       };
 
-      Ember.$.ajax(settings).done(function (response) {        
+      Ember.$.ajax(settings).done(function (response) {
         var methodSelected = Ember.$('input[name=payment]:checked').val();
         var d = new Date();
         var datestring = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
