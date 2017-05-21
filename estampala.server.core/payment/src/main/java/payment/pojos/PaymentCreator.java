@@ -3,6 +3,8 @@ package payment.pojos;
 import java.sql.Date;
 import java.util.UUID;
 
+import payment.models.PaymentMethodCreditCard;
+import payment.models.PaymentMethodGiftCard;
 import payment.models.PaymentMethodPSE;
 
 public class PaymentCreator {
@@ -13,6 +15,8 @@ public class PaymentCreator {
 	private UUID shoppingcart;
 	private double total;
 	private PaymentMethodPSE pse_method;
+	private UUID giftcard;
+	private PaymentMethodCreditCard creditcard_method;
 
 	public UUID getPayment() {
 		return payment;
@@ -50,4 +54,17 @@ public class PaymentCreator {
 	public void setPse_method(PaymentMethodPSE pse_method) {
 		this.pse_method = pse_method;
 	}
+	
+	public UUID getGiftcard() {
+		return giftcard;
+	}
+	public void setGiftcard(UUID giftcard) {
+		this.giftcard = giftcard;
+	}
+	public PaymentMethodCreditCard getCreditcard_method() {
+		return creditcard_method;
+	}
+	public void setCreditcard_method(PaymentMethodCreditCard creditcard_method) {
+		this.creditcard_method = creditcard_method;
+	}	
 }

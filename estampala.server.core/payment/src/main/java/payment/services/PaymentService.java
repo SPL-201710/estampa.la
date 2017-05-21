@@ -24,9 +24,11 @@ import commons.util.DateTypeAdapter;
 import commons.util.Endpoints;
 import commons.util.EstampalaTools;
 import payment.exceptions.PaymentNotFoundException;
+import payment.exceptions.TooManyPaymentMethodsException;
 import payment.models.Payment;
+import payment.models.PaymentMethodCreditCard;
 import payment.models.PaymentMethodPSE;
-import payment.models.PaymentMethodPSERepository;
+import payment.models.PaymentMethodRepository;
 import payment.models.PaymentRepository;
 import payment.pojos.PaymentCreator;
 import commons.exceptions.CartNotFoundException;
@@ -46,7 +48,7 @@ public class PaymentService {
 	private PaymentRepository paymentRepository;
 
 	@Autowired
-	private PaymentMethodPSERepository pseRepository;
+	private PaymentMethodRepository pseRepository;
 
 	private final RestTemplate restTemplate;
 
@@ -70,19 +72,19 @@ public class PaymentService {
 			List<String> pathParameters = new ArrayList<String>();
 			pathParameters.add(owner.toString());
 
-			// SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
-			// if (res == null || !res.isSuccess()){
-			// 	throw new OwnerNotFoundException(owner.toString());
-			// }
-
-			UUID shoppingcart = item.getShoppingcart();
-			pathParameters = new ArrayList<String>();
-			pathParameters.add(shoppingcart.toString());
-
-			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.SHOPPING_CAR_EXIST, pathParameters, null, SuccessResponse.class);
+			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
 			if (res == null || !res.isSuccess()){
-				throw new CartNotFoundException(shoppingcart);
+				throw new OwnerNotFoundException(owner.toString());
 			}
+
+			// UUID shoppingcart = item.getShoppingcart();
+			// pathParameters = new ArrayList<String>();
+			// pathParameters.add(shoppingcart.toString());
+			//
+			// SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.SHOPPING_CAR_EXIST, pathParameters, null, SuccessResponse.class);
+			// if (res == null || !res.isSuccess()){
+			// 	throw new CartNotFoundException(shoppingcart);
+			// }
 
 			Payment payment = new Payment(UUID.randomUUID(), item.getDate(), item.getTotal(), item.getOwner(), item.getShoppingcart());
 			payment = paymentRepository.save(payment);
@@ -136,5 +138,29 @@ public class PaymentService {
 		json.add("shoppingcart", jsonCart);
 
 		return gson.toJson(json);
+	}
+	
+	public void createPaymentMethods(Payment payment, PaymentCreator creator) throws TooManyPaymentMethodsException {
+		
+		if(creator.getPse_method() != null && creator.getCreditcard_method() != null && creator.getGiftcard() != null) {
+			throw new TooManyPaymentMethodsException();
+		}
+		
+		double total = 0;
+		
+		if(creator.getPse_method() != null) {
+			PaymentMethodPSE pseMethod = creator.getPse_method();
+			pseMethod.setPayment(payment);
+			total+= pseMethod.getTotal();
+		}
+		
+		if(creator.getCreditcard_method() != null) {
+			PaymentMethodCreditCard creditCardMethod = creator.getCreditcard_method();
+			creditCardMethod.setPayment(payment);
+		}
+		
+		if(creator.getGiftcard() != null) {
+			
+		}
 	}
 }

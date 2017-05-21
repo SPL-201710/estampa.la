@@ -1,5 +1,6 @@
 package payment.controllers;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import commons.controllers.EstampalaController;
 import commons.exceptions.EstampalaException;
+import commons.exceptions.OwnerNotFoundException;
 import commons.responses.SuccessResponse;
 import payment.exceptions.GiftCardNotFoundException;
+import payment.exceptions.RequiredParameterException;
 import payment.models.GiftCard;
 import payment.pojos.GiftCardCreator;
 import payment.services.GiftCardService;
 
 @RestController
-@RequestMapping("/giftcard")
+@RequestMapping("/giftcards")
 public class GiftCardController extends EstampalaController{
-	
+
 	@Autowired
 	private GiftCardService service;
 
@@ -35,7 +38,7 @@ public class GiftCardController extends EstampalaController{
 	public ResponseEntity<Page<GiftCard>> getAll(@RequestParam(value="page", defaultValue="1", required = false) int page, @RequestParam(value="page_size", defaultValue="10", required = false) int pageSize) {
 		return new ResponseEntity<Page<GiftCard>>(service.findAll(page, pageSize), HttpStatus.OK);
 	}
-	
+
 	@CrossOrigin
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GiftCard> get(@PathVariable UUID id) throws GiftCardNotFoundException {
@@ -43,6 +46,12 @@ public class GiftCardController extends EstampalaController{
 			throw new GiftCardNotFoundException();
 		}
 		return new ResponseEntity<GiftCard>(service.find(id), HttpStatus.OK);
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/receiver/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<GiftCard>> findByReceiver(@PathVariable UUID id) throws GiftCardNotFoundException, OwnerNotFoundException, RequiredParameterException {
+		return new ResponseEntity<List<GiftCard>>(service.findByReceiver(id), HttpStatus.OK);
 	}
 
 	@CrossOrigin
@@ -72,7 +81,7 @@ public class GiftCardController extends EstampalaController{
 	}
 
 	@CrossOrigin
-	@RequestMapping	
+	@RequestMapping
 	(value = "/{id}", method = RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> delete(@PathVariable UUID id) throws GiftCardNotFoundException {
 		if(!service.exists(id)) {
@@ -87,7 +96,7 @@ public class GiftCardController extends EstampalaController{
 
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}
-	
+
 	@CrossOrigin
 	@RequestMapping(value = "/exist/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> exist(@PathVariable UUID id) throws EstampalaException {
