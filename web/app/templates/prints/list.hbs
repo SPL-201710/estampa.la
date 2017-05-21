@@ -12,7 +12,7 @@
     </div>
     <div class="space50"></div>
     <div class="row">
-    {{#each model as |estampa|}}
+    {{#each model.prints as |estampa|}}
       <div class="col-md-4 col-sm-6">
         <div class="product-item">
           <div class="item-thumb">
@@ -22,7 +22,7 @@
             {{/link-to}}
             <div class="product-overlay">
               {{#if (feature "info_detallada")}}
-                <a href="#" class="addcart fa fa-refresh" {{action 'changeTheme' estampa}}></a>
+                <a href="#" class="addcart fa fa-refresh" {{action 'selectTheme' estampa.id}}></a>
               {{/if}}
             </div>
             <!-- <div class="product-overlay">
@@ -35,6 +35,37 @@
         </div>
       </div>
     {{/each}}
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="themesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Selecciona el nuevo tema</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-4">
+              <h4>Temas:</h4>
+            </div>
+            <div class="col-md-8">
+              <select value=theme class="form-control select_theme" name=theme id="theme">                
+                {{#each model.themes as |theme|}}
+                  <option value={{theme.id}}>{{theme.name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" data-dismiss="modal" {{action 'changeTheme'}}>Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+      </div>
     </div>
   </div>
 </div>
