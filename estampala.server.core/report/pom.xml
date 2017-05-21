@@ -17,26 +17,6 @@
     	<groupId>estampala.server.core</groupId>	    
 	    <artifactId>commons</artifactId>
 	    <version>${commons.version}</version>
-	</dependency>
-	<dependency>
-    	<groupId>estampala.server.core</groupId>	    
-	    <artifactId>catalog</artifactId>
-	    <version>${catalog.version}</version>
-	</dependency>
-	<dependency>
-    	<groupId>estampala.server.core</groupId>	    
-	    <artifactId>payment</artifactId>
-	    <version>${payment.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>net.sourceforge.dynamicreports</groupId>
-		<artifactId>dynamicreports-core</artifactId>
-		<version>${dynamicreports-core.version}</version>
-	</dependency>  
-	<dependency>
-	    <groupId>com.lowagie</groupId>
-	    <artifactId>itext</artifactId>
-	    <version>2.1.7</version>	    
-	</dependency>      
+	</dependency>	
   </dependencies>
 </project>
