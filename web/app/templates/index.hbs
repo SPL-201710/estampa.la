@@ -113,8 +113,11 @@
                 <img src="{{estampa.image}}" class="img-responsive" alt=""/>
                 <div class="overlay-rmore fa fa-check quickview" {{action "selectPrint" estampa}}></div>
                 <div class="product-overlay">
+                  {{#if (feature "compartir_estampa")}}
+                    <a href="#" class="addcart fa fa-share" {{action 'sharePrint' estampa}}></a>
+                  {{/if}}
                   {{#if (feature "info_detallada")}}
-                    <a href="#" class="addcart fa fa-search" {{action 'showDetail' estampa}}></a>
+                    <a href="#" class="addcart fa fa-search shareBtn" {{action 'showDetail' estampa}}></a>
                   {{/if}}
                   {{#if (feature "calificar")}}
                     <a href="#" class="likeitem fa fa-star" {{action 'ratePrint' estampa}}></a>
@@ -279,5 +282,16 @@
     $("#rateStars").rateYo({
       starWidth: "40px"
     });
+  });
+</script>
+
+<script>
+  $('.shareBtn').on('click', function() {
+    console.log("holiiii");
+    FB.ui({
+      method: 'share',
+      display: 'popup',
+      href: 'https://developers.facebook.com/docs/',
+    }, function(response){});
   });
 </script>

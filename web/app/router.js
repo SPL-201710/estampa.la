@@ -61,6 +61,7 @@ Router.map(function() {
   this.route('giftcard');
 
   this.route('report.sales-for-user', {path: '/ventas-por-usuario/'});
+  this.route('ver-estampa', { path: '/ver-estampa/:id' });
 });
 
 export default Router;
