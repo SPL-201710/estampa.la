@@ -58,6 +58,7 @@ Router.map(function() {
   this.route('product.add', {path: '/producto/'});
   this.route('cart');
   this.route('payment');
+  this.route('giftcard');
 });
 
 export default Router;

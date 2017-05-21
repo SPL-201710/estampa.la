@@ -40,7 +40,7 @@ public class PrintController extends EstampalaController {
 
 	@Autowired(required=true)
 	private HttpServletRequest request;
-	
+
 	@Autowired
 	private PrintService service;
 
@@ -115,7 +115,7 @@ public class PrintController extends EstampalaController {
 
 		return new ResponseEntity<SuccessResponse>(response, response.getHttpStatus());
 	}
-	
+
 	@CrossOrigin
 	@RequestMapping(value = "/{id}/rate", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RatePrint> rate(@PathVariable UUID id, @RequestBody PrintRate rate) throws EstampalaException {
@@ -123,7 +123,7 @@ public class PrintController extends EstampalaController {
 //		String idUser = (String)request.getAttribute("idUser");
 		return new ResponseEntity<RatePrint>(service.rate(id, rate), HttpStatus.OK);
 	}
-	
+
 	@CrossOrigin
 	@RequestMapping(value = "/exist/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> exist(@PathVariable UUID id) throws EstampalaException {

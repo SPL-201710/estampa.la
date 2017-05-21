@@ -19,11 +19,11 @@
             <h3 class="block-title">Confirmación de compra.</h3>
             <ul>
               <li>
-                <i class="fa fa-edit"></i> Productos: {{model.cartProducts.length}}
+                <i class="fa fa-edit"></i> Productos: {{model.cart.cartProducts.length}}
               </li>
-              <li><i class="fa fa-edit"></i> Subtotal: ${{model.subtotal}}</li>
-              <li><i class="fa fa-edit"></i> Valor envío: ${{model.shippingValue}}</li>
-              <li><i class="fa fa-edit"></i> Total: ${{model.total}}</li>
+              <li><i class="fa fa-edit"></i> Subtotal: ${{model.cart.subtotal}}</li>
+              <li><i class="fa fa-edit"></i> Valor envío: ${{model.cart.shippingValue}}</li>
+              <li><i class="fa fa-edit"></i> Total: ${{model.cart.total}}</li>
             </ul>
             <h2 class="block-title">Método de pago.</h2>
             <div class="radio">
@@ -32,9 +32,11 @@
             <div class="radio">
               <label><input type="radio" name="payment" value="credito">Tarjeta de Crédito</label>
             </div>
+            {{#if (feature "tarjeta_regalo")}}
             <div class="radio">
               <label><input type="radio" name="payment" value="regalo">Tarjeta de Regalo</label>
             </div>
+            {{/if}}
             <div class="buttons-set">
                <button {{action "modalPayment"}} class="btn-black">Confirmar Compra</button>
             </div>
@@ -108,26 +110,22 @@
         <h4 class="modal-title header-modal">Pago con Tarjeta</h4>
         <img src="/images/visa.png" style="width: 100px;" class="header-modal">
       </div>
-      <!-- <div class="modal-body">
+      <div class="modal-body">
         <div class="form-group">
           <label for="usr">Primer Nombre:</label>
-          <input type="text" class="form-control" id="usr">
+          <input type="text" class="form-control" id="credit_firstname">
         </div>
         <div class="form-group">
           <label for="usr">Apellido:</label>
-          <input type="text" class="form-control" id="usr">
-        </div>
-        <div class="form-group">
-          <label for="usr">Teléfono:</label>
-          <input type="text" class="form-control" id="usr">
+          <input type="text" class="form-control" id="credit_lastname">
         </div>
         <div class="form-group">
           <label for="usr">Email:</label>
-          <input type="text" class="form-control" id="usr">
+          <input type="text" class="form-control" id="credit_email">
         </div>
         <div class="form-group">
           <label for="usr">Banco:</label>
-          <select class="form-control">
+          <select class="form-control" id="credit_bank">
             <option value=""></option>
             <option value="Bancolombia">Bancolombia</option>
             <option value="Colpatria">Colpatria</option>
@@ -135,7 +133,7 @@
         </div>
         <div class="form-group">
           <label for="usr">Tipo Identificación:</label>
-          <select class="form-control">
+          <select class="form-control" id="credit_identification_type">
             <option value=""></option>
             <option value="cedula">Cédula</option>
             <option value="Pasaporte">Pasaporte</option>
@@ -143,9 +141,53 @@
         </div>
         <div class="form-group">
           <label for="usr">Identificación:</label>
-          <input type="text" class="form-control" id="usr">
+          <input type="text" class="form-control" id="credit_identification">
         </div>
-      </div> -->
+        <div class="form-group">
+          <label for="credit_card_type">Tipo:</label>
+          <select class="form-control">
+            <option value=""></option>
+            <option value="Visa">Visa</option>
+            <option value="MasterCard">MasterCard</option>
+            <option value="AmericanExpress">AmericanExpress</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="usr">Número de Tarjeta:</label>
+          <input type="text" class="form-control" id="credit_number">
+        </div>
+        <div class="form-group">
+          <label for="usr">CVC:</label>
+          <input type="text" class="form-control" id="credit_cvc">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" {{action "addPayment"}}>Pagar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modalregalo" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" data-backdrop="static">&times;</button>
+        <h4 class="modal-title header-modal">Pago con Tarjeta de Regalo</h4>
+        <img src="/images/regalo.jpg" style="width: 80px;" class="header-modal">
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="usr">Tarjetas:</label>
+          <select class="form-control" id="gift_card">
+            <option value=""></option>
+            {{#each model.giftcards.content as |giftcard|}}
+            <option value="{{giftcard.id}}">{{giftcard.balance}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" {{action "addPayment"}}>Pagar</button>
       </div>
