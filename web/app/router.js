@@ -60,7 +60,7 @@ Router.map(function() {
   this.route('payment');
   this.route('giftcard');
 
-  this.route('report.sales-for-user', {path: '/ventas-por-usuario/'});
+  this.route('reports.sales-by-user', {path: '/ventas-por-usuario/'});
 });
 
 export default Router;

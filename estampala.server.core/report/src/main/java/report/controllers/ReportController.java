@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import catalog.models.print.Print;
 import commons.controllers.EstampalaController;
 import commons.exceptions.EstampalaException;
 import commons.responses.SuccessResponse;
@@ -35,11 +34,12 @@ public class ReportController extends EstampalaController {
 	@Autowired
 	private ReportService service;
 
+	@CrossOrigin
 	@RequestMapping(value = "/salesbyartist/{id}", method = RequestMethod.GET)
 	public ResponseEntity<List<SalesReportByArtist>> salesReportByArtist(@PathVariable UUID id) {
-				
+
 		List<SalesReportByArtist> list = new ArrayList<>();
-		
+
 		for(int i = 0; i < 30; i++){
 			SalesReportByArtist s = new SalesReportByArtist();
 			s.setPrintId(UUID.randomUUID());
@@ -47,15 +47,15 @@ public class ReportController extends EstampalaController {
 			s.setPrintName("myprint_" + i);
 			s.setQuantitySold(i+1);
 			s.setTotalSold((i+1) * 3);
-			
+
 			list.add(s);
-		}		
-		
+		}
+
 		return new ResponseEntity<List<SalesReportByArtist>>(list, HttpStatus.OK);
-		
+
 		//return new ResponseEntity<Page<SalesReportByArtist>>(service.salesReportByArtist(page, pageSize), HttpStatus.OK);
-	}	
-	
+	}
+
 	@CrossOrigin
 	@RequestMapping(value = "/exist/{id}", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SuccessResponse> exist(@PathVariable UUID id) throws EstampalaException {
