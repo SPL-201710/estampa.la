@@ -59,6 +59,8 @@ Router.map(function() {
   this.route('cart');
   this.route('payment');
   this.route('giftcard');
+
+  this.route('report.sales-for-user', {path: '/ventas-por-usuario/'});
 });
 
 export default Router;
