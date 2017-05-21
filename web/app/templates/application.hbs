@@ -104,6 +104,26 @@
                               </li>
                               {{/if}}
                             {{/if}}
+
+                            {{#if session.isAuthenticated}}
+                              {{#if (eq (role session.data.authenticated.user) "ADMIN")}}
+                              <li class="dropdown">
+                                <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-expanded="false">Reportes</a>
+                                {{#if (feature "ventas_usuario")}}
+                                <ul class="dropdown-menu submenu" role="menu">
+                                  <li>{{#link-to "report.sales-for-user"}}Ventas por Usuario{{/link-to}}</li>
+                                </ul>
+                                {{/if}}
+                              </li>
+                              {{else if (eq (role session.data.authenticated.user) "ARTIST")}}
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-expanded="false">Artista</a>
+                                    <ul class="dropdown-menu submenu" role="menu">
+                                        <li>{{#link-to "prints.list"}}Administrar estampas{{/link-to}}</li>
+                                    </ul>
+                                </li>
+                              {{/if}}
+                            {{/if}}
                         </ul>
                     </div>
                 </div>
