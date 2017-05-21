@@ -1,10 +1,10 @@
 package report.controllers;
 
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import catalog.models.print.Print;
 import commons.controllers.EstampalaController;
 import commons.exceptions.EstampalaException;
 import commons.responses.SuccessResponse;
-import net.kaczmarzyk.spring.data.jpa.domain.Like;
-import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
-import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 import report.pojo.SalesReportByArtist;
 import report.services.ReportService;
 
@@ -33,15 +29,13 @@ public class ReportController extends EstampalaController {
 	@Autowired
 	private ReportService service;
 
-	@RequestMapping(value = "/salesByArtist/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Page<SalesReportByArtist>> salesReportByArtist(@PathVariable UUID id, @RequestParam(value="page", defaultValue="1", required = false) int page, 
-											@RequestParam(value="page_size", defaultValue="10", required = false) int pageSize,											
-											@And({	@Spec(path = "date", spec = Like.class), 
-													@Spec(path = "theme", spec = Like.class),
-													@Spec(path = "print", spec = Like.class)}) Specification<Print> spec) {
+	@RequestMapping(value = "/salesbyartist/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<SalesReportByArtist>> salesReportByArtist(@PathVariable UUID id,
+			@RequestParam(value="start_date", required = false) Date startDate,
+			@RequestParam(value="end_date", required = false) Date endDate,
+			@RequestParam(value="id_print", required = false) UUID idPrint) {		
 		
-				
-		return new ResponseEntity<Page<SalesReportByArtist>>(service.salesReportByArtist(page, pageSize, spec), HttpStatus.OK);
+		return new ResponseEntity<List<SalesReportByArtist>>(service.salesReportByArtist(id, startDate, endDate, idPrint), HttpStatus.OK);
 	}	
 	
 	@CrossOrigin

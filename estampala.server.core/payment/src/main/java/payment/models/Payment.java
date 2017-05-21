@@ -42,7 +42,7 @@ public class Payment {
 	@Type(type="pg-uuid")
 	private UUID shoppingcart;
 	
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.ALL)
 	private PaymentMethod paymentMethod;
 
 	Payment(){

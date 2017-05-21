@@ -134,6 +134,15 @@ export default Ember.Controller.extend({
         Ember.$("#rateModal").modal('toggle');
         alert("Calificación Guardada");
       });
+    },
+    sharePrint(print){
+      FB.ui({
+        method: 'share',
+        display: 'popup',
+        href: 'http://web.soybackend.com/ver-estampa/' + print.id,
+        hashtag: '#estampala',
+        quote: 'Mira esta estampa en estampa.la'
+      }, function(response){});
     }
   }
 });

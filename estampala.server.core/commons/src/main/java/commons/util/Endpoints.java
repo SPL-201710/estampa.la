@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public enum Endpoints {
-	IS_TOKEN_VALID("validate_token"),
+	IS_TOKEN_VALID("is_token_valid"),
 	VALIDATE_TOKEN_FACEBOOK("validate_token_facebook"),
 	USERS("users-service"),
 	SHIRT_STYLES("shirtStyles-service"),
