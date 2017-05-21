@@ -112,9 +112,11 @@
                 <div class="overlay-rmore fa fa-check quickview" {{action "selectPrint" estampa}}></div>
                 <div class="product-overlay">
                   {{#if (feature "info_detallada")}}
-                  <a href="#" class="addcart fa fa-search" {{action 'showDetail' estampa}}></a>
+                    <a href="#" class="addcart fa fa-search" {{action 'showDetail' estampa}}></a>
                   {{/if}}
-                  <a href="#" class="likeitem fa fa-star"></a>
+                  {{#if (feature "calificar")}}
+                    <a href="#" class="likeitem fa fa-star" {{action 'ratePrint' estampa}}></a>
+                  {{/if}}
                 </div>
               </div>
               <div class="product-info">
@@ -235,3 +237,45 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="rateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Calificar Estampa</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-4">
+              <h4>Calificación Actual:</h4>
+            </div>
+            <div class="col-md-8">
+              <div id="currentRate"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <h4>Calificar:</h4>
+            </div>
+            <div class="col-md-8">
+              <div id="rateStars" {{action 'saveRate'}}></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" defer>
+  $.getScript("https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js", function(){
+    $("#rateStars").rateYo({
+      starWidth: "40px"
+    });
+  });
+</script>

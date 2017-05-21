@@ -18,9 +18,13 @@
           <div class="item-thumb">
             <img src="{{estampa.image}}" alt="{{estampa.name}}" />
             {{#link-to "prints.edit" estampa.id}}
-            <div class="overlay-rmore fa fa-pencil quickview">
-            </div>
+            <div class="overlay-rmore fa fa-pencil quickview"></div>
             {{/link-to}}
+            <div class="product-overlay">
+              {{#if (feature "info_detallada")}}
+                <a href="#" class="addcart fa fa-refresh" {{action 'changeTheme' estampa}}></a>
+              {{/if}}
+            </div>
             <!-- <div class="product-overlay">
               <a href="#" class="addcart fa fa-close"></a>
             </div> -->
