@@ -60,6 +60,7 @@ Router.map(function() {
   this.route('payment');
   this.route('giftcard');
 
+  this.route('ver-estampa', { path: '/ver-estampa/:id' });
   this.route('reports.sales-by-user', {path: '/ventas-por-usuario/'});
 });
 

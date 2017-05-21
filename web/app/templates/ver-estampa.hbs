@@ -1,0 +1,44 @@
+{{outlet}}
+<div class="bcrumbs">
+  <div class="container">
+    <ul>
+      <li>{{#link-to "index"}}Inicio{{/link-to}}</li>
+      <li>Detalle de Estampa</li>
+    </ul>
+  </div>
+</div>
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="pagenav-wrap">
+      <div class="row">
+        <div class="space60"></div>
+        <div class="col-md-12 col-sm-12">
+          <div class="col-md-6 col-sm-6 align-middle">
+            <img src="{{model.image}}" style="width:100%">
+          </div>
+          <div class="col-md-6 col-sm-6 align-middle" style="padding-top: 10%;">
+            <h4><strong>Nombre: </strong>{{model.name}}</h4>
+            <h4><strong>Descripción: </strong>{{model.description}}</h4>
+            <h4><strong>Precio: </strong>{{model.price}}</h4>
+            <h4 style="display: inline-block;"><strong>Calificación: </strong></h4>
+            <div id="currentRate" style="display: inline-block;" data-value={{model.rating}}></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="space30"></div>
+    <div class="row">
+    </div>
+  </div>
+</div>
+<script type="text/javascript" defer>
+  $.getScript("https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js", function(){
+    $("#currentRate").rateYo({
+      ratedFill: "#3299ff",
+      readOnly: true,
+      starWidth: "20px",
+      rating: Number($('#currentRate').attr('data-value'))
+    });
+  });
+</script>
