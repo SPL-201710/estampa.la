@@ -46,16 +46,16 @@ public class PaymentService {
 
 	@Autowired
 	private PaymentRepository paymentRepository;
-	
+
 	@Autowired
 	private GiftCardService giftCardService;
 
 	@Autowired
 	private PaymentMethodPSERepository pseRepository;
-	
+
 	@Autowired
 	private PaymentMethodCreditCardRepository cardRepository;
-	
+
 	@Autowired
 	private PaymentMethodGiftCardRepository giftRepository;
 
@@ -77,23 +77,23 @@ public class PaymentService {
 	public Payment save(PaymentCreator item) throws EstampalaException {
 		if (item != null) {
 
-			UUID owner = item.getOwner();
-			List<String> pathParameters = new ArrayList<String>();
-			pathParameters.add(owner.toString());
-
-			SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
-			if (res == null || !res.isSuccess()){
-				throw new OwnerNotFoundException(owner.toString());
-			}
-
-			 UUID shoppingcart = item.getShoppingcart();
-			 pathParameters = new ArrayList<String>();
-			 pathParameters.add(shoppingcart.toString());
-			
-			 res = EstampalaTools.invokeGetRestServices(Endpoints.SHOPPING_CAR_EXIST, pathParameters, null, SuccessResponse.class);
-			 if (res == null || !res.isSuccess()){
-			 	throw new CartNotFoundException(shoppingcart);
-			 }
+			// UUID owner = item.getOwner();
+			// List<String> pathParameters = new ArrayList<String>();
+			// pathParameters.add(owner.toString());
+			//
+			// SuccessResponse res = EstampalaTools.invokeGetRestServices(Endpoints.USERS_EXIST, pathParameters, null, SuccessResponse.class);
+			// if (res == null || !res.isSuccess()){
+			// 	throw new OwnerNotFoundException(owner.toString());
+			// }
+			//
+			//  UUID shoppingcart = item.getShoppingcart();
+			//  pathParameters = new ArrayList<String>();
+			//  pathParameters.add(shoppingcart.toString());
+			//
+			//  res = EstampalaTools.invokeGetRestServices(Endpoints.SHOPPING_CAR_EXIST, pathParameters, null, SuccessResponse.class);
+			//  if (res == null || !res.isSuccess()){
+			//  	throw new CartNotFoundException(shoppingcart);
+			//  }
 
 			Payment payment = new Payment(UUID.randomUUID(), item.getDate(), item.getTotal(), item.getOwner(), item.getShoppingcart());
 			payment = paymentRepository.save(payment);
@@ -145,28 +145,28 @@ public class PaymentService {
 
 		return gson.toJson(json);
 	}
-	
+
 	public void createPaymentMethods(Payment payment, PaymentCreator creator) throws TooManyPaymentMethodsException, GiftCardNotFoundException, GiftCardNotEnoughBalanceException {
-		
+
 		if(creator.getPse_method() != null) {
 			PaymentMethodPSE pseMethod = creator.getPse_method();
 			pseMethod.setPayment(payment);
 			pseRepository.save(pseMethod);
 		}
-		
+
 		else if(creator.getCredit_method() != null) {
 			PaymentMethodCreditCard creditCardMethod = creator.getCredit_method();
 			creditCardMethod.setPayment(payment);
 			cardRepository.save(creditCardMethod);
 		}
-		
+
 		else if(creator.getGiftcard() != null) {
 			if(!giftCardService.exists(creator.getGiftcard())) {
 				throw new GiftCardNotFoundException();
 			}
-			
+
 			GiftCard card = giftCardService.find(creator.getGiftcard());
-			
+
 			giftCardService.payGiftCard(card.getId(), creator.getTotal());
 			PaymentMethodGiftCard payMethodCard = new PaymentMethodGiftCard();
 			payMethodCard.setGiftCard(card);

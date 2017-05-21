@@ -178,7 +178,16 @@ export default Ember.Controller.extend({
         };
         Ember.$.ajax(settings).done(function (response) {
           console.log(response);
-          Ember.$("#modalpse").modal('toggle');
+          var methodSelected = Ember.$('input[name=payment]:checked').val();
+          if(methodSelected=='pse'){
+            Ember.$("#modalpse").modal('toggle');
+          }
+          if(methodSelected=='credito'){
+            Ember.$("#modalcredito").modal('toggle');
+          }
+          if(methodSelected=='regalo'){
+            Ember.$("#modalregalo").modal('toggle');
+          }
           Ember.$("#modalpayment").modal({backdrop: 'static'});
           (function myLoop (i) {
             var value = (11-i)*10;
@@ -189,6 +198,8 @@ export default Ember.Controller.extend({
                if (--i) myLoop(i);
                else{
                  Ember.$("#modalpayment").modal('toggle');
+                 // Limpiar localStorage
+                 localStorage.setItem("products", '[]');
                  alert("Compra realizada");
                  self.transitionToRoute('index');
                }
