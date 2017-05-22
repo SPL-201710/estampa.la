@@ -14,7 +14,7 @@ import report.pojo.PrintsByRating;
 import report.pojo.ReportResponse;
 
 @Service
-public class PrintsByRatingService extends Report{
+public class PrintsByRatingService extends ReportDefault{
 
 	public PreparedStatement getQuery(Connection connection, Filters filter) throws SQLException {
 		PreparedStatement stmt = null;	

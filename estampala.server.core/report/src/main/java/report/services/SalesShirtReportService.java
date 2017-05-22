@@ -15,7 +15,7 @@ import report.pojo.ReportResponse;
 import report.pojo.SalesReportByShirtFeatures;
 
 @Service
-public class SalesShirtReportService extends Report{
+public class SalesShirtReportService extends ReportDefault{
 
 	@Override
 	public PreparedStatement getQuery(Connection connection, Filters filter) throws SQLException {

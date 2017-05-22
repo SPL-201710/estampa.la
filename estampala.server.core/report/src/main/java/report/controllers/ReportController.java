@@ -20,9 +20,8 @@ import commons.exceptions.EstampalaException;
 import commons.responses.SuccessResponse;
 import report.pojo.Filters;
 import report.pojo.ReportResponse;
-import report.services.PrintsByRatingService;
-import report.services.SalesArtistReportService;
-import report.services.SalesShirtReportService;
+import report.services.ReportServiceFactory;
+import report.services.ReportServiceTypes;
 
 
 @RestController
@@ -30,14 +29,8 @@ import report.services.SalesShirtReportService;
 public class ReportController extends EstampalaController {
 
 	@Autowired
-	private SalesArtistReportService salesArtistService;
+	private ReportServiceFactory reportServiceFactory;
 	
-	@Autowired
-	private SalesShirtReportService salesShirtService;
-	
-	@Autowired
-	private PrintsByRatingService printsRatingService;
-
 	@CrossOrigin
 	@RequestMapping(value = "/salesbyartist/{id}", method = RequestMethod.GET)
 	public ResponseEntity<List<ReportResponse>> salesByArtist(			
@@ -52,7 +45,7 @@ public class ReportController extends EstampalaController {
 		filter.setIdPrint(idPrint);
 		filter.setStartDate(startDate);
 		
-		return new ResponseEntity<List<ReportResponse>>(salesArtistService.sales(filter), HttpStatus.OK);
+		return new ResponseEntity<List<ReportResponse>>(reportServiceFactory.getInstance(ReportServiceTypes.SALES_BY_ARTIST).sales(filter), HttpStatus.OK);
 	}	
 	
 	@RequestMapping(value = "/salesbyshirt", method = RequestMethod.GET)
@@ -72,7 +65,7 @@ public class ReportController extends EstampalaController {
 		filter.setIdShirtSize(idSize);
 		filter.setIdShirtStyle(idStyle);
 		
-		return new ResponseEntity<List<ReportResponse>>(salesShirtService.sales(filter), HttpStatus.OK);
+		return new ResponseEntity<List<ReportResponse>>(reportServiceFactory.getInstance(ReportServiceTypes.SALES_BY_SHIRTS).sales(filter), HttpStatus.OK);
 	}	
 	
 	@RequestMapping(value = "/printsbyrating", method = RequestMethod.GET)
@@ -89,7 +82,7 @@ public class ReportController extends EstampalaController {
 			filter.setPrintActive(true);
 		}
 						
-		return new ResponseEntity<List<ReportResponse>>(printsRatingService.sales(filter), HttpStatus.OK);
+		return new ResponseEntity<List<ReportResponse>>(reportServiceFactory.getInstance(ReportServiceTypes.PRINTS_BY_RATING).sales(filter), HttpStatus.OK);
 	}	
 	
 	@CrossOrigin
