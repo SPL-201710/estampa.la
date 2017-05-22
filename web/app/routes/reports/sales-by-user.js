@@ -5,7 +5,7 @@ export default Ember.Route.extend({
     model() {
       this.store.adapterFor('application').set('host', 'http://catalog.soybackend.com');
       return RSVP.hash({
-        users: Ember.$.getJSON('http://users.soybackend.com/api/v1/users')
+        users: Ember.$.getJSON('http://users.soybackend.com/api/v1/users/roles?role=ARTIST')
       });
     }
 });
