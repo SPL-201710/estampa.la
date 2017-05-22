@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import report.pojo.Filters;
 import report.pojo.ReportResponse;
 
-public abstract class Report {
+public abstract class ReportDefault implements ReportService{
 
 	@Autowired
 	DataSource dataSource;

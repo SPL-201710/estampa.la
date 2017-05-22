@@ -20,8 +20,8 @@ import commons.exceptions.EstampalaException;
 import commons.responses.SuccessResponse;
 import report.pojo.Filters;
 import report.pojo.ReportResponse;
-import report.services.SalesArtistReportService;
-import report.services.SalesShirtReportService;
+import report.services.ReportServiceFactory;
+import report.services.ReportServiceTypes;
 
 
 @RestController

@@ -1,0 +1,79 @@
+{{outlet}}
+<div class="bcrumbs">
+  <div class="container">
+    <ul>
+      <li>{{#link-to "index"}}Inicio{{/link-to}}</li>
+      <li>Detalle de Compra</li>
+    </ul>
+  </div>
+</div>
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="pagenav-wrap">
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <h4><strong>Fecha de Compra: </strong>{{model.payment.date}}</h4>
+          {{getcart}}
+          <h4><strong>SubTotal: </strong>{{cart.subtotal}}</h4>
+          <h4><strong>Valor de Envio: </strong>{{cart.shippingValue}}</h4>
+          <h4><strong>Valor Total: </strong>{{model.payment.total}}</h4>
+          <div class="space40"></div>
+          {{getProducts}}
+          <h4><strong>Productos: </strong></h4>
+          <div class="row">
+          {{#each products as |product|}}
+            <div class="col-md-12 col-sm-12">
+              <div class="col-md-3 col-sm-3">
+                <h3 class="text-center">
+                  Camiseta Elegida
+                </h3>
+              </div>
+              <div class="col-md-3 col-sm-3">
+                <h3 class="text-center">
+                  Estampas Elegidas
+                </h3>
+              </div>
+              <div class="col-md-3 col-sm-3">
+                <h3 class="text-center">
+                  Textos Agregados
+                </h3>
+              </div>
+            </div>
+            <div id="{{product.id}}" class="col-md-12 col-sm-12">
+              <div class="product-info" style="text-align: center;">
+                <div class="product-image col-md-3" style="padding: 0; background-color: {{product.shirt.color.hexadecimalValue}}">
+                  <img src={{product.shirt.style.image}} class="img-responsive">
+                </div>
+                <div class="product-image col-md-3" style="padding: 3% 0;">
+                  {{#each product.printsInShirts as |printinshirt|}}
+                    <img src="{{printinshirt.print.image}}" class="img-responsive" alt="" style="text-align: center; max-height:100px; margin: 0 auto;"/>
+                    <h4 class="product-title"><span style="font-weight: bolder;">{{printinshirt.print.name}}</span></h4>
+                  {{/each}}
+                </div>
+                <div class="product-image col-md-3">
+                  {{#each product.textsInShirts as |textinshirt|}}
+                    <h4 class="product-title">
+                      <span style="font-weight: bolder;">Mensaje: </span>{{textinshirt.printText.message}}<br/>
+                      <span style="font-weight: bolder;">Estilo: </span>{{textinshirt.printText.textStyle.name}}
+                      <span style="font-weight: bolder;">Fuente: </span>{{textinshirt.printText.font.name}}
+                    </h4>
+                  {{/each}}
+                </div>
+                <div class="product-image col-md-3">
+                  <button style="margin-top: 50%" type="button" class="btn btn-primary" aria-label="Left Align" {{action 'shareProduct' product.id}}>Compartir
+                    <span class="fa fa-share" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="space30"></div>
+    <div class="row">
+    </div>
+  </div>
+</div>

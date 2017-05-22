@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import commons.controllers.EstampalaController;
 import commons.exceptions.EstampalaException;
+import commons.exceptions.ResourceNotFoundException;
 import commons.responses.SuccessResponse;
 import net.kaczmarzyk.spring.data.jpa.domain.Equal;
 import net.kaczmarzyk.spring.data.jpa.domain.Like;
@@ -62,7 +63,7 @@ public class UserController extends EstampalaController{
 													@Spec(path = "firstName", params={"firstName"}, spec = Like.class),
 													@Spec(path = "lastName", params={"lastName"}, spec = Equal.class),
 													@Spec(path = "active", params={"active"}, spec = Equal.class),
-													@Spec(path = "email", params={"email"}, spec = Equal.class)}) Specification<User> spec) {
+													@Spec(path = "email", params={"email"}, spec = Equal.class)}) Specification<User> spec) throws ResourceNotFoundException {
 
 
 		return new ResponseEntity<Page<User>>(userServiceFactory.getInstance(AuthenticationMethods.SYSTEM).findAll(page, pageSize, popularity, spec), HttpStatus.OK);
@@ -72,7 +73,7 @@ public class UserController extends EstampalaController{
 	@RequestMapping(value = "/roles", method = RequestMethod.GET)
 	public ResponseEntity<Page<User>> getAllRole(@RequestParam(value="page", defaultValue="1", required = false) int page,
 											@RequestParam(value="page_size", defaultValue="10", required = false) int pageSize,
-											@RequestParam(value="role", defaultValue="USER", required = true) String role) {
+											@RequestParam(value="role", defaultValue="USER", required = true) String role) throws ResourceNotFoundException {
 
 
 		return new ResponseEntity<Page<User>>(userServiceFactory.getInstance(AuthenticationMethods.SYSTEM).findAllRole(page, pageSize, role), HttpStatus.OK);
@@ -80,7 +81,7 @@ public class UserController extends EstampalaController{
 
 	@CrossOrigin
 	@RequestMapping(value = "/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> get(@PathVariable UUID id) throws UserNotFoundException {
+	public ResponseEntity<User> get(@PathVariable UUID id) throws UserNotFoundException, ResourceNotFoundException {
 		if(!userServiceFactory.getInstance(AuthenticationMethods.SYSTEM).exists(id)) {
 			throw new UserNotFoundException(id);
 		}
@@ -117,7 +118,7 @@ public class UserController extends EstampalaController{
 	
 	@CrossOrigin
 	@RequestMapping(value = "/sociallogin",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public UserSession socialLogin(@RequestBody UserSocialLogin auth) throws CredentialsException, UserNotFoundException, UserNotActiveException {
+	public UserSession socialLogin(@RequestBody UserSocialLogin auth) throws CredentialsException, UserNotFoundException, UserNotActiveException, ResourceNotFoundException {
 
 		return securityService.socialLogin(auth.getToken(), auth.getUsername(), AuthenticationMethods.parse(auth.getMethod()));
 	}

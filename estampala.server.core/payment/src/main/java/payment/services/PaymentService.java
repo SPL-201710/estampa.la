@@ -1,8 +1,5 @@
 package payment.services;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +8,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-
-import commons.exceptions.CartNotFoundException;
 import commons.exceptions.EstampalaException;
-import commons.exceptions.OwnerNotFoundException;
-import commons.responses.SuccessResponse;
-import commons.util.DateTypeAdapter;
-import commons.util.Endpoints;
-import commons.util.EstampalaTools;
+import commons.exceptions.ResourceNotFoundException;
+import commons.util.FeaturesFlag;
 import payment.exceptions.GiftCardNotEnoughBalanceException;
 import payment.exceptions.GiftCardNotFoundException;
 import payment.exceptions.TooManyPaymentMethodsException;
@@ -111,7 +100,7 @@ public class PaymentService {
 		return false;
 	}
 	
-	public Payment createPaymentMethods(Payment payment, PaymentCreator creator) throws TooManyPaymentMethodsException, GiftCardNotFoundException, GiftCardNotEnoughBalanceException {
+	public Payment createPaymentMethods(Payment payment, PaymentCreator creator) throws TooManyPaymentMethodsException, GiftCardNotFoundException, GiftCardNotEnoughBalanceException, ResourceNotFoundException {
 		
 		if(creator.getPse_method() != null) {
 			PaymentMethodPSE pseMethod = creator.getPse_method();
@@ -122,6 +111,11 @@ public class PaymentService {
 		}
 
 		else if(creator.getCredit_method() != null) {
+			
+			if(!FeaturesFlag.TARJETA_CREDITO.isActive()) {
+				throw new ResourceNotFoundException("tarjeta_credito");
+			}
+			
 			PaymentMethodCreditCard creditCardMethod = creator.getCredit_method();
 			
 			payment.setPaymentMethod(creditCardMethod);
@@ -129,6 +123,11 @@ public class PaymentService {
 		}
 
 		else if(creator.getGiftcard() != null) {
+			
+			if(!FeaturesFlag.TARJETA_REGALO.isActive()) {
+				throw new ResourceNotFoundException("tarjeta_regalo");
+			}
+			
 			if(!giftCardService.exists(creator.getGiftcard())) {
 				throw new GiftCardNotFoundException();
 			}
