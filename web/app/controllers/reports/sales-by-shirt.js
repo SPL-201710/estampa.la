@@ -30,42 +30,44 @@ export default Ember.Controller.extend({
       var material = Ember.$("#material option:selected").val();
       if(material != '') {
         if(params == '')
-          params = '?idMaterial=' + material;
+          params = '?id_material=' + material;
         else {
-          params = params + '&idMaterial=' + material;
+          params = params + '&id_material=' + material;
         }
       }
 
       var color = Ember.$("#color option:selected").val();
       if(color != '') {
         if(params == '')
-          params = '?idColor=' + color;
+          params = '?id_color=' + color;
         else {
-          params = params + '&idColor=' + color;
+          params = params + '&id_color=' + color;
         }
       }
 
       var size = Ember.$("#size option:selected").val();
       if(size != '') {
         if(params == '')
-          params = '?idSize=' + size;
+          params = '?id_size=' + size;
         else {
-          params = params + '&idSize=' + size;
+          params = params + '&id_size=' + size;
         }
       }
 
       var style = Ember.$("#style option:selected").val();
       if(style != '') {
         if(params == '')
-          params = '?idStyle=' + style;
+          params = '?id_style=' + style;
         else {
-          params = params + '&idStyle=' + style;
+          params = params + '&id_style=' + style;
         }
       }
 
       var url = 'http://34.225.45.212/api/v1/reports/salesbyshirt/';
       if(params != '')
         url = url + params;
+
+        console.log(url);
 
         Ember.$.getJSON(url, function(result) {
           var dataset = [];

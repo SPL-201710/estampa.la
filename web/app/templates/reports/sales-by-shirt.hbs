@@ -39,7 +39,7 @@
                <label>Material</label>
                <select value=material class="form-control select_material" name=material id="material">
                  <option></option>
-                 {{#each model.materials.content as |material|}}
+                 {{#each model.materials as |material|}}
                    <option value={{material.id}}>{{material.name}}</option>
                  {{/each}}
                </select>
@@ -48,7 +48,7 @@
                <label>Color</label>
                <select value=color class="form-control select_color" name=color id="color">
                  <option></option>
-                 {{#each model.colors.content as |color|}}
+                 {{#each model.colors as |color|}}
                    <option value={{color.id}}>{{color.name}}</option>
                  {{/each}}
                </select>
@@ -58,7 +58,7 @@
                <label>Talla</label>
                <select value=size class="form-control select_size" name=size id="size">
                  <option></option>
-                 {{#each model.sizes.content as |size|}}
+                 {{#each model.sizes as |size|}}
                    <option value={{size.id}}>{{size.name}}</option>
                  {{/each}}
                </select>
@@ -67,7 +67,7 @@
                <label>Estilo</label>
                <select value=style class="form-control select_style" name=style id="style">
                  <option></option>
-                 {{#each model.styles.content as |style|}}
+                 {{#each model.styles as |style|}}
                    <option value={{style.id}}>{{style.name}}</option>
                  {{/each}}
                </select>
