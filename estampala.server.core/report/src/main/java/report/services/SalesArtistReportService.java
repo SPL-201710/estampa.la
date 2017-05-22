@@ -16,8 +16,8 @@ import report.pojo.ReportResponse;
 import report.pojo.SalesReportByArtist;
 
 @Service
-public class ReportService extends Report{
-
+public class SalesArtistReportService extends Report{
+		
 	public PreparedStatement getQuery(Connection connection, Filters filter) throws SQLException {
 		PreparedStatement stmt = null;	
 		

@@ -2,7 +2,7 @@ package report.pojo;
 
 import java.util.UUID;
 
-public class SalesReportByArtist {
+public class SalesReportByArtist implements ReportResponse{
 		
 	private String printName;
 	private UUID printId;
