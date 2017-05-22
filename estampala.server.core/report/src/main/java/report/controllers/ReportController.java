@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import commons.controllers.EstampalaController;
 import commons.exceptions.EstampalaException;
 import commons.responses.SuccessResponse;
-import report.pojo.SalesReportByArtist;
-import report.services.ReportService;
+import report.pojo.Filters;
+import report.pojo.ReportResponse;
+import report.services.SalesArtistReportService;
+import report.services.SalesShirtReportService;
 
 
 @RestController
@@ -27,15 +29,46 @@ import report.services.ReportService;
 public class ReportController extends EstampalaController {
 
 	@Autowired
-	private ReportService service;
+	private SalesArtistReportService salesArtistService;
+	
+	@Autowired
+	private SalesShirtReportService salesShirtService;
 
+	@CrossOrigin
 	@RequestMapping(value = "/salesbyartist/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<SalesReportByArtist>> salesReportByArtist(@PathVariable UUID id,
+	public ResponseEntity<List<ReportResponse>> salesByArtist(			
+			@PathVariable UUID id,
 			@RequestParam(value="start_date", required = false) Date startDate,
 			@RequestParam(value="end_date", required = false) Date endDate,
 			@RequestParam(value="id_print", required = false) UUID idPrint) {		
 		
-		return new ResponseEntity<List<SalesReportByArtist>>(service.salesReportByArtist(id, startDate, endDate, idPrint), HttpStatus.OK);
+		Filters filter = new Filters();
+		filter.setEndDate(endDate);
+		filter.setIdArtist(id);
+		filter.setIdPrint(idPrint);
+		filter.setStartDate(startDate);
+		
+		return new ResponseEntity<List<ReportResponse>>(salesArtistService.sales(filter), HttpStatus.OK);
+	}	
+	
+	@RequestMapping(value = "/salesbyshirt", method = RequestMethod.GET)
+	public ResponseEntity<List<ReportResponse>> salesByShirt(			
+			@RequestParam(value="start_date", required = false) Date startDate,
+			@RequestParam(value="end_date", required = false) Date endDate,
+			@RequestParam(value="id_material", required = false) UUID idMaterial,
+			@RequestParam(value="id_color", required = false) UUID idColor,
+			@RequestParam(value="id_size", required = false) UUID idSize,
+			@RequestParam(value="id_style", required = false) UUID idStyle) {		
+		
+		Filters filter = new Filters();
+		filter.setEndDate(endDate);
+		filter.setStartDate(startDate);		
+		filter.setIdShirtColor(idColor);
+		filter.setIdShirtMaterial(idMaterial);
+		filter.setIdShirtSize(idSize);
+		filter.setIdShirtStyle(idStyle);
+		
+		return new ResponseEntity<List<ReportResponse>>(salesShirtService.sales(filter), HttpStatus.OK);
 	}	
 	
 	@CrossOrigin

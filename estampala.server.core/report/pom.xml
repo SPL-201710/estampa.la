@@ -6,17 +6,16 @@
     <version>1.0</version>
   </parent>
   <artifactId>report</artifactId>
-  
-  <dependencies>       
+  <dependencies>
     <dependency>
-    	<groupId>estampala.server.core</groupId>	    
-	    <artifactId>users</artifactId>
-	    <version>${users.version}</version>
-	</dependency>
-	<dependency>
-    	<groupId>estampala.server.core</groupId>	    
-	    <artifactId>commons</artifactId>
-	    <version>${commons.version}</version>
-	</dependency>	
+      	<groupId>estampala.server.core</groupId>
+  	    <artifactId>commons</artifactId>
+  	    <version>${commons.version}</version>
+  	</dependency>
+    <dependency>
+	    <groupId>postgresql</groupId>
+	    <artifactId>postgresql</artifactId>
+	    <version>${postgresql.version}</version>
+	  </dependency>
   </dependencies>
 </project>
