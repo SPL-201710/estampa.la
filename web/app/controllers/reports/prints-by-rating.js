@@ -16,7 +16,7 @@ export default Ember.Controller.extend({
       var rating_max = Ember.$('#rating_max').val();
 
       if(rating_min != '' && rating_max !='') {
-        var url = 'http://localhost:8082/api/v1/reports/printsbyrating/';
+        var url = 'http://34.225.45.212/api/v1/reports/printsbyrating/';
         var params = '?rating_min=' + rating_min + '&rating_max=' + rating_max;
         url = url + params;
 

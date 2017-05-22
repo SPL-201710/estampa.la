@@ -12,7 +12,6 @@ export default Ember.Controller.extend({
         table.destroy();
       }
 
-      //?start_date=2017/05/01&end_date=2017/05/21
       var params = '';
       var start_date = Ember.$('#start_date').val();
       var end_date = Ember.$('#end_date').val();
@@ -30,7 +29,7 @@ export default Ember.Controller.extend({
 
       var user = Ember.$("#user option:selected").val();
       if(user != '') {
-        var url = 'http://localhost:8082/api/v1/reports/salesbyartist/' + user;
+        var url = 'http://34.225.45.212/api/v1/reports/salesbyartist/' + user;
         if(params != '')
           url = url + params;
 

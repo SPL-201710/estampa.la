@@ -63,7 +63,7 @@ export default Ember.Controller.extend({
         }
       }
 
-      var url = 'http://localhost:8082/api/v1/reports/salesbyshirt/';
+      var url = 'http://34.225.45.212/api/v1/reports/salesbyshirt/';
       if(params != '')
         url = url + params;
 
