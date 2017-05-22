@@ -29,13 +29,15 @@
             <div class="radio">
               <label><input type="radio" name="payment" value="pse" checked>PSE</label>
             </div>
-            <div class="radio">
-              <label><input type="radio" name="payment" value="credito">Tarjeta de Crédito</label>
-            </div>
+            {{#if (feature "tarjeta_credito")}}
+              <div class="radio">
+                <label><input type="radio" name="payment" value="credito">Tarjeta de Crédito</label>
+              </div>
+            {{/if}}
             {{#if (feature "tarjeta_regalo")}}
-            <div class="radio">
-              <label><input type="radio" name="payment" value="regalo">Tarjeta de Regalo</label>
-            </div>
+              <div class="radio">
+                <label><input type="radio" name="payment" value="regalo">Tarjeta de Regalo</label>
+              </div>
             {{/if}}
             <div class="buttons-set">
                <button {{action "modalPayment"}} class="btn-black">Confirmar Compra</button>
@@ -180,16 +182,17 @@
       <div class="modal-body">
         <div class="form-group">
           <label for="usr">Tarjetas:</label>
-          <select class="form-control" id="gift_card">
+          <select class="form-control" id="gift_card" onchange={{action 'validateGiftcard' model.cart.total}}>
             <option value=""></option>
             {{#each model.giftcards as |giftcard|}}
             <option value="{{giftcard.id}}">{{giftcard.balance}}</option>
             {{/each}}
           </select>
+          <span class="text-danger" id="msg" hidden="true">La tarjeta seleccionada no tiene el saldo necesario para cubrir el monto de la compra.</span>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" {{action "addPayment"}}>Pagar</button>
+        <button type="button" id="btnPay" class="btn btn-default" {{action "addPayment"}} disabled="true">Pagar</button>
       </div>
     </div>
   </div>

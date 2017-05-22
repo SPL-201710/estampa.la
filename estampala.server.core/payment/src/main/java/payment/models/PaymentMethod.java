@@ -24,9 +24,6 @@ public class PaymentMethod {
 	@Column(name = "id", unique = true, nullable = false)
 	@Type(type="pg-uuid")
 	protected UUID id;
-	
-	@OneToOne
-	private Payment payment;
 
 	public UUID getId() {
 		return id;
@@ -34,13 +31,5 @@ public class PaymentMethod {
 
 	public void setId(UUID id) {
 		this.id = id;
-	}
-
-	public Payment getPayment() {
-		return payment;
-	}
-
-	public void setPayment(Payment payment) {
-		this.payment = payment;
 	}
 }

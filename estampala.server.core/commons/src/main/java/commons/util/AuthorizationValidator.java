@@ -1,5 +1,6 @@
 package commons.util;
 
+import java.io.IOException;
 import java.io.Writer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,42 +26,52 @@ public class AuthorizationValidator {
 
 		if (!FeaturesFlag.CALIFICAR.isActive()){
 			if (request.getServletPath().contains("/rate")) {
-					SuccessResponse msg = new SuccessResponse();
-          msg.setHttpStatus(HttpStatus.NOT_FOUND);
-          msg.setSuccess(false);
-          msg.setMessage("Resource Not Found");
-
-          Gson gson = new Gson();
-
-          response.setStatus(HttpStatus.NOT_FOUND.value());
-          response.setContentType("application/json");
-          Writer writer = response.getWriter();
-          writer.write(gson.toJson(msg));
-
-          return false;
+				setNotFoundResponse(response);
+				return false;
 			}
 		}
 
-    String authorizationHeader = request.getHeader("Authorization");
-    SuccessResponse permission = EstampalaTools.isTokenValid(authorizationHeader);
-    if(permission != null && permission.isSuccess()) {
-    	request.setAttribute("idUser", permission.getMessage());
-        return permission.isSuccess();
-    }
-    else {
-        SuccessResponse msg = new SuccessResponse();
-        msg.setHttpStatus(HttpStatus.UNAUTHORIZED);
-        msg.setSuccess(false);
-        msg.setMessage("Access denied");
+		if (!FeaturesFlag.ADQUIRIR_TARJETA_REGALO.isActive()){
+			if (request.getServletPath().contains("/giftcards")) {
+				setNotFoundResponse(response);
+				return false;
+			}
+		}
 
-        Gson gson = new Gson();
+		String authorizationHeader = request.getHeader("Authorization");
+		SuccessResponse permission = EstampalaTools.isTokenValid(authorizationHeader);
+		if(permission != null && permission.isSuccess()) {
+			request.setAttribute("idUser", permission.getMessage());
+			return permission.isSuccess();
+		}
+		else {
+			SuccessResponse msg = new SuccessResponse();
+			msg.setHttpStatus(HttpStatus.UNAUTHORIZED);
+			msg.setSuccess(false);
+			msg.setMessage("Access denied");
 
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setContentType("application/json");
-        Writer writer = response.getWriter();
-        writer.write(gson.toJson(msg));
+			Gson gson = new Gson();
 
-        return false;
-    }
-  }
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+			response.setContentType("application/json");
+			Writer writer = response.getWriter();
+			writer.write(gson.toJson(msg));
+
+			return false;
+		}
+	}
+	
+	private static void setNotFoundResponse(HttpServletResponse response) throws IOException {
+		SuccessResponse msg = new SuccessResponse();
+		msg.setHttpStatus(HttpStatus.NOT_FOUND);
+		msg.setSuccess(false);
+		msg.setMessage("Resource Not Found");
+
+		Gson gson = new Gson();
+
+		response.setStatus(HttpStatus.NOT_FOUND.value());
+		response.setContentType("application/json");
+		Writer writer = response.getWriter();
+		writer.write(gson.toJson(msg));
+	}
 }

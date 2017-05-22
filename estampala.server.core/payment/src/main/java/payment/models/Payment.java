@@ -3,10 +3,12 @@ package payment.models;
 import java.sql.Date;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -39,6 +41,9 @@ public class Payment {
 	@Column(nullable = false)
 	@Type(type="pg-uuid")
 	private UUID shoppingcart;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	private PaymentMethod paymentMethod;
 
 	Payment(){
 
@@ -82,5 +87,13 @@ public class Payment {
 	}
 	public void setShoppingcart(UUID shoppingcart) {
 		this.shoppingcart = shoppingcart;
+	}
+
+	public PaymentMethod getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(PaymentMethod paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 }

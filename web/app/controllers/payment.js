@@ -30,8 +30,19 @@ export default Ember.Controller.extend({
         }
       }
     },
-    addPayment: function(){
+    validateGiftcard: function(total){
+      var giftcard_balance = Ember.$("#gift_card option:selected").html();
 
+      if(giftcard_balance >= total) {
+        Ember.$("#btnPay").attr('disabled', false);
+        Ember.$("#msg").attr('hidden', true);
+      }
+      else {
+        Ember.$("#btnPay").attr('disabled', true);
+        Ember.$("#msg").attr('hidden', false);
+      }
+    },
+    addPayment: function() {
       var cartProductsg = [];
       var products = JSON.parse(localStorage.getItem("products"));
       var cart = JSON.parse(localStorage.getItem("cart"));

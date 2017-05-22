@@ -60,11 +60,11 @@ Router.map(function() {
   this.route('payment');
   this.route('giftcard');
 
-  this.route('report.sales-for-user', {path: '/ventas-por-usuario/'});
   this.route('ver-estampa', { path: '/ver-estampa/:id' });
   this.route('summary', { path: '/resumen-de-compra/:id' });
 
   this.route('product.detail', { path: '/ver-producto/:id' });
+  this.route('reports.sales-by-user', {path: '/ventas-por-usuario/'});
 });
 
 export default Router;

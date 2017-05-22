@@ -1,8 +1,5 @@
 package payment.services;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,28 +8,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-
-import commons.exceptions.CartNotFoundException;
 import commons.exceptions.EstampalaException;
-import commons.exceptions.OwnerNotFoundException;
-import commons.responses.SuccessResponse;
-import commons.util.DateTypeAdapter;
-import commons.util.Endpoints;
-import commons.util.EstampalaTools;
+import commons.exceptions.ResourceNotFoundException;
+import commons.util.FeaturesFlag;
 import payment.exceptions.GiftCardNotEnoughBalanceException;
 import payment.exceptions.GiftCardNotFoundException;
 import payment.exceptions.TooManyPaymentMethodsException;
 import payment.models.GiftCard;
 import payment.models.Payment;
 import payment.models.PaymentMethodCreditCard;
-import payment.models.PaymentMethodCreditCardRepository;
 import payment.models.PaymentMethodGiftCard;
-import payment.models.PaymentMethodGiftCardRepository;
 import payment.models.PaymentMethodPSE;
-import payment.models.PaymentMethodPSERepository;
 import payment.models.PaymentRepository;
 import payment.pojos.PaymentCreator;
 
@@ -49,15 +35,6 @@ public class PaymentService {
 
 	@Autowired
 	private GiftCardService giftCardService;
-
-	@Autowired
-	private PaymentMethodPSERepository pseRepository;
-
-	@Autowired
-	private PaymentMethodCreditCardRepository cardRepository;
-
-	@Autowired
-	private PaymentMethodGiftCardRepository giftRepository;
 
 	private final RestTemplate restTemplate;
 
@@ -96,11 +73,8 @@ public class PaymentService {
 			//  }
 
 			Payment payment = new Payment(UUID.randomUUID(), item.getDate(), item.getTotal(), item.getOwner(), item.getShoppingcart());
-			payment = paymentRepository.save(payment);
-
-			createPaymentMethods(payment, item);
-
-			return paymentRepository.save(payment);
+			
+			return createPaymentMethods(payment, item);
 		}
 		return null;
 	}
@@ -108,7 +82,7 @@ public class PaymentService {
 	public Payment update(PaymentCreator item) throws EstampalaException {
 		if (item != null) {
 			Payment payment = new Payment(item.getPayment(), item.getDate(), item.getTotal(), item.getOwner(), item.getShoppingcart());
-			return paymentRepository.save(payment);
+			return createPaymentMethods(payment, item);
 		}
 		return null;
 	}
@@ -125,42 +99,35 @@ public class PaymentService {
 		}
 		return false;
 	}
-
-	public String getInfoPayment(UUID id) {
-
-		Payment payment = find(id);
-
-		List<String> parameters = new ArrayList<>();
-		parameters.add(payment.getShoppingcart().toString());
-
-		GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Date.class, new DateTypeAdapter());
-        Gson gson = builder.create();
-
-		JsonObject json = (JsonObject) gson.toJsonTree(payment);
-		json.remove("shoppingcart");
-
-		JsonObject jsonCart = (JsonObject) gson.toJsonTree(EstampalaTools.invokeGetRestServices(Endpoints.SHOPPING_CAR.getPath(), parameters, null, SuccessResponse.class));
-		json.add("shoppingcart", jsonCart);
-
-		return gson.toJson(json);
-	}
-
-	public void createPaymentMethods(Payment payment, PaymentCreator creator) throws TooManyPaymentMethodsException, GiftCardNotFoundException, GiftCardNotEnoughBalanceException {
-
+	
+	public Payment createPaymentMethods(Payment payment, PaymentCreator creator) throws TooManyPaymentMethodsException, GiftCardNotFoundException, GiftCardNotEnoughBalanceException, ResourceNotFoundException {
+		
 		if(creator.getPse_method() != null) {
 			PaymentMethodPSE pseMethod = creator.getPse_method();
-			pseMethod.setPayment(payment);
-			pseRepository.save(pseMethod);
+			
+			payment.setPaymentMethod(pseMethod);
+			paymentRepository.save(payment);
+			
 		}
 
 		else if(creator.getCredit_method() != null) {
+			
+			if(!FeaturesFlag.TARJETA_CREDITO.isActive()) {
+				throw new ResourceNotFoundException("tarjeta_credito");
+			}
+			
 			PaymentMethodCreditCard creditCardMethod = creator.getCredit_method();
-			creditCardMethod.setPayment(payment);
-			cardRepository.save(creditCardMethod);
+			
+			payment.setPaymentMethod(creditCardMethod);
+			paymentRepository.save(payment);
 		}
 
 		else if(creator.getGiftcard() != null) {
+			
+			if(!FeaturesFlag.TARJETA_REGALO.isActive()) {
+				throw new ResourceNotFoundException("tarjeta_regalo");
+			}
+			
 			if(!giftCardService.exists(creator.getGiftcard())) {
 				throw new GiftCardNotFoundException();
 			}
@@ -170,8 +137,11 @@ public class PaymentService {
 			giftCardService.payGiftCard(card.getId(), creator.getTotal());
 			PaymentMethodGiftCard payMethodCard = new PaymentMethodGiftCard();
 			payMethodCard.setGiftCard(card);
-			payMethodCard.setPayment(payment);
-			giftRepository.save(payMethodCard);
+			
+			payment.setPaymentMethod(payMethodCard);
+			paymentRepository.save(payment);
 		}
+		
+		return payment;
 	}
 }

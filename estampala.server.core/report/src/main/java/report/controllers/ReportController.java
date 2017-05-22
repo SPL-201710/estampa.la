@@ -1,12 +1,10 @@
 package report.controllers;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,15 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import catalog.models.print.Print;
 import commons.controllers.EstampalaController;
 import commons.exceptions.EstampalaException;
 import commons.responses.SuccessResponse;
-import net.kaczmarzyk.spring.data.jpa.domain.Like;
-import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
-import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
-import report.pojo.SalesReportByArtist;
-import report.services.ReportService;
+import report.pojo.Filters;
+import report.pojo.ReportResponse;
+import report.services.PrintsByRatingService;
+import report.services.SalesArtistReportService;
+import report.services.SalesShirtReportService;
 
 
 @RestController
@@ -33,27 +30,66 @@ import report.services.ReportService;
 public class ReportController extends EstampalaController {
 
 	@Autowired
-	private ReportService service;
+	private SalesArtistReportService salesArtistService;
+	
+	@Autowired
+	private SalesShirtReportService salesShirtService;
+	
+	@Autowired
+	private PrintsByRatingService printsRatingService;
 
+	@CrossOrigin
 	@RequestMapping(value = "/salesbyartist/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<SalesReportByArtist>> salesReportByArtist(@PathVariable UUID id) {
-				
-		List<SalesReportByArtist> list = new ArrayList<>();
+	public ResponseEntity<List<ReportResponse>> salesByArtist(			
+			@PathVariable UUID id,
+			@RequestParam(value="start_date", required = false) Date startDate,
+			@RequestParam(value="end_date", required = false) Date endDate,
+			@RequestParam(value="id_print", required = false) UUID idPrint) {		
 		
-		for(int i = 0; i < 30; i++){
-			SalesReportByArtist s = new SalesReportByArtist();
-			s.setPrintId(UUID.randomUUID());
-			s.setPrintImage("https://s3.amazonaws.com/estampala/prints/02e6e127-7066-4aae-86a9-050561f7fa56.jpg");
-			s.setPrintName("myprint_" + i);
-			s.setQuantitySold(i+1);
-			s.setTotalSold((i+1) * 3);
-			
-			list.add(s);
-		}		
+		Filters filter = new Filters();
+		filter.setEndDate(endDate);
+		filter.setIdArtist(id);
+		filter.setIdPrint(idPrint);
+		filter.setStartDate(startDate);
 		
-		return new ResponseEntity<List<SalesReportByArtist>>(list, HttpStatus.OK);
+		return new ResponseEntity<List<ReportResponse>>(salesArtistService.sales(filter), HttpStatus.OK);
+	}	
+	
+	@RequestMapping(value = "/salesbyshirt", method = RequestMethod.GET)
+	public ResponseEntity<List<ReportResponse>> salesByShirt(			
+			@RequestParam(value="start_date", required = false) Date startDate,
+			@RequestParam(value="end_date", required = false) Date endDate,
+			@RequestParam(value="id_material", required = false) UUID idMaterial,
+			@RequestParam(value="id_color", required = false) UUID idColor,
+			@RequestParam(value="id_size", required = false) UUID idSize,
+			@RequestParam(value="id_style", required = false) UUID idStyle) {		
 		
-		//return new ResponseEntity<Page<SalesReportByArtist>>(service.salesReportByArtist(page, pageSize), HttpStatus.OK);
+		Filters filter = new Filters();
+		filter.setEndDate(endDate);
+		filter.setStartDate(startDate);		
+		filter.setIdShirtColor(idColor);
+		filter.setIdShirtMaterial(idMaterial);
+		filter.setIdShirtSize(idSize);
+		filter.setIdShirtStyle(idStyle);
+		
+		return new ResponseEntity<List<ReportResponse>>(salesShirtService.sales(filter), HttpStatus.OK);
+	}	
+	
+	@RequestMapping(value = "/printsbyrating", method = RequestMethod.GET)
+	public ResponseEntity<List<ReportResponse>> printsByRating(			
+			@RequestParam(value="rating_min", required = true) float ratingMin,
+			@RequestParam(value="rating_max", required = true) float ratingMax,
+			@RequestParam(value="active", required = false) Boolean active) {		
+		
+		Filters filter = new Filters();
+		filter.setRatingMin(ratingMin);
+		filter.setRatingMax(ratingMax);		
+		
+		if (active == null || active){
+			filter.setPrintActive(true);
+		}
+						
+		return new ResponseEntity<List<ReportResponse>>(printsRatingService.sales(filter), HttpStatus.OK);
 	}	
 	
 	@CrossOrigin

@@ -11,8 +11,10 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import commons.exceptions.ResourceNotFoundException;
 import commons.util.Endpoints;
 import commons.util.EstampalaTools;
+import commons.util.FeaturesFlag;
 import users.exceptions.CredentialsException;
 import users.exceptions.InvalidTokenException;
 import users.exceptions.RequiredParameterException;
@@ -89,9 +91,14 @@ public class SecurityService {
 		}
 	}
 	
-	public UserSession socialLogin(String token, String username, AuthenticationMethods socialNetwork) throws UserNotFoundException, CredentialsException, UserNotActiveException {
+	public UserSession socialLogin(String token, String username, AuthenticationMethods socialNetwork) throws UserNotFoundException, CredentialsException, UserNotActiveException, ResourceNotFoundException {
 		
 		if (socialNetwork == AuthenticationMethods.FACEBOOK){
+			
+			if(!FeaturesFlag.AUTH_FACEBOOK.isActive()) {
+				throw new ResourceNotFoundException("auth_facebook");
+			}
+			
 			Map<String, String> parameters = new HashMap<>();
 			parameters.put("access_token", token);
 			
