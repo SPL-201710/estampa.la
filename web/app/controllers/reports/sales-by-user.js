@@ -12,10 +12,29 @@ export default Ember.Controller.extend({
         table.destroy();
       }
 
+      //?start_date=2017/05/01&end_date=2017/05/21
+      var params = '';
+      var start_date = Ember.$('#start_date').val();
+      var end_date = Ember.$('#end_date').val();
+      if(start_date != '') {
+        params = '?start_date=' + start_date.replace(/-/g , "/");
+      }
+
+      if(end_date != '') {
+        if(params == '')
+          params = '?end_date=' + end_date.replace(/-/g , "/");
+        else {
+          params = params + '&end_date=' + end_date.replace(/-/g , "/");
+        }
+      }
+
       var user = Ember.$("#user option:selected").val();
       if(user != '') {
-          Ember.$.getJSON('http://localhost:8082/api/v1/reports/salesbyartist/' + user, function(result) {
+        var url = 'http://localhost:8082/api/v1/reports/salesbyartist/' + user;
+        if(params != '')
+          url = url + params;
 
+          Ember.$.getJSON(url, function(result) {
             var dataset = [];
             result.forEach(function(data) {
               var row = [];
