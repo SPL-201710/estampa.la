@@ -1,0 +1,66 @@
+{{outlet}}
+<div class="bcrumbs">
+  <div class="container">
+    <ul>
+      <li>{{#link-to "index"}}Inicio{{/link-to}}</li>
+      <li>Detalle de Producto</li>
+    </ul>
+  </div>
+</div>
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="pagenav-wrap">
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <h4><strong>Producto: </strong></h4>
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <div class="col-md-4">
+                <h3 class="text-center">
+                  Camiseta Elegida
+                </h3>
+              </div>
+              <div class="col-md-4">
+                <h3 class="text-center">
+                  Estampas Elegidas
+                </h3>
+              </div>
+              <div class="col-md-4">
+                <h3 class="text-center">
+                  Textos Agregados
+                </h3>
+              </div>
+            </div>
+            <div id="{{model.id}}" class="col-md-12 col-sm-12">
+              <div class="product-info" style="text-align: center;">
+                {{model.shirt.owner}}
+                <div class="product-image col-md-4" style="padding: 0; background-color: {{model.shirt.color.hexadecimalValue}}">
+                  <img src={{model.shirt.style.image}} class="img-responsive">
+                </div>
+                <div class="product-image col-md-4" style="padding: 3% 0;">
+                  {{#each model.printsInShirts as |printinshirt|}}
+                    <img src="{{printinshirt.print.image}}" class="img-responsive" alt="" style="text-align: center; max-height:100px; margin: 0 auto;"/>
+                    <h4 class="product-title"><span style="font-weight: bolder;">{{printinshirt.print.name}}</span></h4>
+                  {{/each}}
+                </div>
+                <div class="product-image col-md-4">
+                  {{#each model.textsInShirts as |textinshirt|}}
+                    <h4 class="product-title">
+                      <span style="font-weight: bolder;">Mensaje: </span>{{textinshirt.printText.message}}<br/>
+                      <span style="font-weight: bolder;">Estilo: </span>{{textinshirt.printText.textStyle.name}}
+                      <span style="font-weight: bolder;">Fuente: </span>{{textinshirt.printText.font.name}}
+                    </h4>
+                  {{/each}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="space30"></div>
+    <div class="row">
+    </div>
+  </div>
+</div>

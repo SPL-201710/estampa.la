@@ -62,6 +62,9 @@ Router.map(function() {
 
   this.route('report.sales-for-user', {path: '/ventas-por-usuario/'});
   this.route('ver-estampa', { path: '/ver-estampa/:id' });
+  this.route('summary', { path: '/resumen-de-compra/:id' });
+
+  this.route('product.detail', { path: '/ver-producto/:id' });
 });
 
 export default Router;
