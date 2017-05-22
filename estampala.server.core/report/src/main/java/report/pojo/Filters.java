@@ -12,6 +12,9 @@ public class Filters {
 	private UUID idShirtMaterial;
 	private UUID idShirtColor;
 	private UUID idShirtSize;
+	private float ratingMin;
+	private float ratingMax;
+	private boolean printActive;
 	
 	public UUID getIdArtist() {
 		return idArtist;
@@ -60,5 +63,23 @@ public class Filters {
 	}
 	public void setIdShirtSize(UUID idShirtSize) {
 		this.idShirtSize = idShirtSize;
+	}
+	public float getRatingMin() {
+		return ratingMin;
+	}
+	public void setRatingMin(float ratingMin) {
+		this.ratingMin = ratingMin;
+	}
+	public float getRatingMax() {
+		return ratingMax;
+	}
+	public void setRatingMax(float ratingMax) {
+		this.ratingMax = ratingMax;
+	}
+	public boolean isPrintActive() {
+		return printActive;
+	}
+	public void setPrintActive(boolean printActive) {
+		this.printActive = printActive;
 	}	
 }

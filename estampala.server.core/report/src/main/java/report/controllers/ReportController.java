@@ -20,6 +20,7 @@ import commons.exceptions.EstampalaException;
 import commons.responses.SuccessResponse;
 import report.pojo.Filters;
 import report.pojo.ReportResponse;
+import report.services.PrintsByRatingService;
 import report.services.SalesArtistReportService;
 import report.services.SalesShirtReportService;
 
@@ -33,6 +34,9 @@ public class ReportController extends EstampalaController {
 	
 	@Autowired
 	private SalesShirtReportService salesShirtService;
+	
+	@Autowired
+	private PrintsByRatingService printsRatingService;
 
 	@CrossOrigin
 	@RequestMapping(value = "/salesbyartist/{id}", method = RequestMethod.GET)
@@ -69,6 +73,23 @@ public class ReportController extends EstampalaController {
 		filter.setIdShirtStyle(idStyle);
 		
 		return new ResponseEntity<List<ReportResponse>>(salesShirtService.sales(filter), HttpStatus.OK);
+	}	
+	
+	@RequestMapping(value = "/printsbyrating", method = RequestMethod.GET)
+	public ResponseEntity<List<ReportResponse>> printsByRating(			
+			@RequestParam(value="rating_min", required = true) float ratingMin,
+			@RequestParam(value="rating_max", required = true) float ratingMax,
+			@RequestParam(value="active", required = false) Boolean active) {		
+		
+		Filters filter = new Filters();
+		filter.setRatingMin(ratingMin);
+		filter.setRatingMax(ratingMax);		
+		
+		if (active == null || active){
+			filter.setPrintActive(true);
+		}
+						
+		return new ResponseEntity<List<ReportResponse>>(printsRatingService.sales(filter), HttpStatus.OK);
 	}	
 	
 	@CrossOrigin
