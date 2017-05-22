@@ -12,53 +12,48 @@ export default Ember.Controller.extend({
         table.destroy();
       }
 
-      var params = '';
-      /*var start_date = Ember.$('#start_date').val();
-      var end_date = Ember.$('#end_date').val();
-      if(start_date != '') {
-        params = '?start_date=' + start_date.replace(/-/g , "/");
-      }
+      var rating_min = Ember.$('#rating_min').val();
+      var rating_max = Ember.$('#rating_max').val();
 
-      if(end_date != '') {
-        if(params == '')
-          params = '?end_date=' + end_date.replace(/-/g , "/");
-        else {
-          params = params + '&end_date=' + end_date.replace(/-/g , "/");
-        }
-      }*/
-
-      var url = 'http://localhost:8082/api/v1/reports/printsbyrating/';
-      if(params != '')
+      if(rating_min != '' && rating_max !='') {
+        var url = 'http://localhost:8082/api/v1/reports/printsbyrating/';
+        var params = '?rating_min=' + rating_min + '&rating_max=' + rating_max;
         url = url + params;
 
         Ember.$.getJSON(url, function(result) {
           var dataset = [];
           result.forEach(function(data) {
             var row = [];
-            row.push(data.shirtStyleName);
-            row.push("<a href='" + data.shirtStyleImage + "'>Clic para consultar</a>");
-            row.push(data.shirtColorName);
-            row.push(data.shirtMaterialName);
-            row.push(data.quantity);
-            row.push(data.totalSold);
-            row.push(data.date);
+            row.push(data.name);
+            row.push("<a href='" + data.image + "'>Clic para consultar</a>");
+            row.push(data.ownerUsername);
+            row.push(data.ownerEmail);
+            row.push(data.price);
+            row.push(data.rating);
+            row.push(data.ratingCounts);
+            row.push(data.theme);
             dataset.push(row);
           });
 
           Ember.$('#data').DataTable( {
               data: dataset,
               columns: [
-                { title: "Estilo" },
+                { title: "Nombre" },
                 { title: "Imagen" },
-                { title: "Color" },
-                { title: "Material" },
+                { title: "Propietario" },
+                { title: "Correo" },
+                { title: "Precio" },
+                { title: "Rating" },
                 { title: "Cantidad" },
-                { title: "Total" },
-                { title: "Fecha" }
+                { title: "Tema" }
               ]
           });
           self.set('initTable', true);
         });
+      }
+      else {
+        alert('Debe ingresar información en los filtros del reporte.');
+      }
     }
   }
 });

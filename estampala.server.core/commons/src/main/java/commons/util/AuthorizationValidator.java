@@ -31,13 +31,6 @@ public class AuthorizationValidator {
 			}
 		}
 
-		if (!FeaturesFlag.ADQUIRIR_TARJETA_REGALO.isActive()){
-			if (request.getServletPath().contains("/giftcards")) {
-				setNotFoundResponse(response);
-				return false;
-			}
-		}
-
 		String authorizationHeader = request.getHeader("Authorization");
 		SuccessResponse permission = EstampalaTools.isTokenValid(authorizationHeader);
 		if(permission != null && permission.isSuccess()) {
@@ -60,7 +53,7 @@ public class AuthorizationValidator {
 			return false;
 		}
 	}
-	
+
 	private static void setNotFoundResponse(HttpServletResponse response) throws IOException {
 		SuccessResponse msg = new SuccessResponse();
 		msg.setHttpStatus(HttpStatus.NOT_FOUND);

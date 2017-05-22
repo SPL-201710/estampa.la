@@ -27,16 +27,18 @@
          <h4 class="account-title"><span class="fa fa-chevron-right"></span>Estampas por Rating</h4>
          <div class="account-form">
            <li class="col-md-6 col-sm-6">
-             <label>Mínimo</label>
-             {{input value=min placeholder="Valor mínimo" type="text" class="input-text"}}
+             <label>Mínimo <em>*</em></label>
+             {{input value=min id="rating_min" placeholder="Valor mínimo" type="text" class="input-text" required="required"}}
            </li>
            <li class="col-md-6 col-sm-6">
-             <label>Máximo</label>
-             {{input value=max placeholder="Valor máximo" type="text" class="input-text"}}
+             <label>Máximo <em>*</em></label>
+             {{input value=max id="rating_max" placeholder="Valor máximo" type="text" class="input-text" required="required"}}
            </li>
+           <div class="clearfix space20"></div>
            <li class="col-md-6 col-sm-6">
              <button {{action "loadData"}} class="btn-black">Consultar</button>
            </li>
+           <div class="clearfix space20"></div>
            <br/><br/>
            <table id="data" class="display"></table>
          </div>
