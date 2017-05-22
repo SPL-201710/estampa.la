@@ -24,27 +24,19 @@
    <div class="row">
      <div class="col-md-12 col-sm-12">
        <div id="account-id">
-         <h4 class="account-title"><span class="fa fa-chevron-right"></span>Ventas por Usuario</h4>
+         <h4 class="account-title"><span class="fa fa-chevron-right"></span>Estampas por Rating</h4>
          <div class="account-form">
-           <ul class="form-list row">
-             <li class="col-md-6 col-sm-6">
-               <label>Usuario <em>*</em></label>
-               <select value=user class="form-control select_user" name=user id="user" onchange={{action 'loadData'}}>
-                 <option></option>
-                 {{#each model.users.content as |user|}}
-                   <option value={{user.id}}>{{user.firstName}} {{user.lastName}}</option>
-                 {{/each}}
-               </select>
-             </li>
-             <li class="col-md-6 col-sm-6">
-               <label>Fecha de Inicio</label>
-               {{input type="date" id="start_date" value=start_date class="form_datetime"}}
-             </li>
-             <li class="col-md-6 col-sm-6 col-md-offset-6">
-               <label>Fecha de Final</label>
-               {{input type="date" id="end_date" value=end_date class="form_datetime"}}
-             </li>
-           </ul>
+           <li class="col-md-6 col-sm-6">
+             <label>Mínimo</label>
+             {{input value=min placeholder="Valor mínimo" type="text" class="input-text"}}
+           </li>
+           <li class="col-md-6 col-sm-6">
+             <label>Máximo</label>
+             {{input value=max placeholder="Valor máximo" type="text" class="input-text"}}
+           </li>
+           <li class="col-md-6 col-sm-6">
+             <button {{action "loadData"}} class="btn-black">Consultar</button>
+           </li>
            <br/><br/>
            <table id="data" class="display"></table>
          </div>

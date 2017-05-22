@@ -1,0 +1,88 @@
+{{outlet}}
+
+<script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.4.js">
+</script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js">
+</script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js">
+</script>
+<script type="text/javascript" language="javascript" src="//cdn.datatables.net/buttons/1.3.1/js/buttons.flash.min.js">
+</script>
+<script type="text/javascript" language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js">
+</script>
+<script type="text/javascript" language="javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/pdfmake.min.js">
+</script>
+<script type="text/javascript" language="javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/vfs_fonts.js">
+</script>
+<script type="text/javascript" language="javascript" src="//cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js">
+</script>
+<script type="text/javascript" language="javascript" src="//cdn.datatables.net/buttons/1.3.1/js/buttons.print.min.js">
+</script>
+
+<div class="account-wrap">
+ <div class="container">
+   <div class="row">
+     <div class="col-md-12 col-sm-12">
+       <div id="account-id">
+         <h4 class="account-title"><span class="fa fa-chevron-right"></span>Estado de Ventas</h4>
+         <div class="account-form">
+           <ul class="form-list row">
+             <li class="col-md-6 col-sm-6">
+               <label>Fecha de Inicio</label>
+               {{input type="date" id="start_date" value=start_date class="form_datetime"}}
+             </li>
+             <li class="col-md-6 col-sm-6 col-md-6">
+               <label>Fecha de Final</label>
+               {{input type="date" id="end_date" value=end_date class="form_datetime"}}
+             </li>
+             <li class="col-md-6 col-sm-6">
+               <label>Material</label>
+               <select value=material class="form-control select_material" name=material id="material">
+                 <option></option>
+                 {{#each model.materials.content as |material|}}
+                   <option value={{material.id}}>{{material.name}}</option>
+                 {{/each}}
+               </select>
+             </li>
+             <li class="col-md-6 col-sm-6">
+               <label>Color</label>
+               <select value=color class="form-control select_color" name=color id="color">
+                 <option></option>
+                 {{#each model.colors.content as |color|}}
+                   <option value={{color.id}}>{{color.name}}</option>
+                 {{/each}}
+               </select>
+             </li>
+             <div class="clearfix space20"></div>
+             <li class="col-md-6 col-sm-6">
+               <label>Talla</label>
+               <select value=size class="form-control select_size" name=size id="size">
+                 <option></option>
+                 {{#each model.sizes.content as |size|}}
+                   <option value={{size.id}}>{{size.name}}</option>
+                 {{/each}}
+               </select>
+             </li>
+             <li class="col-md-6 col-sm-6">
+               <label>Estilo</label>
+               <select value=style class="form-control select_style" name=style id="style">
+                 <option></option>
+                 {{#each model.styles.content as |style|}}
+                   <option value={{style.id}}>{{style.name}}</option>
+                 {{/each}}
+               </select>
+             </li>
+             <div class="clearfix space20"></div>
+             <li class="col-md-6 col-sm-6">
+             <button {{action "loadData"}} class="btn-black">Consultar</button>
+             </li>
+           </ul>
+           <br/><br/>
+           <table id="data" class="display"></table>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+</div>
+<div class="clearfix space20"></div>

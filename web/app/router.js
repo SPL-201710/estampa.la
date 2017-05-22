@@ -62,6 +62,8 @@ Router.map(function() {
 
   this.route('ver-estampa', { path: '/ver-estampa/:id' });
   this.route('reports.sales-by-user', {path: '/ventas-por-usuario/'});
+  this.route('reports.sales-by-shirt', {path: '/ventas-por-camiseta/'});
+  this.route('reports.prints-by-rating', {path: '/estampas-por-rating/'});
 });
 
 export default Router;

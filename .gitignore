@@ -7,6 +7,7 @@
 /web/bower_components
 
 /EstampalaDerivador/bin/*
+/estampala.server.core/report/src/main/resources/application.properties
 
 # misc
 /web/.sass-cache
