@@ -26,7 +26,7 @@ export default Ember.Controller.extend({
               token: access_token,
               method: 'facebook'
             }
-            var authenticator = 'authenticator:facebook';
+            var authenticator = 'authenticator:social';
             self.get('session').authenticate(authenticator, credentials).then(function() {
               self.transitionToRoute('index');
             }, function(error) {
@@ -42,6 +42,27 @@ export default Ember.Controller.extend({
     },
     twitterLogin: function(){
       var self = this;
+      hello.init({
+      	'twitter' : 'OalG6AVTOfDKF8ONKZaV4Ey9X'
+      },{
+        redirect_uri: 'http://127.0.0.1:4200/usuarios/login'
+      });
+
+      var twitter = hello('twitter');
+
+    	twitter.login().then( function(response){
+        var credentials = {
+          username: response.authResponse.screen_name,
+          token: response.authResponse.access_token,
+          method: 'twitter'
+        }
+        var authenticator = 'authenticator:social';
+        self.get('session').authenticate(authenticator, credentials).then(function() {
+          self.transitionToRoute('index');
+        }, function(error) {
+          alert("Error de autenticacion");
+        });
+    	}, function(data){console.log(data)});
     }
   }
 });
