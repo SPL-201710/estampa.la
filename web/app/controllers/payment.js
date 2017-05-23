@@ -210,7 +210,7 @@ export default Ember.Controller.extend({
                else{
                  Ember.$("#modalpayment").modal('toggle');
                  // Limpiar localStorage
-                 //localStorage.setItem("products", '[]');
+                 localStorage.setItem("products", '[]');
                  alert("Compra realizada");
                  self.transitionToRoute('summary', response.id);
                }
