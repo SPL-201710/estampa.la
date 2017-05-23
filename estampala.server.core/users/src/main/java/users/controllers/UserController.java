@@ -88,6 +88,13 @@ public class UserController extends EstampalaController{
 
 		return new ResponseEntity<User>(userServiceFactory.getInstance(AuthenticationMethods.SYSTEM).findUserById(id), HttpStatus.OK);
 	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/email/{id}",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public String getEmailById(@PathVariable UUID id) throws CredentialsException, UserNotFoundException, 
+		UserNotActiveException, ResourceNotFoundException {
+		return userServiceFactory.getInstance(AuthenticationMethods.SYSTEM).getEmailById(id);
+	}
 
 	@CrossOrigin
 	@RequestMapping(value = "",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
