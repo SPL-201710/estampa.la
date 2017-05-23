@@ -17,10 +17,13 @@ export default Ember.Controller.extend({
     },
     facebookLogin: function() {
       var self = this;
+      var facebook_response = null;
       FB.login(function(response) {
         if (response.authResponse) {
           var access_token = response.authResponse.accessToken;
-          FB.api('/me', { locale: 'es_CO', fields: 'name, email' }, function(response) {
+          FB.api('/me', { locale: 'es_CO', fields: 'first_name, email, last_name',  }, function(response) {
+            facebook_response = response;
+
             var credentials = {
               username: response.email,
               token: access_token,
@@ -30,7 +33,40 @@ export default Ember.Controller.extend({
             self.get('session').authenticate(authenticator, credentials).then(function() {
               self.transitionToRoute('index');
             }, function(error) {
-              alert("Error de autenticacion");
+
+              self.store.adapterFor('application').set('host', 'http://users.soybackend.com');
+
+              var newUser = self.get('store').createRecord('user', {
+                username: facebook_response.email,
+                password: '',
+                firstName: facebook_response.first_name,
+                lastName: facebook_response.last_name,
+                email: facebook_response.email,
+                phoneNumber: '3167556764',
+                method: 'facebook',
+                roles: ['abfaad49-1392-478b-aacd-06b7e4577605']
+              });
+
+              function transitionToIndex () {
+                var credentials = {
+                  username: facebook_response.email,
+                  token: access_token,
+                  method: 'facebook'
+                }
+                var authenticator = 'authenticator:social';
+                self.get('session').authenticate(authenticator, credentials).then(function() {
+                  self.transitionToRoute('index');
+                }, function(error) {
+                  alert("Error de autenticacion");
+                });
+              };
+
+              function failure (reason) {
+                alert(reason);
+              };
+
+              newUser.save().then(transitionToIndex).catch(failure);
+
             });
           });
         } else {
@@ -45,7 +81,8 @@ export default Ember.Controller.extend({
       hello.init({
       	'twitter' : 'OalG6AVTOfDKF8ONKZaV4Ey9X'
       },{
-        redirect_uri: 'http://web.soybackend.com/usuarios/login'
+        redirect_uri: 'http://web.soybackend.com/usuarios/login/',
+        oauth_proxy: 'https://auth-server.herokuapp.com/proxy'
       });
 
       var twitter = hello('twitter');
