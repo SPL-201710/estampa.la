@@ -11,6 +11,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import commons.exceptions.EstampalaException;
 import commons.exceptions.ResourceNotFoundException;
 import commons.util.Endpoints;
 import commons.util.EstampalaTools;
@@ -91,43 +92,16 @@ public class SecurityService {
 		}
 	}
 
-	public UserSession socialLogin(String token, String username, AuthenticationMethods socialNetwork) throws UserNotFoundException, CredentialsException, UserNotActiveException, ResourceNotFoundException {
+	public UserSession socialLogin(String token, String username, AuthenticationMethods socialNetwork) throws EstampalaException {
 
-		if (socialNetwork == AuthenticationMethods.FACEBOOK){
-
-			if(!FeaturesFlag.AUTH_FACEBOOK.isActive()) {
-				throw new ResourceNotFoundException("auth_facebook");
-			}
-
-			Map<String, String> parameters = new HashMap<>();
-			parameters.put("access_token", token);
-
-			FacebookResponse res = EstampalaTools.invokeGetRestServices(Endpoints.VALIDATE_TOKEN_FACEBOOK.getPath(), null, parameters, FacebookResponse.class);
-			if (res != null && res.getError() == null){
-				User user = userRepository.findByUsername(username);
-
-				if(user == null) {
-					throw new UserNotFoundException(username);
-				}
-
-				if(!user.getActive()) {
-					throw new UserNotActiveException(username);
-				}
-
-
-				String jwToken = tokenService.generateToken(username);
-
-				UserSession session = new UserSession();
-				session.setJWT(jwToken);
-				session.setUser(user);
-				session.setToken(token);
-				session.setExpiration(tokenService.getExpiration(jwToken));
-
-				return sessionRepository.save(session);
-			}
+		switch (socialNetwork) {
+			case FACEBOOK:
+				return facebookLogin(token, username);			
+			case TWITTER:
+				return twitterLogin(token, username);
+			default:
+				throw new CredentialsException(username);
 		}
-
-		throw new CredentialsException(username);
 	}
 
 	public void logout(String jwt) throws InvalidTokenException, UserNotFoundException, UserNotActiveException {
@@ -179,5 +153,66 @@ public class SecurityService {
 		} else {
 			throw new CredentialsException("" + id);
 		}
+	}
+	
+	private UserSession facebookLogin(String token, String username) throws EstampalaException{
+		if(!FeaturesFlag.AUTH_FACEBOOK.isActive()) {
+			throw new ResourceNotFoundException("auth_facebook");
+		}
+
+		Map<String, String> parameters = new HashMap<>();
+		parameters.put("access_token", token);
+
+		FacebookResponse res = EstampalaTools.invokeGetRestServices(Endpoints.VALIDATE_TOKEN_FACEBOOK.getPath(), null, parameters, FacebookResponse.class);
+		if (res != null && res.getError() == null){
+			User user = userRepository.findByUsername(username);
+
+			if(user == null) {
+				throw new UserNotFoundException(username);
+			}
+
+			if(!user.getActive()) {
+				throw new UserNotActiveException(username);
+			}
+
+
+			String jwToken = tokenService.generateToken(username);
+
+			UserSession session = new UserSession();
+			session.setJWT(jwToken);
+			session.setUser(user);
+			session.setToken(token);
+			session.setExpiration(tokenService.getExpiration(jwToken));
+
+			return sessionRepository.save(session);
+		}
+		
+		throw new CredentialsException(username);
+	}
+	
+	private UserSession twitterLogin(String token, String username) throws EstampalaException{
+		if(!FeaturesFlag.AUTH_TWITTER.isActive()) {
+			throw new ResourceNotFoundException("auth_twitter");
+		}
+		
+		User user = userRepository.findByUsername(username);
+
+		if(user == null) {
+			throw new UserNotFoundException(username);
+		}
+
+		if(!user.getActive()) {
+			throw new UserNotActiveException(username);
+		}
+
+		String jwToken = tokenService.generateToken(username);
+
+		UserSession session = new UserSession();
+		session.setJWT(jwToken);
+		session.setUser(user);
+		session.setToken(token);
+		session.setExpiration(tokenService.getExpiration(jwToken));
+
+		return sessionRepository.save(session);
 	}
 }
