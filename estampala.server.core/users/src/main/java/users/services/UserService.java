@@ -17,6 +17,7 @@ public interface UserService {
 	boolean exists(UUID id);
 	Boolean exists(String username);
 	User findUserById(UUID id);
+	String getEmailById(UUID id);
 	User findUserByUsername(String username) throws UserNotActiveException;
 	Page<User> findAll(int page, int pageSize, String order, Specification<User> spec);
 	Page<User> findAllRole(int page, int pageSize, String role);

@@ -15,6 +15,9 @@ public class UserServiceFactory {
 	@Autowired
 	private UserServiceFacebook userServiceFacebook;
 	
+	@Autowired
+	private UserServiceTwitter userServiceTwitter;
+	
 	public UserService getInstance(String authenticationMethod) throws ResourceNotFoundException{
 		return getInstance(AuthenticationMethods.parse(authenticationMethod));
 	}
@@ -25,9 +28,12 @@ public class UserServiceFactory {
 			case SYSTEM: return userServiceSystem;						
 			case FACEBOOK: if(!FeaturesFlag.AUTH_FACEBOOK.isActive()) {
 				throw new ResourceNotFoundException("auth_facebook");
-			}
-				return userServiceFacebook;				
-			
+				}	
+				return userServiceFacebook;			
+			case TWITTER: if(!FeaturesFlag.AUTH_TWITTER.isActive()) {
+				throw new ResourceNotFoundException("auth_twitter");
+				}	
+				return userServiceTwitter;
 			default: return userServiceSystem;
 		}
 	}

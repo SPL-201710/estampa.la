@@ -209,4 +209,9 @@ public class UserServiceSystem implements UserService{
 		PageRequest pageRequest = new PageRequest(page - 1, pageSize);
 		return userRepository.findAllRole(role, pageRequest);
 	}
+
+	@Override
+	public String getEmailById(UUID id) {		
+		return userRepository.getEmailById(id);
+	}
 }
