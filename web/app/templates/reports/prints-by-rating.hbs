@@ -24,36 +24,22 @@
    <div class="row">
      <div class="col-md-12 col-sm-12">
        <div id="account-id">
-         <h4 class="account-title"><span class="fa fa-chevron-right"></span>Ventas por Usuario</h4>
+         <h4 class="account-title"><span class="fa fa-chevron-right"></span>Estampas por Rating</h4>
          <div class="account-form">
            <ul class="form-list row">
              <li class="col-md-6 col-sm-6">
-               <label>Usuario <em>*</em></label>
-               <select value=user class="form-control select_user" name=user id="user">
-                 {{#if (eq (role session.data.authenticated.user) "ADMIN")}}
-                   <option></option>
-                   {{#each model.users.content as |user|}}
-                     <option value={{user.id}}>{{user.firstName}} {{user.lastName}}</option>
-                   {{/each}}
-                 {{else}}
-                    <option value={{session.data.authenticated.user.id}}>{{session.data.authenticated.user.firstName}} {{session.data.authenticated.user.lastName}}</option>
-                 {{/if}}
-               </select>
+               <label>Mínimo <em>*</em></label>
+               {{input value=min id="rating_min" placeholder="Valor mínimo" type="text" class="input-text" required="required"}}
              </li>
              <li class="col-md-6 col-sm-6">
-               <label>Fecha de Inicio</label>
-               {{input type="date" id="start_date" value=start_date class="form_datetime"}}
-             </li>
-             <li class="col-md-6 col-sm-6 col-md-offset-6">
-               <label>Fecha de Final</label>
-               {{input type="date" id="end_date" value=end_date class="form_datetime"}}
-             </li>
-             <div class="clearfix space20"></div>
-             <li class="col-md-6 col-sm-6">
-             <button {{action "loadData"}} class="btn-black">Consultar</button>
+               <label>Máximo <em>*</em></label>
+               {{input value=max id="rating_max" placeholder="Valor máximo" type="text" class="input-text" required="required"}}
              </li>
            </ul>
-           <br/><br/>
+           <div class="buttons-set">
+             <button {{action "loadData"}} class="btn-black">Consultar</button>
+           </div>
+           <div class="clearfix space20"></div>
            <table id="data" class="display"></table>
          </div>
        </div>

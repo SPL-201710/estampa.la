@@ -24,29 +24,53 @@
    <div class="row">
      <div class="col-md-12 col-sm-12">
        <div id="account-id">
-         <h4 class="account-title"><span class="fa fa-chevron-right"></span>Ventas por Usuario</h4>
+         <h4 class="account-title"><span class="fa fa-chevron-right"></span>Estado de Ventas</h4>
          <div class="account-form">
            <ul class="form-list row">
-             <li class="col-md-6 col-sm-6">
-               <label>Usuario <em>*</em></label>
-               <select value=user class="form-control select_user" name=user id="user">
-                 {{#if (eq (role session.data.authenticated.user) "ADMIN")}}
-                   <option></option>
-                   {{#each model.users.content as |user|}}
-                     <option value={{user.id}}>{{user.firstName}} {{user.lastName}}</option>
-                   {{/each}}
-                 {{else}}
-                    <option value={{session.data.authenticated.user.id}}>{{session.data.authenticated.user.firstName}} {{session.data.authenticated.user.lastName}}</option>
-                 {{/if}}
-               </select>
-             </li>
              <li class="col-md-6 col-sm-6">
                <label>Fecha de Inicio</label>
                {{input type="date" id="start_date" value=start_date class="form_datetime"}}
              </li>
-             <li class="col-md-6 col-sm-6 col-md-offset-6">
+             <li class="col-md-6 col-sm-6 col-md-6">
                <label>Fecha de Final</label>
                {{input type="date" id="end_date" value=end_date class="form_datetime"}}
+             </li>
+             <li class="col-md-6 col-sm-6">
+               <label>Material</label>
+               <select value=material class="form-control select_material" name=material id="material">
+                 <option></option>
+                 {{#each model.materials as |material|}}
+                   <option value={{material.id}}>{{material.name}}</option>
+                 {{/each}}
+               </select>
+             </li>
+             <li class="col-md-6 col-sm-6">
+               <label>Color</label>
+               <select value=color class="form-control select_color" name=color id="color">
+                 <option></option>
+                 {{#each model.colors as |color|}}
+                   <option value={{color.id}}>{{color.name}}</option>
+                 {{/each}}
+               </select>
+             </li>
+             <div class="clearfix space20"></div>
+             <li class="col-md-6 col-sm-6">
+               <label>Talla</label>
+               <select value=size class="form-control select_size" name=size id="size">
+                 <option></option>
+                 {{#each model.sizes as |size|}}
+                   <option value={{size.id}}>{{size.name}}</option>
+                 {{/each}}
+               </select>
+             </li>
+             <li class="col-md-6 col-sm-6">
+               <label>Estilo</label>
+               <select value=style class="form-control select_style" name=style id="style">
+                 <option></option>
+                 {{#each model.styles as |style|}}
+                   <option value={{style.id}}>{{style.name}}</option>
+                 {{/each}}
+               </select>
              </li>
              <div class="clearfix space20"></div>
              <li class="col-md-6 col-sm-6">

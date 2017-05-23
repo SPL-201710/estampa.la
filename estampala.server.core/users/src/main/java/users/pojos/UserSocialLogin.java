@@ -4,7 +4,7 @@ public class UserSocialLogin {
 
 	private String token;
 	private String method;
-	private String username;
+	private String username;	
 	
 	public String getToken() {
 		return token;

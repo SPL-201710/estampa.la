@@ -65,45 +65,8 @@
                 {{#link-to "product.add" class="btn-black" type="submit"}}<span>Crear Producto</span>{{/link-to}}
               </div>
             </div>
-            <!-- <div class="col-md-4 col-sm-4">
-              Ordenar por:
-              <select>
-                <option>-</option>
-                <option>Popularidad</option>
-              </select>
-            </div> -->
-            <!-- <div class="col-md-8 col-sm-8">
-              <span class="pull-right">
-                Mostrar:
-                <select>
-                  <option>9 items</option>
-                  <option>18 items</option>
-                  <option>27 items</option>
-                  <option>50 items</option>
-                </select>
-              </span>
-            </div> -->
           </div>
         </div>
-        <!-- <div class="pagenav-wrap">
-          <div class="row">
-            <div class="col-md-6 col-sm-6">
-              Resultados: <span>1 - 9 of 86 items</span>
-            </div>
-            <div class="col-md-6 col-sm-6">
-              <div class="pull-right">
-                <em>Página:</em>
-                <ul class="page_nav">
-                  <li><a href="#">1</a></li>
-                  <li><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">4</a></li>
-                  <li><a href="#">5</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div> -->
         <div class="space50"></div>
         <div class="row">
           {{#each result as |estampa|}}
@@ -286,7 +249,7 @@
 </script>
 
 <script>
-  $('.shareBtn').on('click', function() {    
+  $('.shareBtn').on('click', function() {
     FB.ui({
       method: 'share',
       display: 'popup',

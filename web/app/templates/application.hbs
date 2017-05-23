@@ -109,18 +109,26 @@
                               {{#if (eq (role session.data.authenticated.user) "ADMIN")}}
                               <li class="dropdown">
                                 <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-expanded="false">Reportes</a>
-                                {{#if (feature "ventas_usuario")}}
                                 <ul class="dropdown-menu submenu" role="menu">
-                                  <li>{{#link-to "reports.sales-by-user"}}Ventas por Usuario{{/link-to}}</li>
+                                  {{#if (feature "ventas_usuario")}}
+                                    <li>{{#link-to "reports.sales-by-user"}}Ventas por Usuario{{/link-to}}</li>
+                                  {{/if}}
+                                  {{#if (feature "estado_ventas")}}
+                                    <li>{{#link-to "reports.sales-by-shirt"}}Estado de Ventas{{/link-to}}</li>
+                                  {{/if}}
+                                  {{#if (feature "estampas_rating")}}
+                                    <li>{{#link-to "reports.prints-by-rating"}}Estampas por Rating{{/link-to}}</li>
+                                  {{/if}}
                                 </ul>
-                                {{/if}}
                               </li>
                               {{else if (eq (role session.data.authenticated.user) "ARTIST")}}
                                 <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-expanded="false">Artista</a>
-                                    <ul class="dropdown-menu submenu" role="menu">
-                                        <li>{{#link-to "prints.list"}}Administrar estampas{{/link-to}}</li>
-                                    </ul>
+                                  <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-expanded="false">Reportes</a>
+                                  <ul class="dropdown-menu submenu" role="menu">
+                                    {{#if (feature "ventas_usuario")}}
+                                      <li>{{#link-to "reports.sales-by-user"}}Ventas por Usuario{{/link-to}}</li>
+                                    {{/if}}
+                                  </ul>
                                 </li>
                               {{/if}}
                             {{/if}}
