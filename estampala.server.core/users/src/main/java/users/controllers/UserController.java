@@ -118,7 +118,7 @@ public class UserController extends EstampalaController{
 	
 	@CrossOrigin
 	@RequestMapping(value = "/sociallogin",method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public UserSession socialLogin(@RequestBody UserSocialLogin auth) throws CredentialsException, UserNotFoundException, UserNotActiveException, ResourceNotFoundException {
+	public UserSession socialLogin(@RequestBody UserSocialLogin auth) throws EstampalaException {
 
 		return securityService.socialLogin(auth.getToken(), auth.getUsername(), AuthenticationMethods.parse(auth.getMethod()));
 	}
