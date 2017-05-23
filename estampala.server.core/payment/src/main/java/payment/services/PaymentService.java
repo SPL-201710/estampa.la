@@ -73,7 +73,7 @@ public class PaymentService {
 			//  }
 
 			Payment payment = new Payment(UUID.randomUUID(), item.getDate(), item.getTotal(), item.getOwner(), item.getShoppingcart());
-			
+
 			return createPaymentMethods(payment, item);
 		}
 		return null;
@@ -99,35 +99,34 @@ public class PaymentService {
 		}
 		return false;
 	}
-	
+
 	public Payment createPaymentMethods(Payment payment, PaymentCreator creator) throws TooManyPaymentMethodsException, GiftCardNotFoundException, GiftCardNotEnoughBalanceException, ResourceNotFoundException {
-		
+
 		if(creator.getPse_method() != null) {
 			PaymentMethodPSE pseMethod = creator.getPse_method();
-			
+
 			payment.setPaymentMethod(pseMethod);
-			paymentRepository.save(payment);
-			
+			return paymentRepository.save(payment);			
 		}
 
 		else if(creator.getCredit_method() != null) {
-			
+
 			if(!FeaturesFlag.TARJETA_CREDITO.isActive()) {
 				throw new ResourceNotFoundException("tarjeta_credito");
 			}
-			
+
 			PaymentMethodCreditCard creditCardMethod = creator.getCredit_method();
-			
+
 			payment.setPaymentMethod(creditCardMethod);
-			paymentRepository.save(payment);
+			return paymentRepository.save(payment);
 		}
 
 		else if(creator.getGiftcard() != null) {
-			
+
 			if(!FeaturesFlag.TARJETA_REGALO.isActive()) {
 				throw new ResourceNotFoundException("tarjeta_regalo");
 			}
-			
+
 			if(!giftCardService.exists(creator.getGiftcard())) {
 				throw new GiftCardNotFoundException();
 			}
@@ -137,11 +136,11 @@ public class PaymentService {
 			giftCardService.payGiftCard(card.getId(), creator.getTotal());
 			PaymentMethodGiftCard payMethodCard = new PaymentMethodGiftCard();
 			payMethodCard.setGiftCard(card);
-			
+
 			payment.setPaymentMethod(payMethodCard);
-			paymentRepository.save(payment);
+			return paymentRepository.save(payment);
 		}
-		
+
 		return payment;
 	}
 }
