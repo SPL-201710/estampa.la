@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   session: Ember.inject.service(),
+  twitter_response: null,
   actions: {
     authenticate: function() {
       var credentials = this.getProperties('identification', 'password');
@@ -79,25 +80,62 @@ export default Ember.Controller.extend({
     twitterLogin: function(){
       var self = this;
       hello.init({
-      	'twitter' : 'OalG6AVTOfDKF8ONKZaV4Ey9X'
+      	'twitter' : 'DLVNm7s5qAh352x6py8ZkENft'
       },{
-        redirect_uri: 'http://web.soybackend.com/usuarios/login/',
+        //redirect_uri: 'http://127.0.0.1:4200/usuarios/login/',
+        //redirect_uri: 'http://web.soybackend.com/usuarios/login/',
         oauth_proxy: 'https://auth-server.herokuapp.com/proxy'
       });
 
       var twitter = hello('twitter');
 
     	twitter.login().then( function(response){
+        self.set('twitter_response', response);
+
         var credentials = {
           username: response.authResponse.screen_name,
           token: response.authResponse.access_token,
           method: 'twitter'
         }
+
         var authenticator = 'authenticator:social';
+
         self.get('session').authenticate(authenticator, credentials).then(function() {
           self.transitionToRoute('index');
         }, function(error) {
-          alert("Error de autenticacion");
+          self.store.adapterFor('application').set('host', 'http://users.soybackend.com');
+          var response = self.get('twitter_response');
+          var newUser = self.get('store').createRecord('user', {
+            username: response.authResponse.screen_name,
+            password: '',
+            firstName: response.authResponse.screen_name,
+            lastName: response.authResponse.screen_name,
+            email: 'kayroscenter@hotmail.com',
+            phoneNumber: '3167556764',
+            method: 'twitter',
+            roles: ['abfaad49-1392-478b-aacd-06b7e4577605']
+          });
+
+          function transitionToIndex () {
+            var credentials = {
+              username: response.authResponse.screen_name,
+              token: response.authResponse.access_token,
+              method: 'twitter'
+            }
+            var authenticator = 'authenticator:social';
+            self.get('session').authenticate(authenticator, credentials).then(function() {
+              self.transitionToRoute('index');
+            }, function(error) {
+              alert("Error de autenticacion");
+            });
+          };
+
+          function failure (reason) {
+            alert(reason);
+          };
+
+          newUser.save().then(transitionToIndex).catch(failure);
+
         });
     	}, function(data){console.log(data)});
     }
