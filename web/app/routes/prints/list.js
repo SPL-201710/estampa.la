@@ -1,8 +1,7 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
-import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Ember.Route.extend(AuthenticatedRouteMixin, {
+export default Ember.Route.extend({
   model: function() {
     this.store.adapterFor('application').set('host', 'http://catalog.soybackend.com');
     return RSVP.hash({

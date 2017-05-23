@@ -32,10 +32,10 @@ public class UserServiceTwitter implements UserService{
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private RoleRepository roleRepository;
-	
+
 	public UserServiceTwitter() {
 
 	}
@@ -53,11 +53,11 @@ public class UserServiceTwitter implements UserService{
 
 			if (item.getEmail() == null){
 				throw new RequiredParameterException("email");
-			}			
+			}
 
 			if (item.getFirstName() == null){
 				throw new RequiredParameterException("firts name");
-			}			
+			}
 
 			List<Role> roles = new ArrayList<>();
 			for(UUID idRole : item.getRoles()){
@@ -71,7 +71,7 @@ public class UserServiceTwitter implements UserService{
 
 			User user = new User(UUID.randomUUID(), item.getFirstName(), item.getLastName(), item.getEmail(), item.getUsername(), item.getPhoneNumber(), roles);
 			user = userRepository.save(user);
-			
+
 			return user;
 		}
 
@@ -82,7 +82,7 @@ public class UserServiceTwitter implements UserService{
 		if (item != null){
 
 			User user = userRepository.findOne(item.getUser());
-			
+
 			if (item.getRoles() != null){
 				List<Role> roles = new ArrayList<>();
 				for(UUID idRole : item.getRoles()){
@@ -108,10 +108,10 @@ public class UserServiceTwitter implements UserService{
 			if (item.getLastName() != null){
 				user.setLastName(item.getLastName());
 			}
-			
+
 			if(item.getUserActive() != null){
 				user.setActive(item.getUserActive());
-			}			
+			}
 
 			user = userRepository.save(user);
 			return user;
@@ -130,8 +130,8 @@ public class UserServiceTwitter implements UserService{
 		if (user != null && user.getActive()){
 			return true;
 		}
-		
-		return false;		
+
+		return false;
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class UserServiceTwitter implements UserService{
 		if (user != null && user.getActive()){
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -161,7 +161,7 @@ public class UserServiceTwitter implements UserService{
 	 * finds user by username
 	 * @param username
 	 * @return
-	 * @throws UserNotActiveException 
+	 * @throws UserNotActiveException
 	 */
 	public User findUserByUsername(String username) throws UserNotActiveException {
 		User user = userRepository.findByUsername(username);
@@ -178,9 +178,14 @@ public class UserServiceTwitter implements UserService{
 		PageRequest pageRequest = new PageRequest(page - 1, pageSize, direction, "firstName");
 		return userRepository.findAll(spec, pageRequest);
 	}
-	
+
 	public Page<User> findAllRole(int page, int pageSize, String role) {
 		PageRequest pageRequest = new PageRequest(page - 1, pageSize);
 		return userRepository.findAllRole(role, pageRequest);
+	}
+
+	@Override
+	public String getEmailById(UUID id) {
+		return userRepository.getEmailById(id);
 	}
 }

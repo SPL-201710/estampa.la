@@ -212,7 +212,7 @@ export default Ember.Controller.extend({
                  // Limpiar localStorage
                  localStorage.setItem("products", '[]');
                  alert("Compra realizada");
-                 self.transitionToRoute('index');
+                 self.transitionToRoute('summary', response.id);
                }
              }, 200)
           })(10);

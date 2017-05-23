@@ -16,4 +16,7 @@ public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificat
 	
 	@Query("Select u From estampalaUser u join u.roles r where r.name = :roleName")
 	public Page<User> findAllRole(@Param("roleName")String role, Pageable pageable);
+	
+	@Query("Select email From estampalaUser where id = :id")
+	public String getEmailById(@Param("id") UUID id);
 }
