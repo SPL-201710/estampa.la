@@ -45,7 +45,7 @@ export default Ember.Controller.extend({
       hello.init({
       	'twitter' : 'OalG6AVTOfDKF8ONKZaV4Ey9X'
       },{
-        redirect_uri: 'http://127.0.0.1:4200/usuarios/login'
+        redirect_uri: 'http://web.soybackend.com/usuarios/login'
       });
 
       var twitter = hello('twitter');
