@@ -118,7 +118,7 @@ public class DiverterService {
 		modules.add(new Module("users"));
 		
 		String path_prop = estampala_source_code_path + System.getProperty("file.separator") + "estampala.server.core" + System.getProperty("file.separator");
-		path_prop += "commons" + System.getProperty("file.separator") +  "src" + System.getProperty("file.separator") + "main" + System.getProperty("file.separator");
+		path_prop += "%s" + System.getProperty("file.separator") +  "src" + System.getProperty("file.separator") + "main" + System.getProperty("file.separator");
 		path_prop += "resources" + System.getProperty("file.separator") + "features.properties";
         
 		// Properties File for Backend App
@@ -134,13 +134,15 @@ public class DiverterService {
 				module.addFeature("calificar", this.features.containsKey("Calificar"));
 				module.addFeature("info_detallada", this.features.containsKey("Info Detallada"));
 				module.addFeature("compartir_estampa", this.features.containsKey("Compartir Estampa Redes Sociales"));
-				module.addFeature("compartir_camiseta", this.features.containsKey("Compartir Camiseta Redes Sociales"));				
+				module.addFeature("compartir_camiseta", this.features.containsKey("Compartir Camiseta Redes Sociales"));
+				module.addFeature("reclasificar", this.features.containsKey("Reclasificar"));
 				
 				features.put("rating", this.features.containsKey("Rating"));
 				features.put("calificar", this.features.containsKey("Calificar"));
 				features.put("info_detallada", this.features.containsKey("Info Detallada"));
 				features.put("compartir_estampa", this.features.containsKey("Compartir Estampa Redes Sociales"));
 				features.put("compartir_camiseta", this.features.containsKey("Compartir Camiseta Redes Sociales"));
+				features.put("reclasificar", this.features.containsKey("Reclasificar"));
 			}	
 			
 			// Payment Module
@@ -177,7 +179,11 @@ public class DiverterService {
 				features.put("auth_twitter", this.features.containsKey("Twitter"));
 			}
 			
-			this.generatePropertiesFile(path_prop, features);
+			this.generatePropertiesFile(String.format(path_prop, "catalog"), features);
+			this.generatePropertiesFile(String.format(path_prop, "commons"), features);
+			this.generatePropertiesFile(String.format(path_prop, "payment"), features);
+			this.generatePropertiesFile(String.format(path_prop, "report"), features);
+			this.generatePropertiesFile(String.format(path_prop, "shopping-cart"), features);
 		}
 		
 		// Generar archivo JSON
@@ -186,7 +192,7 @@ public class DiverterService {
         String json = gson.toJson(modules, type);
         
         String path = this.estampala_source_code_path + System.getProperty("file.separator") + "web";
-        path += System.getProperty("file.separator") + "app" + System.getProperty("file.separator") + "features.json";
+        path += System.getProperty("file.separator") + "public" + System.getProperty("file.separator") + "features.json";
         this.saveTextFile(json, path);
         
         String msg = "Archivo de configuración para Frontend APP creado: " + path;
